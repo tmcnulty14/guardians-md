@@ -19,6 +19,8 @@ public interface DbConn {
 
 	public void updateUser(User user);
 
+	public boolean checkUsernameAvailable(String username);
+
 // GP Visit methods
 	public Visit getVisit(int visitID);
 
