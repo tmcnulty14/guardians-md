@@ -17,14 +17,14 @@ public class Visit {
     /**
      * Constructor for creating a new GP visit with no prescriptions or lab orders.
      */
-    public Visit(int patientID, int doctorID, String date, List<String> mdFields) {
+    public Visit(int patientID, String doctorID, String date, List<String> mdFields) {
         this(patientID, doctorID, date, mdFields, new ArrayList<>(), new ArrayList<>());
     }
     
     /**
      * Constructor for creating a new GP visit with prescriptions and/or lab orders.
      */
-    public Visit(int patientID, int doctorID, String date, List<String> mdFields,
+    public Visit(int patientID, String doctorID, String date, List<String> mdFields,
             List<LabOrder> labOrders, List<Prescription> prescriptions) {
         this(null, patientID, doctorID, date, mdFields, labOrders, prescriptions);
     }
@@ -32,7 +32,7 @@ public class Visit {
     /**
      * Constructor for loading a visit from the database.
      */
-    public Visit(int visitID, int patientID, int doctorID, String date, List<String> mdFields,
+    public Visit(int visitID, int patientID, String doctorID, String date, List<String> mdFields,
             List<LabOrder> labOrders, List<Prescription> prescriptions) {
         this.visitID = visitID;
         this.patientID = patientID;
