@@ -1,5 +1,10 @@
 import java.sql.*;
 
+/**
+ * You need to download the Java Database Connector (JDBC) here (http://dev.mysql.com/downloads/connector/j/). 
+ * Once downloaded, you will need to move the .jar file which was part of the .zip you downloaded for the JDBC. 
+ * Move the JAR file to the folder: /Library/Java/Extensions
+ **/
 public class sqlTest {
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
