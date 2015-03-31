@@ -16,8 +16,7 @@ public class User {
      * @param lastName
      * @param doctorPrivileges
      */
-    public User(String username, String firstName, 
-            String lastName, boolean doctorPrivileges) {
+    public User(String username, String firstName, String lastName, boolean doctorPrivileges) {
         this(username, firstName, lastName, null, null, doctorPrivileges);
     }
     
@@ -30,9 +29,7 @@ public class User {
      * @param pagerNumber
      * @param doctorPrivileges 
      */
-    public User(String username, String firstName, 
-            String lastName, String specialty, 
-            String pagerNumber, boolean doctorPrivileges) {
+    public User(String username, String firstName, String lastName, String specialty, String pagerNumber, boolean doctorPrivileges) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
