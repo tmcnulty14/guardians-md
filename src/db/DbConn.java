@@ -4,43 +4,43 @@ import java.util.List;
 
 public interface DbConn {
 // Patient methods
-	public void registerPatient(Patient patient);
+	public boolean registerPatient(Patient patient);
 
 	public Patient getPatient(int patientID);
 
-	public void updatePatient(Patient updatedPatient);
+	public boolean updatePatient(Patient updatedPatient);
 
 // User methods
-	public void registerUser(User user, String password);
+	public boolean registerUser(User user, String password);
 
 	public boolean validateLogin(User user, String password);
 
 	public User getUser(String username);
 
-	public void updateUser(User user);
+	public boolean updateUser(User user);
 
 	public boolean checkUsernameAvailable(String username);
 
 // GP Visit methods
 	public Visit getVisit(int visitID);
 
-	public void createVisit(Visit newVisit); // Also handles createPrescription and createLabOrder for all attached Prescriptions / LabOrders
+	public boolean createVisit(Visit newVisit); // Also handles createPrescription and createLabOrder for all attached Prescriptions / LabOrders
 
-	public void updateVisit(Visit updatedVisit); // Also handles createPrescription and createLabOrder for all attached Prescriptions / LabOrders
+	public boolean updateVisit(Visit updatedVisit); // Also handles createPrescription and createLabOrder for all attached Prescriptions / LabOrders
 
-	public void addComments(int visitID, String comments); // Overwrites existing comments
+	public boolean addComments(int visitID, String comments); // Overwrites existing comments
 
-	public void updateComments(int visitID, String comments); // Appends to existing comments
+	public boolean updateComments(int visitID, String comments); // Appends to existing comments
 
 // Prescription methods
 	public List<Prescription> getVisitPrescriptions(int visitID);
 
-	public void createPrescription(Prescription newPrescription);
+	public boolean createPrescription(Prescription newPrescription);
 
 // LabOrder methods
 	public List<LabOrder> getVisitLabOrders(int visitID);
 
-	public void createLabOrder(LabOrder newLabOrder);
+	public boolean createLabOrder(LabOrder newLabOrder);
 
 // Search methods
 	public List<Patient> findPatient(String searchTerm, String searchBy);
