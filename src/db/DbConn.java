@@ -13,7 +13,7 @@ public interface DbConn {
 // User methods
 	public boolean registerUser(User user, String password);
 
-	public boolean validateLogin(User user, String password);
+	public boolean validateLogin(String username, String password);
 
 	public User getUser(String username);
 
