@@ -7,7 +7,7 @@ import java.util.*;
 import panels.*;
 
 
-public class  MedicalMainFrame extends JFrame{
+public class  MedicalMainPanel extends JPanel{
 
 	private final int FRAME_WIDTH = 1000;
 	private final int FRAME_HEIGHT = 500;
@@ -26,19 +26,11 @@ public class  MedicalMainFrame extends JFrame{
 
 
 
-	public MedicalMainFrame(String frameTitle)
+	public MedicalMainPanel()
 	{
-		super(frameTitle);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		buildPanels();
-
-
-		setSize(FRAME_WIDTH,FRAME_HEIGHT);
-		setResizable(false);
-		//pack();
-		setLocationRelativeTo(null);
-		setVisible(true);
+		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 	}
 
 	private void buildPanels(){
