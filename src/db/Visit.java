@@ -1,7 +1,6 @@
 package db;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Visit {
     private int visitID;
@@ -9,31 +8,31 @@ public class Visit {
     private String doctorID;
     private String date;
     private String comments;
-    
-    private List<String> mdFields;
-    private List<LabOrder> labOrders;
-    private List<Prescription> prescriptions;
-    
+
+    private ArrayList<String> mdFields;
+    private ArrayList<LabOrder> labOrders;
+    private ArrayList<Prescription> prescriptions;
+
     /**
      * Constructor for creating a new GP visit with no prescriptions or lab orders.
      */
-    public Visit(int patientID, String doctorID, String date, List<String> mdFields) {
-        this(patientID, doctorID, date, mdFields, new ArrayList<>(), new ArrayList<>());
+    public Visit(int patientID, String doctorID, String date, ArrayList<String> mdFields) {
+        this(patientID, doctorID, date, mdFields, new ArrayList<LabOrder>(), new ArrayList<Prescription>());
     }
-    
+
     /**
      * Constructor for creating a new GP visit with prescriptions and/or lab orders.
      */
-    public Visit(int patientID, String doctorID, String date, List<String> mdFields,
-            List<LabOrder> labOrders, List<Prescription> prescriptions) {
-        this(null, patientID, doctorID, date, mdFields, labOrders, prescriptions);
+    public Visit(int patientID, String doctorID, String date, ArrayList<String> mdFields,
+            ArrayList<LabOrder> labOrders, ArrayList<Prescription> prescriptions) {
+        this(-1, patientID, doctorID, date, mdFields, labOrders, prescriptions);
     }
-    
+
     /**
      * Constructor for loading a visit from the database.
      */
-    public Visit(int visitID, int patientID, String doctorID, String date, List<String> mdFields,
-            List<LabOrder> labOrders, List<Prescription> prescriptions) {
+    public Visit(int visitID, int patientID, String doctorID, String date, ArrayList<String> mdFields,
+            ArrayList<LabOrder> labOrders, ArrayList<Prescription> prescriptions) {
         this.visitID = visitID;
         this.patientID = patientID;
         this.doctorID = doctorID;
@@ -59,7 +58,7 @@ public class Visit {
         return doctorID;
     }
 
-    public String setDoctorID(String doctorID) {
+    public void setDoctorID(String doctorID) {
         this.doctorID = doctorID;
     }
 
@@ -79,11 +78,11 @@ public class Visit {
         this.comments = comments;
     }
 
-    public List<String> getMdFields() {
+    public ArrayList<String> getMdFields() {
         return mdFields;
     }
 
-    public List<LabOrder> getLabOrders() {
+    public ArrayList<LabOrder> getLabOrders() {
         return labOrders;
     }
 
@@ -91,7 +90,7 @@ public class Visit {
         labOrders.add(labOrder);
     }
 
-    public List<Prescription> getPrescriptions() {
+    public ArrayList<Prescription> getPrescriptions() {
         return prescriptions;
     }
 
