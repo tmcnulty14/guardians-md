@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 import panels.*;
-
+import db.*;
 
 public class  MedicalMainPanel extends JPanel{
 
@@ -146,4 +146,5 @@ public class  MedicalMainPanel extends JPanel{
 			}
 		}
 	}
+
 }

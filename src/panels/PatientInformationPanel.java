@@ -8,14 +8,76 @@ import java.util.*;
 public class PatientInformationPanel extends JPanel  {
 
 	//labels and textfields for the patient personal information
-	public JLabel lblFName, lblLName, lblAddress1, lblAddress2, lblCity, lblState, lblZip, lblCountry, lblBirthDate, lblAge, lblInsProv, lblInsNum;
+	public JLabel lblFName, lblLName, lblAddress1, lblAddress2, lblCity, lblState, lblZip, lblCountry, lblBirthDate, lblAge, lblInsProv, lblInsNum, lblGender;
 	public JTextField txtFName, txtLName, txtAddress1, txtAddress2, txtCity, txtState, txtZip, txtCountry, txtBirthDate, txtAge, txtInsProv, txtInsNum;
-	public JCheckBox ckEdit;
+	public JCheckBox ckEdit, ckMale, ckFemale;
+
+	public JPanel pnName,pnAddress, pnGender, pnEdit;
 
 	public void build(){
 
-		setLayout(new GridLayout(7,4));
+		setLayout(new GridLayout(4,1));
+
 		setBorder(BorderFactory.createTitledBorder("Patient Information"));
+
+		pnName = new JPanel();
+		pnName.setLayout(new GridLayout(2,4));
+		pnAddress = new JPanel();
+		pnAddress.setLayout(new GridLayout(4,4));
+		pnGender = new JPanel();
+		pnGender.setLayout(new GridLayout(1,4));
+		pnEdit = new JPanel();
+		pnEdit.setLayout(new GridLayout(1,1));
+		buildComponents();
+
+
+		pnName.add(lblFName);
+		pnName.add(txtFName);
+		pnName.add(lblLName);
+		pnName.add(txtLName);
+
+		pnName.add(lblBirthDate);
+		pnName.add(txtBirthDate);
+		pnName.add(lblAge);
+		pnName.add(txtAge);
+
+		pnGender.add(lblGender);
+		pnGender.add(ckMale);
+		pnGender.add(ckFemale);
+		pnGender.add(new JLabel("      "));
+
+		pnAddress.add(lblAddress1);
+		pnAddress.add(txtAddress1);
+		pnAddress.add(lblAddress2);
+		pnAddress.add(txtAddress2);
+
+		pnAddress.add(lblCity);
+		pnAddress.add(txtCity);
+		pnAddress.add(lblState);
+		pnAddress.add(txtState);
+
+		pnAddress.add(lblZip);
+		pnAddress.add(txtZip);
+		pnAddress.add(lblCountry);
+		pnAddress.add(txtCountry);
+
+
+		pnAddress.add(lblInsProv);
+		pnAddress.add(txtInsProv);
+		pnAddress.add(lblInsNum);
+		pnAddress.add(txtInsNum);
+
+		pnEdit.add(ckEdit);
+
+		add(pnName);
+		add(pnGender);
+		add(pnAddress);
+
+		add(pnEdit);
+
+	}
+
+	public void buildComponents(){
 
 		lblFName = new JLabel("First Name");
 		lblFName.setFont(new Font("Times New Roman", 0, 16));
@@ -77,6 +139,15 @@ public class PatientInformationPanel extends JPanel  {
 		txtAge.setEditable(false);
 		txtAge.setFont(new Font("Times New Roman", 0, 16));
 
+		lblGender = new JLabel("Gender");
+		lblGender.setFont(new Font("Times New Roman", 0, 16));
+		ckMale = new JCheckBox("Male");
+		ckMale.setEnabled(false);
+		ckMale.setFont(new Font("Times New Roman", 0, 16));
+		ckFemale = new JCheckBox("Female");
+		ckFemale.setEnabled(false);
+		ckFemale.setFont(new Font("Times New Roman", 0, 16));
+
 		lblInsProv = new JLabel("Insurance Provider");
 		lblInsProv.setFont(new Font("Times New Roman", 0, 16));
 		txtInsProv = new JTextField(10);
@@ -101,70 +172,38 @@ public class PatientInformationPanel extends JPanel  {
 					readOnlyPatientInformation();
 				}
 		}});
+	}
 
-		add(lblFName);
-		add(txtFName);
-		add(lblLName);
-		add(txtLName);
 
-		add(lblAddress1);
-		add(txtAddress1);
-		add(lblAddress2);
-		add(txtAddress2);
+	public void editPatientInformation(){
+		txtFName.setEditable(true);
+		txtLName.setEditable(true);
+		txtAddress1.setEditable(true);
+		txtAddress2.setEditable(true);
+		txtCity.setEditable(true);
+		txtState.setEditable(true);
+		txtZip.setEditable(true);
+		txtCountry.setEditable(true);
+		txtBirthDate.setEditable(true);
+		txtAge.setEditable(true);
+		txtInsProv.setEditable(true);
+		txtInsNum.setEditable(true);
+	}
 
-		add(lblCity);
-		add(txtCity);
-		add(lblState);
-		add(txtState);
+	public void readOnlyPatientInformation(){
+		txtFName.setEditable(false);
+		txtLName.setEditable(false);
+		txtAddress1.setEditable(false);
+		txtAddress2.setEditable(false);
+		txtCity.setEditable(false);
+		txtState.setEditable(false);
+		txtZip.setEditable(false);
+		txtCountry.setEditable(false);
+		txtBirthDate.setEditable(false);
+		txtAge.setEditable(false);
+		txtInsProv.setEditable(false);
+		txtInsNum.setEditable(false);
 
-		add(lblZip);
-		add(txtZip);
-		add(lblCountry);
-		add(txtCountry);
-
-		add(lblBirthDate);
-		add(txtBirthDate);
-		add(lblAge);
-		add(txtAge);
-
-		add(lblInsProv);
-		add(txtInsProv);
-		add(lblInsNum);
-		add(txtInsNum);
-
-		add(ckEdit);
-
-		}
-
-		public void editPatientInformation(){
-			txtFName.setEditable(true);
-			txtLName.setEditable(true);
-			txtAddress1.setEditable(true);
-			txtAddress2.setEditable(true);
-			txtCity.setEditable(true);
-			txtState.setEditable(true);
-			txtZip.setEditable(true);
-			txtCountry.setEditable(true);
-			txtBirthDate.setEditable(true);
-			txtAge.setEditable(true);
-			txtInsProv.setEditable(true);
-			txtInsNum.setEditable(true);
-		}
-
-		public void readOnlyPatientInformation(){
-			txtFName.setEditable(false);
-			txtLName.setEditable(false);
-			txtAddress1.setEditable(false);
-			txtAddress2.setEditable(false);
-			txtCity.setEditable(false);
-			txtState.setEditable(false);
-			txtZip.setEditable(false);
-			txtCountry.setEditable(false);
-			txtBirthDate.setEditable(false);
-			txtAge.setEditable(false);
-			txtInsProv.setEditable(false);
-			txtInsNum.setEditable(false);
-
-		}
+	}
 
 }

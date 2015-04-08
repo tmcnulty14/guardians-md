@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 import panels.*;
+import db.*;
 
 public class DoctorPanelTest extends JFrame {
 
@@ -34,8 +35,13 @@ public class DoctorPanelTest extends JFrame {
 
 	public static void main(String[] args){
 
+		MedicalConfigurator.createNewPatient("Charles", "Henderson", "July 18, 2010", "M",
+			"13 Hill Lane", "Natick", "MA", "01744", "United States",
+			"Fallon Health", "1231561515");
+
 		DoctorPanelTest main = new DoctorPanelTest("Doctor Medical Main");
 		main.setVisible(true);
+
 	}
 
 
