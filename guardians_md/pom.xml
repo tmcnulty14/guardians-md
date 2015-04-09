@@ -55,7 +55,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.guardiansofthegalaxy.guardians_md.panels.NursePanelTest</mainClass>
+                            <mainClass>com.guardiansofthegalaxy.guardians_md.GuardiansOfTheGuiMD</mainClass>
                             <classpathPrefix>dependency-jars/</classpathPrefix>
                         </manifest>
                     </archive>

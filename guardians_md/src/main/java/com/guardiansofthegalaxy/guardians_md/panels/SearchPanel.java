@@ -60,11 +60,13 @@ public class SearchPanel extends JPanel {
         keywordLabel = new JLabel("Keyword", SwingConstants.CENTER);
         keywordLabel.setFont(new Font("Times New Roman", 0, 16));
 
-        searchFor = new JComboBox(searchForOptions);
+      //  searchFor = new JComboBox(searchForOptions);
+        searchFor = new JComboBox();
         searchFor.addActionListener(new SearchForListener());
 
         // Initialize with patient search options because search for "Patients" will be selected by default
-        searchBy = new JComboBox(searchByPatients);
+        searchBy = new JComboBox();
+       // searchBy = new JComboBox(searchByPatients);
 
         searchTerm = new JTextField(10);
         searchTerm.setFont(new Font("Times New Roman", 0, 16));
@@ -160,13 +162,18 @@ public class SearchPanel extends JPanel {
 
         public void actionPerformed(ActionEvent e) {
 
-            if (index == 0) {
-                patientResults = (List) database.findPatient(searchTerm.getText(), searchBy.getSelectedItem().toString());
-            } else if (index == 1) {
-                visitResults = (List) database.findVisit(searchTerm.getText(), searchBy.getSelectedItem().toString());
+            try {
+                if (index == 0) {
+                    patientResults = (List) database.findPatient(searchTerm.getText(), searchBy.getSelectedItem().toString());
+                } else if (index == 1) {
+                    visitResults = (List) database.findVisit(searchTerm.getText(), searchBy.getSelectedItem().toString());
+                }
+                showResults();
+
+            }catch(NullPointerException npe){
+                npe.printStackTrace();
             }
 
-            showResults();
         }
     }
 

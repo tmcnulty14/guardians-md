@@ -18,7 +18,7 @@ public class LabTestsPanel extends JPanel {
 	public JRadioButton rbXray, rbCompTom, rbMagRes;
 	public JRadioButton rbUrin, rbStool;
 
-	public void build(){
+	public LabTestsPanel(){
 		setLayout(new GridLayout(1,3));
 		setBorder(BorderFactory.createTitledBorder("Labratory Tests"));
 		createHemLabPanel();

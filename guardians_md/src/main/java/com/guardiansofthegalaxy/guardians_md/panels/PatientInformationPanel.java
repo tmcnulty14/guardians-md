@@ -17,7 +17,7 @@ public class PatientInformationPanel extends JPanel  {
 
 	public JPanel pnName,pnAddress, pnGender, pnEdit;
 
-	public void build(){
+	public PatientInformationPanel(){
 
 		setLayout(new GridLayout(4,1));
 

@@ -16,7 +16,7 @@ public class PrescriptionPanel extends JPanel {
 	public JLabel lblPO;
 	public JTextArea txtaPO;
 
-	public void build(){
+	public PrescriptionPanel(){
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder("Prescriptions"));
 		createInjecPanel();

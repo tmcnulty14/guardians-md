@@ -42,7 +42,6 @@ public class TestMedicalFrame extends JFrame  {
     private void build() {
 
 		pnMedical = new MedicalPanel();
-		pnMedical.build();
        	add(pnMedical);
     }
 

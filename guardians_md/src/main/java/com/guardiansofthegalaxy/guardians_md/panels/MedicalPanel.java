@@ -21,23 +21,18 @@ public class MedicalPanel extends JPanel {
 	public JButton btnExit, btnSubmit;
 
 
-	public void build(){
+	public MedicalPanel(){
 		setLayout(new GridLayout(6,1));
 		//TODO: call the build panels methods
-		pnReg = new PatientInformationPanel();
-		pnReg.build();
+		pnReg = new PatientInformationPanel();;
 
 		pnGenPract = new GeneralPracticePanel();
-		pnGenPract.build();
 
 		pnLabTests = new LabTestsPanel();
-		pnLabTests.build();
 
 		pnPresc = new PrescriptionPanel();
-		pnPresc.build();
 
 		pnNurs = new NursingPanel();
-		pnNurs.build();
 
 		pnButton = new JPanel();
 		pnButton.setLayout(new GridLayout(1,8));

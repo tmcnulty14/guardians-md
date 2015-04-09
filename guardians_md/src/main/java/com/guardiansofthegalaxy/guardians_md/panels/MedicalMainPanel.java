@@ -40,15 +40,10 @@ public class  MedicalMainPanel extends JPanel{
 
 		cardPanel = new JPanel();
 		pnPat = new PatientInformationPanel();
-		pnPat.build();
 		pnGenPract = new GeneralPracticePanel();
-		pnGenPract.build();
 		pnLabTests = new LabTestsPanel();
-		pnLabTests.build();
 		pnPresc = new PrescriptionPanel();
-		pnPresc.build();
 		pnNursComm = new NursingPanel();
-		pnNursComm.build();
 
 		buildSelectionButtonsPanel();
 		buildMainButtonsPanel();

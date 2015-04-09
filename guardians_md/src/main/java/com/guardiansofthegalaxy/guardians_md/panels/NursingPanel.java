@@ -14,7 +14,7 @@ public class NursingPanel extends JPanel {
 	public JTextArea txtaComm;
 	public JCheckBox ckEditComm;
 
-	public void build(){
+	public NursingPanel(){
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder("Nursing Comments"));
         txtaComm = new JTextArea(5,26);

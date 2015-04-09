@@ -8,14 +8,14 @@ import java.awt.event.*;
 
 
 public class LoginPanel extends JPanel {
-	private final DbConn dbConnection;
+	private final DbConnDummy dbConnection;
 
 	private JButton loginButton, registerButton;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
 
-	public LoginPanel(final DbConn dbConnection) {
-		this.dbConnection = dbConnection;
+	public LoginPanel() {
+		this.dbConnection = new DbConnDummy();
 
 		setLayout(new BorderLayout());
 

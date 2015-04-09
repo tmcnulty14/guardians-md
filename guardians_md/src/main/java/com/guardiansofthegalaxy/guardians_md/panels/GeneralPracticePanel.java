@@ -14,7 +14,7 @@ public class GeneralPracticePanel extends JPanel {
 	public JTextField txtComp,txtPresIll, txtPsHist,txtRevSym, txtPhysEx, txtImp, txtDiag;
 
 
-	public void build(){
+	public GeneralPracticePanel(){
 
 		setLayout(new GridLayout(7,2));
 		setBorder(BorderFactory.createTitledBorder("General Practice"));
