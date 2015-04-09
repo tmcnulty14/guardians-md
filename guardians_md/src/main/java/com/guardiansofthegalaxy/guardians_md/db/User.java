@@ -12,6 +12,14 @@ public class User {
     private String specialty;
     private String pagerNumber;
 
+
+
+    public User(String username, boolean doctorPrivileges){
+        this.username = username;
+        this.doctorPrivileges = doctorPrivileges;
+
+    }
+
     /**
      * Simple constructor for only required information.
      * @param username

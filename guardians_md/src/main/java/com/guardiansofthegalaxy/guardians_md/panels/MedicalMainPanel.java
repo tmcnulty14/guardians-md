@@ -24,7 +24,8 @@ public class  MedicalMainPanel extends JPanel{
 	public JPanel pnSelectButtons;
 	public JButton btnPat, btnGenPract, btnLabTests, btnPresc, btnNursComm, btnSubmit, btnReturnMain;
 
-	public JPanel pnNorthFiller, pnMainButtons;
+
+	public JPanel pnMainButtons;
 
 
 
@@ -47,9 +48,6 @@ public class  MedicalMainPanel extends JPanel{
 
 		buildSelectionButtonsPanel();
 		buildMainButtonsPanel();
-		pnNorthFiller = new JPanel();
-		pnNorthFiller.add(new JLabel("Select From the Option to View or Edit Patient Information"));
-
 
 		cardLayout = new CardLayout();
 		cardPanel.setLayout(cardLayout);
@@ -61,7 +59,6 @@ public class  MedicalMainPanel extends JPanel{
 
 		add(pnSelectButtons, BorderLayout.WEST);
 		add(cardPanel, BorderLayout.CENTER);
-		add(pnNorthFiller, BorderLayout.NORTH);
 		add(pnMainButtons, BorderLayout.SOUTH);
 
 	}
