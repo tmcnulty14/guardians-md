@@ -32,9 +32,19 @@ public class Patient {
 	public Patient(String firstName, String lastName, String birthdate, String gender,
 			String address, String city, String state, String zipcode, String country,
 			String insuranceProvider, String insuranceNumber) {
-		this(-1, firstName, lastName, birthdate, gender, address, city, state, zipcode,
-			country, insuranceProvider, insuranceNumber);
-	}
+        this.patientID = -1;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdate = birthdate;
+        this.gender = gender;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.country = country;
+        this.insuranceProvider = insuranceProvider;
+        this.insuranceNumber = insuranceNumber;
+    }
 
 	/**
 	* For creating Patient data objects for existing patients for search results, etc...
@@ -155,6 +165,7 @@ public class Patient {
 	/**
 	* Can modify this to include more fields; kept short to be displayed in search results
 	*/
+    /*
 	@Override
 	public String toString() {
 		String str = String.format("Patient ID#%s Name: %d %s Birthdate: %s Gender: %s",
@@ -162,4 +173,5 @@ public class Patient {
 
 		return str;
 	}
+	*/
 }

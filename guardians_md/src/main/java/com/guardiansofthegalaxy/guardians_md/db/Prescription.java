@@ -15,7 +15,10 @@ public class Prescription {
 	* Constructor for creating a brand new prescription.
 	*/
 	public Prescription(int visitID, String medType, String medName) {
-		this(-1, visitID, medType, medName);
+		this.prescriptionID = -1;
+        this.visitID = visitID;
+        this.medType = medType;
+        this.medName = medName;
 	}
 
 	/**

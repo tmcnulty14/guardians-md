@@ -20,22 +20,35 @@ public class Visit {
      * Constructor for creating a new GP visit with no prescriptions or lab orders.
      */
     public Visit(int patientID, String doctorID, String date, ArrayList<String> mdFields) {
-        this(patientID, doctorID, date, mdFields, new ArrayList<LabOrder>(), new ArrayList<Prescription>());
+        this.visitID = -1;
+        this.patientID = patientID;
+        this.doctorID = doctorID;
+        this.date = date;
+        this.mdFields = mdFields;
+
     }
 
     /**
      * Constructor for creating a new GP visit with prescriptions and/or lab orders.
      */
     public Visit(int patientID, String doctorID, String date, ArrayList<String> mdFields,
-            ArrayList<LabOrder> labOrders, ArrayList<Prescription> prescriptions) {
-        this(-1, patientID, doctorID, date, mdFields, labOrders, prescriptions);
+                 ArrayList<LabOrder> labOrders, ArrayList<Prescription> prescriptions, String comments) {
+        this.visitID = -1;
+        this.patientID = patientID;
+        this.doctorID= doctorID;
+        this.date = date;
+        this.mdFields = mdFields;
+        this.labOrders = labOrders;
+        this.prescriptions = prescriptions;
+        this.comments = comments;
+
     }
 
     /**
      * Constructor for loading a visit from the database.
      */
     public Visit(int visitID, int patientID, String doctorID, String date, ArrayList<String> mdFields,
-            ArrayList<LabOrder> labOrders, ArrayList<Prescription> prescriptions) {
+                 ArrayList<LabOrder> labOrders, ArrayList<Prescription> prescriptions, String comments) {
         this.visitID = visitID;
         this.patientID = patientID;
         this.doctorID = doctorID;
@@ -43,6 +56,7 @@ public class Visit {
         this.mdFields = mdFields;
         this.labOrders = labOrders;
         this.prescriptions = prescriptions;
+        this.comments = comments;
     }
 
     public int getVisitID() {
