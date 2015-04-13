@@ -18,7 +18,7 @@ public class SearchPanelJUnitTest {
     }
 
 
-    @Test
+    //@Test
     public void test_frame() {
 
         MedicalConfigurator.setActivePatient("Charles", "Henderson", "July 18, 2010", "M",

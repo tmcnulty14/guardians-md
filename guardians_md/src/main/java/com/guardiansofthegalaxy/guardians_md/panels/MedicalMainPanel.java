@@ -40,11 +40,11 @@ public class MedicalMainPanel extends JPanel {
         buildPanels();
         setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setBackground(Color.WHITE);
-        loadPatientInformation();
-        loadGeneralPracticeInformation();
-        loadLabTestInformation();
-        loadPrescriptionsInformation();
-        loadNursingComments();
+        //loadPatientInformation();
+        //loadGeneralPracticeInformation();
+        //loadLabTestInformation();
+        //loadPrescriptionsInformation();
+        //loadNursingComments();
     }
 
     private void buildPanels() {

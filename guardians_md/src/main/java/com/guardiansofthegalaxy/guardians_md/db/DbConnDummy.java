@@ -93,21 +93,21 @@ public class DbConnDummy implements DbConn  {
 
     @Override
     public List<Patient> findPatient(String searchTerm, String searchBy) {
-        return null;
+        return new ArrayList<Patient>();
     }
 
     @Override
     public List<Visit> findVisit(String searchTerm, String searchBy) {
-        return null;
+        return new ArrayList<Visit>();
     }
 
     @Override
     public String[] getPatientSearchTypes() {
-        return null;
+        return new String[] {"First Name", "Gender", "City"};
     }
 
     @Override
     public String[] getVisitSearchTypes() {
-        return null;
+        return new String[] {"Visit ID", "Patient ID", "Date"};
     }
 }

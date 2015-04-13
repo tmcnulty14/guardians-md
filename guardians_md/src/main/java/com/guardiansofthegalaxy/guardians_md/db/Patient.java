@@ -165,7 +165,6 @@ public class Patient {
 	/**
 	* Can modify this to include more fields; kept short to be displayed in search results
 	*/
-    /*
 	@Override
 	public String toString() {
 		String str = String.format("Patient ID#%s Name: %d %s Birthdate: %s Gender: %s",
@@ -173,5 +172,4 @@ public class Patient {
 
 		return str;
 	}
-	*/
 }
