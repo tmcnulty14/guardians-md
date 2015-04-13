@@ -50,6 +50,9 @@ public class Prescription {
 	}
 
 	// Setters
+	public void setVisitID(int visitID) {
+		this.visitID = visitID;
+	}
 
 	public void setMedType(String medType) {
 		this.medType = medType;

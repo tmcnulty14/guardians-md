@@ -47,6 +47,9 @@ public class LabOrder {
 	}
 
 	// Setters
+	public void setVisitID(int visitID) {
+		this.visitID = visitID;
+	}
 
 	public void setLabName(String labName) {
 		this.labName = labName;
