@@ -1,6 +1,6 @@
 package com.guardiansofthegalaxy.guardians_md.db;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface DbConn {
     // Patient methods
