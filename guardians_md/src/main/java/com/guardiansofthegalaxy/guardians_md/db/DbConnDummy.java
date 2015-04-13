@@ -92,12 +92,12 @@ public class DbConnDummy implements DbConn  {
     }
 
     @Override
-    public List<Patient> findPatient(String searchTerm, String searchBy) {
+    public ArrayList<Patient> findPatient(String searchTerm, String searchBy) {
         return new ArrayList<Patient>();
     }
 
     @Override
-    public List<Visit> findVisit(String searchTerm, String searchBy) {
+    public ArrayList<Visit> findVisit(String searchTerm, String searchBy) {
         return new ArrayList<Visit>();
     }
 

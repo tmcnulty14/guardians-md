@@ -14,8 +14,8 @@ public class LabOrder {
 	/**
 	* Constructor for creating a brand new lab order.
 	*/
-	public LabOrder(int visitID, String labName, String testName) {
-		this(-1, visitID, labName, testName);
+	public LabOrder(String labName, String testName) {
+		this(-1, -1, labName, testName);
 	}
 
 	/**

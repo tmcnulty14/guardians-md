@@ -276,7 +276,7 @@ public class SearchPanel extends JPanel {
 
                 mainCardLayout.show(mainCardPanel, "resultPanel");
                 // MEETING change to resultCardPanel to show what search result will look like once everything works
-                resultCardLayout.show(resultPanel, "patientResultPanel");
+                resultCardLayout.show(resultCardPanel, "patientResultPanel");
             }
             else if (index == 1) {
                 Visit selectedVisit = visitResults.get(results.getSelectedIndex());

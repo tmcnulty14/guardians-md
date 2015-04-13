@@ -129,8 +129,8 @@ public class MedicalMainPanel extends JPanel {
         patient = MedicalConfigurator.getActivePatient();
         pnPat.txtFName.setText(patient.getFirstName());
         pnPat.txtLName.setText(patient.getLastName());
-        pnPat.txtAddress1.setText(patient.getAddress());
-        pnPat.txtAddress2.setText(patient.getAddress());
+        pnPat.txtAddress1.setText(patient.getAddress1());
+        pnPat.txtAddress2.setText(patient.getAddress2());
         pnPat.txtCity.setText(patient.getCity());
         pnPat.txtState.setText(patient.getState());
         pnPat.txtZip.setText(patient.getZipcode());

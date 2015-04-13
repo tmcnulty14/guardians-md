@@ -37,7 +37,7 @@ public class LoginPanelTest extends JFrame {
     public static void main(String[] args){
 
         MedicalConfigurator.setActivePatient("Charles", "Henderson", "July 18, 2010", "M",
-                "13 Hill Lane", "Natick", "MA", "01744", "United States",
+                "13 Hill Lane", "", "Natick", "MA", "01744", "United States",
                 "Fallon Health", "1231561515");
 
         LoginPanelTest main = new LoginPanelTest("Login");

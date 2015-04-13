@@ -35,7 +35,7 @@ public class NursePanelTest extends JFrame {
 	public static void main(String[] args){
 
 		MedicalConfigurator.setActivePatient("Julie", "Roberts", "July 18, 2010", "F",
-                "13 Hill Lane", "Natick", "MA", "01744", "United States",
+                "13 Hill Lane", "", "Natick", "MA", "01744", "United States",
                 "Fallon Health", "1231561515");
 
 		NursePanelTest main = new NursePanelTest("Nurse Medical Main");

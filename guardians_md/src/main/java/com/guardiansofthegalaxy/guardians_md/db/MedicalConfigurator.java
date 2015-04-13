@@ -42,11 +42,11 @@ public class MedicalConfigurator {
      * This method creates a new static patient object that can be accessed anywhere in the program
      */
     public static void setActivePatient(String firstName, String lastName, String birthdate, String gender,
-                                        String address, String city, String state, String zipcode, String country,
+                                        String address1, String address2, String city, String state, String zipcode, String country,
                                         String insuranceProvider, String insuranceNumber) {
 
 
-        patient = new Patient(firstName, lastName, birthdate, gender, address, city, state, zipcode, country,
+        patient = new Patient(firstName, lastName, birthdate, gender, address1, address2, city, state, zipcode, country,
                 insuranceProvider, insuranceNumber);
     }
 

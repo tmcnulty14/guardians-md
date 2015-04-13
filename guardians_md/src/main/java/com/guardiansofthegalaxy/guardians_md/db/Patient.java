@@ -4,23 +4,15 @@ import com.guardiansofthegalaxy.guardians_md.panels.*;
 import com.guardiansofthegalaxy.guardians_md.db.*;
 
 public class Patient {
-
-	// Can't be null; can we decide on -1 to mean a new patient & pass null to DB?
 	private int patientID;
-
-	// First and last name separated in DB?
 	private String firstName;
 	private String lastName;
 	private String birthdate;
-
-	// Should this be a boolean? Any constraints in DB for gender of Patients? Error-handling? Constrained by having a combobox when creating a patient?
 	private String gender;
-	private String address;
+	private String address1;
+	private String address2;
 	private String city;
 	private String state;
-
-	// Storing City and Zipcode only in Patient table will introduce inconsistency… Should possibly have a zip-city-state-country table...
-	// That can be checked for consistency; One city can have multiple zipcodes...
 	private String zipcode;
 	private String country;
 	private String insuranceProvider;
@@ -30,14 +22,15 @@ public class Patient {
 	* All fields are assumed to be NOT NULL in DB. patientID is skipped for creating a new patient, because of AUTO_INCREMENT.
 	*/
 	public Patient(String firstName, String lastName, String birthdate, String gender,
-			String address, String city, String state, String zipcode, String country,
+			String address1, String address2, String city, String state, String zipcode, String country,
 			String insuranceProvider, String insuranceNumber) {
         this.patientID = -1;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
         this.gender = gender;
-        this.address = address;
+        this.address1 = address1;
+        this.address2 = address2;
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
@@ -50,14 +43,15 @@ public class Patient {
 	* For creating Patient data objects for existing patients for search results, etc...
 	*/
 	public Patient(int patientID, String firstName, String lastName, String birthdate,
-			String gender, String address, String city, String state, String zipcode,
+			String gender, String address1, String address2, String city, String state, String zipcode,
 			String country, String insuranceProvider, String insuranceNumber) {
 		this.patientID = patientID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthdate = birthdate;
 		this.gender = gender;
-		this.address = address;
+		this.address1 = address1;
+		this.address2 = address2;
 		this.city = city;
 		this.state = state;
 		this.zipcode = zipcode;
@@ -88,8 +82,12 @@ public class Patient {
 		return gender;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getAddress1() {
+		return address1;
+	}
+
+	public String getAddress2() {
+		return address2;
 	}
 
 	public String getCity() {
@@ -134,8 +132,12 @@ public class Patient {
 		this.gender = gender;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String setAddress2() {
+		return address2;
 	}
 
 	public void setCity(String city) {
