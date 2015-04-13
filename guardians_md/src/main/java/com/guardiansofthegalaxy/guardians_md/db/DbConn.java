@@ -33,19 +33,19 @@ public interface DbConn {
     public boolean updateComments(int visitID, String comments); // Appends to existing comments
 
     // Prescription methods
-    public List<Prescription> getVisitPrescriptions(int visitID);
+    public ArrayList<Prescription> getVisitPrescriptions(int visitID);
 
     public boolean createPrescription(Prescription newPrescription);
 
     // LabOrder methods
-    public List<LabOrder> getVisitLabOrders(int visitID);
+    public ArrayList<LabOrder> getVisitLabOrders(int visitID);
 
     public boolean createLabOrder(LabOrder newLabOrder);
 
     // Search methods
-    public List<Patient> findPatient(String searchTerm, String searchBy);
+    public ArrayList<Patient> findPatient(String searchTerm, String searchBy);
 
-    public List<Visit> findVisit(String searchTerm, String searchBy);
+    public ArrayList<Visit> findVisit(String searchTerm, String searchBy);
 
     public String[] getPatientSearchTypes(); // Returns a list of strings, each of which represents an attribute you can search for patients by.
 
