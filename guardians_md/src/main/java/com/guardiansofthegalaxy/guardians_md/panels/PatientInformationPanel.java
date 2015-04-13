@@ -22,12 +22,13 @@ public class PatientInformationPanel extends JPanel {
     public JLabel lblFName, lblLName, lblAddress1, lblAddress2, lblCity, lblState, lblZip, lblCountry, lblBirthDate, lblAge, lblInsProv, lblInsNum, lblGender;
     public JTextField txtFName, txtLName, txtAddress1, txtAddress2, txtCity, txtState, txtZip, txtCountry, txtBirthDate, txtAge, txtInsProv, txtInsNum;
     public JCheckBox ckEdit, ckMale, ckFemale;
+    public JButton btnSubmitPatientData;
 
     public JPanel pnName, pnAddress, pnGender, pnEdit;
 
     public PatientInformationPanel() {
 
-        setLayout(new GridLayout(4, 1));
+        setLayout(new GridLayout(5, 1));
 
         setBorder(BorderFactory.createTitledBorder("Patient Information"));
         setBackground(Color.WHITE);
@@ -43,7 +44,7 @@ public class PatientInformationPanel extends JPanel {
         pnGender.setLayout(new GridLayout(1, 4));
         pnEdit = new JPanel();
         pnEdit.setBackground(Color.WHITE);
-        pnEdit.setLayout(new GridLayout(1, 1));
+        pnEdit.setLayout(new GridLayout(1,4));
         buildComponents();
 
 
@@ -84,11 +85,15 @@ public class PatientInformationPanel extends JPanel {
         pnAddress.add(txtInsNum);
 
         pnEdit.add(ckEdit);
+        pnEdit.add(new JLabel("                            "));
+        pnEdit.add(new JLabel("                            "));
+        pnEdit.add(btnSubmitPatientData);
 
         add(pnName);
         add(pnGender);
         add(pnAddress);
 
+        add(new JPanel().add(new JLabel("                                ")));
         add(pnEdit);
 
     }
@@ -197,14 +202,23 @@ public class PatientInformationPanel extends JPanel {
         ckEdit.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 Object source = e.getSource();
-                if (source == ckEdit & ckEdit.isSelected()) {
+                if (source ==  ckEdit &  ckEdit.isSelected()) {
                     editPatientInformation();
                 }
-                if (source == ckEdit & !ckEdit.isSelected()) {
+                if (source ==  ckEdit & ! ckEdit.isSelected()) {
                     readOnlyPatientInformation();
                 }
             }
         });
+
+
+        btnSubmitPatientData = new JButton("Submit");
+        btnSubmitPatientData.setFont(new Font("Times New Roman", 0, 16));
+        btnSubmitPatientData.setBackground(Color.WHITE);
+        btnSubmitPatientData.setPreferredSize(new Dimension(20,10));
+
+        //TODO: add action listener to the submit button to the db
+        //TODO: create a patient object and send to db.
     }
 
 
