@@ -1,11 +1,10 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
-import com.guardiansofthegalaxy.guardians_md.panels.*;
-import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
+import com.guardiansofthegalaxy.guardians_md.db.Visit;
+
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import java.util.*;
 
 public class GeneralPracticePanel extends JPanel {
 
@@ -84,6 +83,18 @@ public class GeneralPracticePanel extends JPanel {
 		add(lblDiag);
 		add(txtDiag);
 	}
+
+
+    public void loadGeneralPracticeInformation() {
+      Visit  visit = MedicalConfigurator.getActiveVisit();
+        txtDiag.setText(visit.getMdFields().get(0));
+        txtComp.setText(visit.getMdFields().get(1));
+        txtImp.setText(visit.getMdFields().get(2));
+        txtPhysEx.setText(visit.getMdFields().get(3));
+        txtPresIll.setText(visit.getMdFields().get(4));
+        txtPsHist.setText(visit.getMdFields().get(5));
+        txtRevSym.setText(visit.getMdFields().get(6));
+    }
 
 	public void readOnlyGeneralPractice(){
 		txtComp.setEditable(false);

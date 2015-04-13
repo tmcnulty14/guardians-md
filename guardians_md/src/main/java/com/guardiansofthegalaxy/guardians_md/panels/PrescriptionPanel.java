@@ -1,12 +1,11 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
-import com.guardiansofthegalaxy.guardians_md.panels.*;
-import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
+import com.guardiansofthegalaxy.guardians_md.db.Prescription;
+import com.guardiansofthegalaxy.guardians_md.db.Visit;
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import java.util.*;
 
 public class PrescriptionPanel extends JPanel {
 
@@ -69,4 +68,37 @@ public class PrescriptionPanel extends JPanel {
         pnPO.add(scroll, BorderLayout.CENTER);
 
     }
+
+
+    public void loadPrescriptionsInformation() {
+       Visit visit = MedicalConfigurator.getActiveVisit();
+        for (Prescription prescription : visit.getPrescriptions()) {
+            checkPrescriptions(prescription.getMedType(), prescription.getMedName());
+
+        }
+
+    }
+
+
+
+
+
+    private void checkPrescriptions(String medType, String medName) {
+        if (medType.equalsIgnoreCase("PO")) {
+            txtaPO.append(medName);
+        }
+
+        if (medType.equalsIgnoreCase("injection")) {
+            if (medName.equalsIgnoreCase("intramu")) {
+                rbIntramu.setSelected(true);
+            }
+            if (medName.equalsIgnoreCase("intravas")) {
+                rbIntravas.setSelected(true);
+            }
+            if (medName.equalsIgnoreCase("subscuta")) {
+                rbSubcuta.setSelected(true);
+            }
+        }
+    }
+
 }

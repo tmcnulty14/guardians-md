@@ -1,17 +1,12 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
-import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.db.Patient;
+import com.guardiansofthegalaxy.guardians_md.db.Visit;
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class MedicalMainPanel extends JPanel {
@@ -40,11 +35,7 @@ public class MedicalMainPanel extends JPanel {
         buildPanels();
         setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setBackground(Color.WHITE);
-        //loadPatientInformation();
-        //loadGeneralPracticeInformation();
-        //loadLabTestInformation();
-        //loadPrescriptionsInformation();
-        //loadNursingComments();
+
     }
 
     private void buildPanels() {
@@ -125,145 +116,8 @@ public class MedicalMainPanel extends JPanel {
     }
 
 
-    public void loadPatientInformation() {
-        patient = MedicalConfigurator.getActivePatient();
-        pnPat.txtFName.setText(patient.getFirstName());
-        pnPat.txtLName.setText(patient.getLastName());
-        pnPat.txtAddress1.setText(patient.getAddress1());
-        pnPat.txtAddress2.setText(patient.getAddress2());
-        pnPat.txtCity.setText(patient.getCity());
-        pnPat.txtState.setText(patient.getState());
-        pnPat.txtZip.setText(patient.getZipcode());
-        pnPat.txtCountry.setText(patient.getCountry());
-        pnPat.txtBirthDate.setText(patient.getBirthdate());
-        pnPat.txtInsProv.setText(patient.getInsuranceProvider());
-        pnPat.txtInsNum.setText(patient.getInsuranceNumber());
-
-        setGender();
-        try {
-            setAge();
-        } catch (ParseException pe) {
-            pe.printStackTrace();
-        }
-
-    }
 
 
-    public void setGender() {
-        if (patient.getGender().equalsIgnoreCase("F")) {
-            pnPat.ckFemale.setSelected(true);
-        }
-        if (patient.getGender().equalsIgnoreCase("M")) {
-            pnPat.ckMale.setSelected(true);
-        } else {
-            //nothing is selected
-        }
-    }
-
-    public void setAge() throws ParseException {
-
-        DateFormat formatter = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
-        Date date = formatter.parse(patient.getBirthdate());
-
-        DateFormat df = new SimpleDateFormat("yyyy");
-        String year = df.format(date);
-
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        int ageInt = currentYear - Integer.parseInt(year);
-        String age = String.valueOf(ageInt);
-        pnPat.txtAge.setText(age);
-    }
-
-
-    public void loadGeneralPracticeInformation() {
-        visit = MedicalConfigurator.getActiveVisit();
-        pnGenPract.txtDiag.setText(visit.getMdFields().get(0));
-        pnGenPract.txtComp.setText(visit.getMdFields().get(1));
-        pnGenPract.txtImp.setText(visit.getMdFields().get(2));
-        pnGenPract.txtPhysEx.setText(visit.getMdFields().get(3));
-        pnGenPract.txtPresIll.setText(visit.getMdFields().get(4));
-        pnGenPract.txtPsHist.setText(visit.getMdFields().get(5));
-        pnGenPract.txtRevSym.setText(visit.getMdFields().get(6));
-    }
-
-    public void loadLabTestInformation() {
-        visit = MedicalConfigurator.getActiveVisit();
-        LabOrder labOrder;
-        for (int i = 0; i < visit.getLabOrders().size(); i++) {
-
-            labOrder = visit.getLabOrders().get(i);
-            checkLabTests(labOrder.getLabName(), labOrder.getTestName());
-        }
-    }
-
-    public void loadPrescriptionsInformation() {
-        visit = MedicalConfigurator.getActiveVisit();
-        for (Prescription prescription : visit.getPrescriptions()) {
-            checkPrescriptions(prescription.getMedType(), prescription.getMedName());
-
-        }
-
-    }
-
-    public void loadNursingComments() {
-        pnNursComm.txtaComm.append(MedicalConfigurator.getActiveVisit().getComments());
-
-    }
-
-    private void checkLabTests(String labName, String testName) {
-        if (labName.equalsIgnoreCase("lab")) {
-            if (testName.equalsIgnoreCase("red")) {
-                pnLabTests.rbRed.setSelected(true);
-            }
-            if (testName.equalsIgnoreCase("white")) {
-                pnLabTests.rbWhite.setSelected(true);
-            }
-            if (testName.equalsIgnoreCase("liver")) {
-                pnLabTests.rbLiver.setSelected(true);
-            }
-            if (testName.equalsIgnoreCase("renal")) {
-                pnLabTests.rbRenal.setSelected(true);
-            }
-            if (testName.equalsIgnoreCase("electrol")) {
-                pnLabTests.rbEletrol.setSelected(true);
-            }
-            if (testName.equalsIgnoreCase("xray")) {
-                pnLabTests.rbXray.setSelected(true);
-            }
-            if (testName.equalsIgnoreCase("comptom")) {
-                pnLabTests.rbCompTom.setSelected(true);
-            }
-            if (testName.equalsIgnoreCase("magres")) {
-                pnLabTests.rbMagRes.setSelected(true);
-            }
-        }
-        if (labName.equalsIgnoreCase("test")) {
-            if (testName.equalsIgnoreCase("urin")) {
-                pnLabTests.rbUrin.setSelected(true);
-            }
-            if (testName.equalsIgnoreCase("stool")) {
-                pnLabTests.rbStool.setSelected(true);
-            }
-        }
-    }
-
-    private void checkPrescriptions(String medType, String medName) {
-        if (medType.equalsIgnoreCase("PO")) {
-            pnPresc.txtaPO.append(medName);
-        }
-
-        if (medType.equalsIgnoreCase("injection")) {
-            if (medName.equalsIgnoreCase("intramu")) {
-                pnPresc.rbIntramu.setSelected(true);
-            }
-            if (medName.equalsIgnoreCase("intravas")) {
-                pnPresc.rbIntravas.setSelected(true);
-            }
-            if (medName.equalsIgnoreCase("subscuta")) {
-                pnPresc.rbSubcuta.setSelected(true);
-            }
-        }
-    }
 
     private class MenuListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {

@@ -1,12 +1,11 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
-import com.guardiansofthegalaxy.guardians_md.panels.*;
-import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.db.LabOrder;
+import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
+import com.guardiansofthegalaxy.guardians_md.db.Visit;
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import java.util.*;
 
 public class LabTestsPanel extends JPanel {
 
@@ -110,6 +109,53 @@ public class LabTestsPanel extends JPanel {
 	}
 
 
+
+    public void loadLabTestInformation() {
+      Visit visit = MedicalConfigurator.getActiveVisit();
+        LabOrder labOrder;
+        for (int i = 0; i < visit.getLabOrders().size(); i++) {
+
+            labOrder = visit.getLabOrders().get(i);
+            checkLabTests(labOrder.getLabName(), labOrder.getTestName());
+        }
+    }
+
+    private void checkLabTests(String labName, String testName) {
+        if (labName.equalsIgnoreCase("lab")) {
+            if (testName.equalsIgnoreCase("red")) {
+                rbRed.setSelected(true);
+            }
+            if (testName.equalsIgnoreCase("white")) {
+                rbWhite.setSelected(true);
+            }
+            if (testName.equalsIgnoreCase("liver")) {
+                rbLiver.setSelected(true);
+            }
+            if (testName.equalsIgnoreCase("renal")) {
+                rbRenal.setSelected(true);
+            }
+            if (testName.equalsIgnoreCase("electrol")) {
+                rbEletrol.setSelected(true);
+            }
+            if (testName.equalsIgnoreCase("xray")) {
+                rbXray.setSelected(true);
+            }
+            if (testName.equalsIgnoreCase("comptom")) {
+                rbCompTom.setSelected(true);
+            }
+            if (testName.equalsIgnoreCase("magres")) {
+                rbMagRes.setSelected(true);
+            }
+        }
+        if (labName.equalsIgnoreCase("test")) {
+            if (testName.equalsIgnoreCase("urin")) {
+                rbUrin.setSelected(true);
+            }
+            if (testName.equalsIgnoreCase("stool")) {
+                rbStool.setSelected(true);
+            }
+        }
+    }
 	public void editLabTests(){
 
 

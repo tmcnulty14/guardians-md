@@ -1,14 +1,22 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
-import com.guardiansofthegalaxy.guardians_md.panels.*;
-import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
+import com.guardiansofthegalaxy.guardians_md.db.Patient;
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import java.util.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class PatientInformationPanel extends JPanel {
+    
+    private Patient patient;
 
     //labels and textfields for the patient personal information
     public JLabel lblFName, lblLName, lblAddress1, lblAddress2, lblCity, lblState, lblZip, lblCountry, lblBirthDate, lblAge, lblInsProv, lblInsNum, lblGender;
@@ -197,6 +205,56 @@ public class PatientInformationPanel extends JPanel {
                 }
             }
         });
+    }
+
+
+    public void loadPatientInformation() {
+        patient = MedicalConfigurator.getActivePatient();
+        txtFName.setText(patient.getFirstName());
+        txtLName.setText(patient.getLastName());
+        txtAddress1.setText(patient.getAddress1());
+        txtAddress2.setText(patient.getAddress2());
+        txtCity.setText(patient.getCity());
+        txtState.setText(patient.getState());
+        txtZip.setText(patient.getZipcode());
+        txtCountry.setText(patient.getCountry());
+        txtBirthDate.setText(patient.getBirthdate());
+        txtInsProv.setText(patient.getInsuranceProvider());
+        txtInsNum.setText(patient.getInsuranceNumber());
+
+        setGender();
+        try {
+            setAge();
+        } catch (ParseException pe) {
+            pe.printStackTrace();
+        }
+
+    }
+
+
+    public void setGender() {
+        if (patient.getGender().equalsIgnoreCase("F")) {
+            ckFemale.setSelected(true);
+        }
+        if (patient.getGender().equalsIgnoreCase("M")) {
+            ckMale.setSelected(true);
+        } else {
+            //nothing is selected
+        }
+    }
+
+    public void setAge() throws ParseException {
+
+        DateFormat formatter = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+        Date date = formatter.parse(patient.getBirthdate());
+
+        DateFormat df = new SimpleDateFormat("yyyy");
+        String year = df.format(date);
+
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int ageInt = currentYear - Integer.parseInt(year);
+        String age = String.valueOf(ageInt);
+        txtAge.setText(age);
     }
 
 

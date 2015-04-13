@@ -1,12 +1,11 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
-import com.guardiansofthegalaxy.guardians_md.panels.*;
-import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import java.util.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class NursingPanel extends JPanel {
 
@@ -42,5 +41,10 @@ public class NursingPanel extends JPanel {
 
         add(scroll, BorderLayout.CENTER);
 	}
+
+    public void loadNursingComments() {
+        txtaComm.append(MedicalConfigurator.getActiveVisit().getComments());
+
+    }
 
 }

@@ -1,24 +1,13 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
-import com.guardiansofthegalaxy.guardians_md.panels.*;
-import com.guardiansofthegalaxy.guardians_md.db.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
-import java.util.*;
-import java.util.Date.*;
-import java.text.*;
-
 public class NurseMedicalMain extends MedicalMainPanel {
 
-	private Patient patient;
 
 	public NurseMedicalMain() {
 		disableGeneralPractice();
 		disableLabratoryTests();
 		disablePrescriptions();
 
-		loadPatientInformation();
 	}
 
 	public void disableGeneralPractice(){
