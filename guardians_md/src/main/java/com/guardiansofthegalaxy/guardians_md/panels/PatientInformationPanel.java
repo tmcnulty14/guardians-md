@@ -204,9 +204,11 @@ public class PatientInformationPanel extends JPanel {
                 Object source = e.getSource();
                 if (source ==  ckEdit &  ckEdit.isSelected()) {
                     editPatientInformation();
+                    btnSubmitPatientData.setEnabled(true);
                 }
                 if (source ==  ckEdit & ! ckEdit.isSelected()) {
                     readOnlyPatientInformation();
+                    btnSubmitPatientData.setEnabled(false);
                 }
             }
         });
@@ -216,6 +218,7 @@ public class PatientInformationPanel extends JPanel {
         btnSubmitPatientData.setFont(new Font("Times New Roman", 0, 16));
         btnSubmitPatientData.setBackground(Color.WHITE);
         btnSubmitPatientData.setPreferredSize(new Dimension(20,10));
+        btnSubmitPatientData.setEnabled(false);
 
         //TODO: add action listener to the submit button to the db
         //TODO: create a patient object and send to db.
