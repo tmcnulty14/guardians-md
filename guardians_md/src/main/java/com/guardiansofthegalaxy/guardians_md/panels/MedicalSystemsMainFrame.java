@@ -70,6 +70,8 @@ public class MedicalSystemsMainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String username = pnLogin.usernameField.getText();
                 String password = new String(pnLogin.passwordField.getPassword());
+
+                //TODO: this is where login check needs to happen
                 //boolean valid = dbConnection.validateLogin(username, password);
                 //if(valid) {
                 //User activeUser = dbConnection.getLoginUser(username);
@@ -88,6 +90,9 @@ public class MedicalSystemsMainFrame extends JFrame {
                 pnLogin.usernameField.setText("");
                 pnLogin.passwordField.setText("");
                 cardLayout.show(cardPanel, "GettingStartedPanel");
+                pnUnivHeader.setHeaderIfUserLoggedIn();
+                pnUnivHeader.btnReturnMain.setVisible(false);
+
 
 
                 //} else {
@@ -103,6 +108,8 @@ public class MedicalSystemsMainFrame extends JFrame {
                 //TODO: call the user registration panel with fields populated
                 if(source == pnGetStart.btnUserAccountInformation){
                     cardLayout.show(cardPanel,"DoctorMedicalMain");
+                    pnUnivHeader.setHeaderIfUserLoggedIn();
+
                 }
             }
         });
@@ -114,6 +121,8 @@ public class MedicalSystemsMainFrame extends JFrame {
                 //TODO: call the user registration panel with fields populated
                 if(source == pnGetStart.btnPatientRegistration){
                     cardLayout.show(cardPanel,"NursingMedicalMain");
+                    pnUnivHeader.setHeaderIfUserLoggedIn();
+
                 }
             }
         });
@@ -125,6 +134,8 @@ public class MedicalSystemsMainFrame extends JFrame {
                 //TODO: call the user registration panel with fields populated
                 if(source == pnGetStart.btnSearchRecords){
                     cardLayout.show(cardPanel,"SearchPanel");
+                    pnUnivHeader.setHeaderIfUserLoggedIn();
+
                 }
             }
         });
@@ -200,31 +211,41 @@ public class MedicalSystemsMainFrame extends JFrame {
     private class MenuListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             Object source = e.getSource();
-            if (source == loginMenuItem) {
+            if (source == loginMenuItem & !MedicalConfigurator.isUserLoggedIn) {
                 cardLayout.show(cardPanel, "LoginPanel");
+                pnUnivHeader.setHeaderIfUserLoggedIn();
+
             }
-            if (source == gettingStartedMenuItem) {
+            if (source == gettingStartedMenuItem &  MedicalConfigurator.isUserLoggedIn) {
                 cardLayout.show(cardPanel, "GettingStartedPanel");
+                pnUnivHeader.setHeaderIfUserLoggedIn();
+                pnUnivHeader.btnReturnMain.setVisible(false);
             }
-            if (source == searchMenuItem && MedicalConfigurator.isUserLoggedIn)
+            if (source == searchMenuItem & MedicalConfigurator.isUserLoggedIn)
 
             {
                 cardLayout.show(cardPanel, "SearchPanel");
+                pnUnivHeader.setHeaderIfUserLoggedIn();
+
             }
 
-            if (source == doctorMedicalMenuItem && MedicalConfigurator.isUserLoggedIn)
+            if (source == doctorMedicalMenuItem & MedicalConfigurator.isUserLoggedIn)
 
             {
                 cardLayout.show(cardPanel, "DoctorMedicalMain");
+                pnUnivHeader.setHeaderIfUserLoggedIn();
+
             }
 
-            if (source == nursingMedicalMenuItem && MedicalConfigurator.isUserLoggedIn)
+            if (source == nursingMedicalMenuItem & MedicalConfigurator.isUserLoggedIn)
 
             {
                 cardLayout.show(cardPanel, "NursingMedicalMain");
+                pnUnivHeader.setHeaderIfUserLoggedIn();
+
             }
 
-            if (source == logoutMenuItem && MedicalConfigurator.isUserLoggedIn)
+            if (source == logoutMenuItem & MedicalConfigurator.isUserLoggedIn)
 
             {
                 MedicalConfigurator.setUserLoggedIn(false);

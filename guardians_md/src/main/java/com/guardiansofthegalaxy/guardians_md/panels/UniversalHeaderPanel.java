@@ -1,5 +1,8 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
+
+import com.guardiansofthegalaxy.guardians_md.customComponents.ImageButton;
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
+import com.guardiansofthegalaxy.guardians_md.environments.ConfigDirectory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +12,7 @@ public class UniversalHeaderPanel extends JPanel {
 
     public JPanel pnMain, pnUser;
     public JLabel lblUserName;
-    public JButton btnReturnMain;
+    public ImageButton btnReturnMain;
 
     public UniversalHeaderPanel() {
 
@@ -25,11 +28,7 @@ public class UniversalHeaderPanel extends JPanel {
         lblUserName.setPreferredSize(new Dimension(300,50));
         lblUserName.setFont(new Font("DejaVu Serif", 0, 16));
 
-        btnReturnMain = new JButton("Return to Main Menu");
-
-        btnReturnMain.setFont(new Font("DejaVu Serif", 0, 16));
-        btnReturnMain.setPreferredSize(new Dimension(250, 30));
-
+        btnReturnMain = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("Home_button.png"),60,60);
 
         pnUser.add(lblUserName);
         setHeaderIfUserLoggedIn();

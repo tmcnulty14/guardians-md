@@ -13,6 +13,8 @@
         <junit.version>4.11</junit.version>
         <log4j.version>1.2.17</log4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <resources.directory>${project.basedir}/src/main/resources</resources.directory>
+        <resources.image.directory>${resources.directory}/images</resources.image.directory>
     </properties>
 
     <dependencies>
