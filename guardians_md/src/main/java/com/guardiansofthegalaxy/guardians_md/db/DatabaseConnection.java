@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 public class DatabaseConnection implements DbConn {
 	// JDBC driver name and database URL
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	static final String DB_URL = "jdbc:mysql://localhost:3306";	// Use MySQL workbench home window to figure out what comes after localhost
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	static final String DB_URL = "jdbc:mysql://guardiansmddatabase.czanmkabbmcd.us-west-2.rds.amazonaws.com:3306";	// Amazon AWS instance
 
 	//  Database credentials
 	static final String DB_USER = "root";	//default
-	static final String DB_PASS = "";		//no password by default
+	static final String DB_PASS = "starlord";// AWS RDS password
 
 	private Connection conn = null;
 	private Statement stmt = null;
@@ -25,7 +25,7 @@ public class DatabaseConnection implements DbConn {
 		try {
 			initialized = connect();
 		} catch(SQLException se) {
-			System.out.println("Could not connect to the database.");
+			System.out.println("Could not connect to the database." + "\n" + se.getMessage());
 		} catch(ClassNotFoundException cnfe) {
 			System.out.println("Could not register the JDBC driver.");
 		}
