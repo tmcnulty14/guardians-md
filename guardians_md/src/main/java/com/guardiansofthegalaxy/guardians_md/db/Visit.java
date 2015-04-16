@@ -63,6 +63,10 @@ public class Visit {
         return visitID;
     }
 
+    public void setVisitID(int visitID) {
+        this.visitID = visitID;
+    }
+
     public int getPatientID() {
         return patientID;
     }
@@ -119,5 +123,38 @@ public class Visit {
     public String toString() {
         String str = "GP Visit #" + visitID + " Patient: " + patientID + " Doctor: " + doctorID + " Date: " + date;
         return str;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == this) {
+            return true;
+        }
+
+        if(!(o instanceof Visit)) {
+            return false;
+        }
+
+        Visit v = (Visit)o;
+
+        /* Debugging purposes
+        System.out.println(v.getMdFields());
+        System.out.println(this.getMdFields());
+        System.out.println(v.getLabOrders());
+        System.out.println(this.getLabOrders());
+        System.out.println(v.getPrescriptions());
+        System.out.println(this.getPrescriptions());
+        System.out.println(v.getComments());
+        System.out.println(this.getComments());
+        */
+
+        return v.getVisitID() == this.visitID &&
+               v.getPatientID() == this.patientID &&
+               v.getDoctorID().equals(this.doctorID) &&
+               v.getDate().equals(this.date) &&
+               v.getComments().equals(this.comments) &&
+               v.getMdFields().containsAll(this.mdFields) &&
+               v.getLabOrders().containsAll(this.labOrders) &&
+               v.getPrescriptions().containsAll(this.prescriptions);
     }
 }

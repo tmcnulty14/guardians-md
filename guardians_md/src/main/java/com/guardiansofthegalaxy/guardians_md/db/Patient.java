@@ -115,6 +115,9 @@ public class Patient {
 	}
 
 	// Setters can be used to change this patient's info and return the updated object to the DbConn.
+	public void setPatientID(int patientID) {
+		this.patientID = patientID;
+	}
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -173,5 +176,34 @@ public class Patient {
 			patientID, firstName, lastName, birthdate, gender);
 
 		return str;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) {
+			return true;
+		}
+
+		if(!(o instanceof Patient)) {
+			return false;
+		}
+
+		Patient p = (Patient)o;
+
+		//System.out.println("Comparing patient " + p.getPatientID() + " to " + this.patientID);
+
+		return p.getPatientID() == this.patientID &&
+			   p.getFirstName().equals(this.firstName) &&
+			   p.getLastName().equals(this.lastName) &&
+			   p.getBirthdate().equals(this.birthdate) &&
+			   p.getGender().equals(this.gender) &&
+			   p.getAddress1().equals(this.address1) &&
+			   p.getAddress2().equals(this.address2) &&
+			   p.getCity().equals(this.city) &&
+			   p.getState().equals(this.state) &&
+			   p.getZipcode().equals(this.zipcode) &&
+			   p.getCountry().equals(this.country) &&
+			   p.getInsuranceProvider().equals(this.insuranceProvider) &&
+			   p.getInsuranceNumber().equals(this.insuranceNumber);
 	}
 }

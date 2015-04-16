@@ -47,6 +47,10 @@ public class Prescription {
 	}
 
 	// Setters
+	public void setPrescriptionID(int prescriptionID) {
+		this.prescriptionID = prescriptionID;
+	}
+
 	public void setVisitID(int visitID) {
 		this.visitID = visitID;
 	}
@@ -65,5 +69,23 @@ public class Prescription {
 			prescriptionID, visitID, medType, medName);
 
 		return str;
+	}
+
+ 	@Override
+    public boolean equals(Object o) {
+        if(o == this) {
+            return true;
+        }
+
+        if(!(o instanceof Prescription)) {
+            return false;
+        }
+
+        Prescription p = (Prescription)o;
+
+        return p.getPrescriptionID() == this.prescriptionID &&
+        	   p.getVisitID() == this.visitID &&
+        	   p.getMedType().equals(this.medType) &&
+        	   p.getMedName().equals(this.medName);
 	}
 }

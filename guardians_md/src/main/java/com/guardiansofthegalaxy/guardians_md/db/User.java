@@ -100,4 +100,24 @@ public class User {
 
         return str;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == this) {
+            return true;
+        }
+
+        if(!(o instanceof User)) {
+            return false;
+        }
+
+        User u = (User)o;
+
+        return u.getUsername().equals(this.username) &&
+               u.getFirstName().equals(this.firstName) &&
+               u.getLastName().equals(this.lastName) &&
+               u.getSpecialty().equals(this.specialty) &&
+               u.getPagerNumber().equals(this.pagerNumber) &&
+               (u.hasDoctorPrivileges() ? this.hasDoctorPrivileges() : !this.hasDoctorPrivileges());
+    }
 }

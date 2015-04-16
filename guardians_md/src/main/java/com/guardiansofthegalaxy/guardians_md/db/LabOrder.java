@@ -47,6 +47,10 @@ public class LabOrder {
 	}
 
 	// Setters
+	public void setLabOrderID(int labOrderID) {
+		this.labOrderID = labOrderID;
+	}
+
 	public void setVisitID(int visitID) {
 		this.visitID = visitID;
 	}
@@ -65,5 +69,23 @@ public class LabOrder {
 			labOrderID, visitID, labName, testName);
 
 		return str;
+	}
+
+	@Override
+    public boolean equals(Object o) {
+        if(o == this) {
+            return true;
+        }
+
+        if(!(o instanceof LabOrder)) {
+            return false;
+        }
+
+        LabOrder l = (LabOrder)o;
+
+        return l.getLabOrderID() == this.labOrderID &&
+        	   l.getVisitID() == this.visitID &&
+        	   l.getLabName().equals(this.labName) &&
+        	   l.getTestName().equals(this.testName);
 	}
 }
