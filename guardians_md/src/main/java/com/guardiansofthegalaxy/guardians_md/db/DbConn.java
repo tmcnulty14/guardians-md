@@ -8,6 +8,8 @@ public interface DbConn {
 
     public Patient getPatient(int patientID);
 
+    public boolean deletePatient(int patientID);
+
     public boolean updatePatient(Patient updatedPatient);
 
     // User methods
@@ -16,6 +18,8 @@ public interface DbConn {
     public boolean validateLogin(String username, String password);
 
     public User getUser(String username);
+
+    public boolean deleteUser(String username);
 
     public boolean updateUser(User user);
 
@@ -26,11 +30,13 @@ public interface DbConn {
 
     public boolean createVisit(Visit newVisit); // Also handles createPrescription and createLabOrder for all attached Prescriptions / LabOrders
 
-    public boolean updateVisit(Visit updatedVisit); // Also handles createPrescription and createLabOrder for all attached Prescriptions / LabOrders
+    public boolean updateVisit(Visit updatedVisit); // DOES NOT currently update attached prescriptions and lab orders.
 
     public boolean addComments(int visitID, String comments); // Overwrites existing comments
 
     public boolean updateComments(int visitID, String comments); // Appends to existing comments
+
+    public boolean deleteVisit(int visitID); // Deletes a visit and all its associated prescriptions and laborders.
 
     // Prescription methods
     public ArrayList<Prescription> getVisitPrescriptions(int visitID);

@@ -17,6 +17,11 @@ public class DbConnDummy implements DbConn  {
     }
 
     @Override
+    public boolean deletePatient(int patientID) {
+        return false;
+    }
+
+    @Override
     public boolean updatePatient(Patient updatedPatient) {
         return false;
     }
@@ -37,6 +42,11 @@ public class DbConnDummy implements DbConn  {
     }
 
     @Override
+    public boolean deleteUser(String username) {
+        return false;
+    }
+
+    @Override
     public boolean updateUser(User user) {
         return false;
     }
@@ -49,6 +59,11 @@ public class DbConnDummy implements DbConn  {
     @Override
     public Visit getVisit(int visitID) {
         return null;
+    }
+
+    @Override
+    public boolean deleteVisit(int visitID) {
+        return false;
     }
 
     @Override
