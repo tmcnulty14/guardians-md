@@ -6,6 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+// Login Button action listener is in MedicalSystemsMainFrame. 
+// Need to fix login validation there
+// Need to move addition of register button action listener to MedicalSystemsMainFrame's buildPanels method, so that it can switch card.
+// Also need to work on design of login panel (make it pretty!)
 
 public class LoginPanel extends JPanel {
     private final DbConnDummy dbConnection;
