@@ -4,10 +4,8 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.net.URL;
 
-/**
- * Created by Christina on 4/10/2015.
- */
 public class ImageButton extends JButton {
 
     /** Filename of the image to be used as the button's icon. */
@@ -122,9 +120,11 @@ public class ImageButton extends JButton {
 
     }
 
-
     public ImageIcon getImageIcon(String fileName) {
-        return new ImageIcon(fileName);
+
+        System.out.println(fileName);
+        URL imageUrl = ImageButton.class.getClassLoader().getResource(fileName);
+        System.out.println(imageUrl);
+        return new ImageIcon(imageUrl);
     }
 }
-
