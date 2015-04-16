@@ -2,3 +2,5 @@
 *.xml
 guardians_md/guardians_md.iml
 *.class
+
+*.jar
