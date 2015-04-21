@@ -36,6 +36,7 @@ public class DbTest {
 		// Delete the patient record and double check that it was deleted.
 		Assert.assertTrue(database.deletePatient(id));
 		Assert.assertNull(database.getPatient(id));
+		database.close();
 	}
 
 	@Test
@@ -71,6 +72,7 @@ public class DbTest {
 		Assert.assertNull(database.getUser(DEFAULT_USERNAME));
 		Assert.assertFalse(database.validateLogin(DEFAULT_USERNAME, DEFAULT_PASSWORD));
 		Assert.assertTrue(database.checkUsernameAvailable(DEFAULT_USERNAME));
+		database.close();
 	}
 
 	@Test
@@ -109,6 +111,7 @@ public class DbTest {
 		Assert.assertTrue(database.deleteVisit(visitId));
 		Assert.assertTrue(database.deletePatient(database.getMaxPatientId()));
 		Assert.assertTrue(database.deleteUser(DEFAULT_USERNAME));
+		database.close();
 	}
 
 	@Test
@@ -141,6 +144,7 @@ public class DbTest {
 		Assert.assertTrue(database.deleteVisit(v.getVisitID()));
 		Assert.assertTrue(database.deletePatient(database.getMaxPatientId()));
 		Assert.assertTrue(database.deleteUser(DEFAULT_USERNAME));
+		database.close();
 
 	}
 

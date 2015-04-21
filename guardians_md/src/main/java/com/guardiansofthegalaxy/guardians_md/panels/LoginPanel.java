@@ -3,31 +3,31 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 import com.guardiansofthegalaxy.guardians_md.db.*;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 
-// Login Button action listener is in MedicalSystemsMainFrame. 
-// Need to fix login validation there
-// Need to move addition of register button action listener to MedicalSystemsMainFrame's buildPanels method, so that it can switch card.
+// Login Button and Register button action listeners is in MedicalSystemsMainFrame. 
 // Also need to work on design of login panel (make it pretty!)
 
 public class LoginPanel extends JPanel {
-    private final DbConnDummy dbConnection;
+    private final DbConn dbConnection;
 
     public JButton loginButton, registerButton;
     public JTextField usernameField;
     public JPasswordField passwordField;
 
-    public LoginPanel() {
-        this.dbConnection = new DbConnDummy();
+    public LoginPanel(DbConn connection) {
+        this.dbConnection = connection;
 
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
-        add(new JLabel("Welcome to the GotG Medical Record Software."), BorderLayout.WEST);
+        add(new JLabel("Welcome to the GotG Medical Record Software."), BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel();
         centerPanel.setBackground(Color.WHITE);
+        centerPanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(200, 200, 200, 200), new EtchedBorder()));
         centerPanel.setLayout(new BorderLayout());
         JPanel entryPanel = new JPanel();
         entryPanel.setLayout(new GridLayout(2, 2));
@@ -47,16 +47,11 @@ public class LoginPanel extends JPanel {
 
         JPanel registerPanel = new JPanel();
         registerPanel.setBackground(Color.WHITE);
-        registerPanel.setLayout(new GridLayout(2, 1));
-        registerPanel.add(new JLabel("Don't have a user account?"));
+        registerPanel.setLayout(new BorderLayout());
+        registerPanel.add(new JLabel("Don't have a user account?"), BorderLayout.NORTH);
         registerButton = new JButton("Register a new user");
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //mainFrame.registerNewUser();
-            }
-        });
-        registerPanel.add(registerButton);
+        
+        registerPanel.add(registerButton, BorderLayout.SOUTH);
         add(registerPanel, BorderLayout.SOUTH);
     }
 }
