@@ -9,13 +9,24 @@ public class DbTest {
 	private final static String DEFAULT_USERNAME = "drdoctorson";
 	private final static String DEFAULT_PASSWORD = "password";
 
+	private static DatabaseConnection database = null;
+
+	@BeforeClass
+	public static void connectToDatabase() {
+		database = new DatabaseConnection();
+	}
+
+	@AfterClass
+	public static void closeDatabase() {
+		database.close();
+		database = null;
+	}
+
 	@Test
 	/**
 	 * Tests methods associated with patients.
 	 **/
 	public void patientTest() {
-		DatabaseConnection database = new DatabaseConnection();
-
 		// Register our test patient.
 		Patient testPatient = registerTestPatient(database);
 		Assert.assertNotNull(testPatient);
@@ -36,17 +47,13 @@ public class DbTest {
 		// Delete the patient record and double check that it was deleted.
 		Assert.assertTrue(database.deletePatient(id));
 		Assert.assertNull(database.getPatient(id));
-		database.close();
 	}
 
 	@Test
 	/**
 	 * Tests methods associated with users.
 	 **/
-	public void userTest() {
-		DatabaseConnection database = new DatabaseConnection();
-
-		// Check that the username is available
+	public void userTest() {// Check that the username is available
 		Assert.assertTrue(database.checkUsernameAvailable(DEFAULT_USERNAME));
 
 		// Register the user
@@ -72,7 +79,6 @@ public class DbTest {
 		Assert.assertNull(database.getUser(DEFAULT_USERNAME));
 		Assert.assertFalse(database.validateLogin(DEFAULT_USERNAME, DEFAULT_PASSWORD));
 		Assert.assertTrue(database.checkUsernameAvailable(DEFAULT_USERNAME));
-		database.close();
 	}
 
 	@Test
@@ -80,7 +86,6 @@ public class DbTest {
 	 * Tests methods associated with visits.
 	 **/
 	public void visitTest() {
-		DatabaseConnection database = new DatabaseConnection();
 		Visit testVisit	= registerTestVisit(database);
 		int visitId = testVisit.getVisitID();
 
@@ -111,7 +116,6 @@ public class DbTest {
 		Assert.assertTrue(database.deleteVisit(visitId));
 		Assert.assertTrue(database.deletePatient(database.getMaxPatientId()));
 		Assert.assertTrue(database.deleteUser(DEFAULT_USERNAME));
-		database.close();
 	}
 
 	@Test
@@ -119,8 +123,6 @@ public class DbTest {
 	 * Tests methods associated with searching.
 	 **/
 	public void testSearch() {
-		DatabaseConnection database = new DatabaseConnection();
-		
 		// Register test data
 		Visit v = registerTestVisit(database);
 		Patient p = database.getPatient(database.getMaxPatientId());
@@ -144,7 +146,6 @@ public class DbTest {
 		Assert.assertTrue(database.deleteVisit(v.getVisitID()));
 		Assert.assertTrue(database.deletePatient(database.getMaxPatientId()));
 		Assert.assertTrue(database.deleteUser(DEFAULT_USERNAME));
-		database.close();
 
 	}
 

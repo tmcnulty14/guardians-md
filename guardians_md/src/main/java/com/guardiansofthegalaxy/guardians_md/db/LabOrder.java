@@ -10,18 +10,19 @@ public class LabOrder {
 	private int visitID;
 	private String labName;
 	private String testName;
+	private String results;
 
 	/**
 	* Constructor for creating a brand new lab order.
 	*/
 	public LabOrder(String labName, String testName) {
-		this(-1, -1, labName, testName);
+		this(-1, -1, labName, testName, "");
 	}
 
 	/**
 	* Constructor for retrieving lab orders from the database.
 	*/
-	public LabOrder(int labOrderID, int visitID, String labName, String testName) {
+	public LabOrder(int labOrderID, int visitID, String labName, String testName, String results) {
 		this.labOrderID = labOrderID;
 		this.visitID = visitID;
 		this.labName = labName;
@@ -46,6 +47,10 @@ public class LabOrder {
 		return testName;
 	}
 
+	public String getResults() {
+		return results;
+	}
+
 	// Setters
 	public void setLabOrderID(int labOrderID) {
 		this.labOrderID = labOrderID;
@@ -61,6 +66,10 @@ public class LabOrder {
 
 	public void setTestName(String testName) {
 		this.testName = testName;
+	}
+
+	public void setResults(String results) {
+		this.results = results;
 	}
 
 	@Override

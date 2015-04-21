@@ -122,6 +122,7 @@ public class DatabaseConnection implements DbConn {
 				"visit_id INT UNSIGNED NOT NULL," +
 				"lab_name VARCHAR(48)," + 
 				"test_name VARCHAR(96)," +
+				"results VARCHAR(256)," +
 				"FOREIGN KEY(visit_id) REFERENCES general_practice_visit(visit_id) ON DELETE CASCADE," +
 				"PRIMARY KEY(lab_order_id));";
 		stmt.execute(sql);
@@ -134,6 +135,9 @@ public class DatabaseConnection implements DbConn {
 				"FOREIGN KEY(visit_id) REFERENCES general_practice_visit(visit_id) ON DELETE CASCADE," +
 				"PRIMARY KEY(prescription_id));";
 		stmt.execute(sql);
+
+		DatabasePopulator pop = new DatabasePopulator(this);
+		pop.populateDatabase();
 	}
 
 	/**
@@ -830,7 +834,7 @@ public class DatabaseConnection implements DbConn {
 			
 			while(labResult.next()) {
 				LabOrder p = new LabOrder(labResult.getInt(1), labResult.getInt(2), 
-												  labResult.getString(3), labResult.getString(4));
+												  labResult.getString(3), labResult.getString(4), labResult.getString(5));
 				matches.add(p);
 			}
 		} catch(SQLException se) {
@@ -856,13 +860,14 @@ public class DatabaseConnection implements DbConn {
 	 **/
 	public boolean createLabOrder(LabOrder newLabOrder) {
 		boolean error = false;
-		String sql = "INSERT INTO lab_order VALUES(NULL, ?, ?, ?);";
+		String sql = "INSERT INTO lab_order VALUES(NULL, ?, ?, ?, ?);";
 		PreparedStatement regStmt = null;
 		try {
 			regStmt = conn.prepareStatement(sql);
 			regStmt.setInt(1, newLabOrder.getVisitID());
 			regStmt.setString(2, newLabOrder.getLabName());
 			regStmt.setString(3, newLabOrder.getTestName());
+			regStmt.setString(4, newLabOrder.getResults());
 			regStmt.execute();
 		} catch(SQLException se) {
 			logSQLException("createLabOrder()", "", se);
