@@ -34,7 +34,7 @@ public class DatabasePopulator {
 		}
 		User u = new User(params[0], params[1], params[2], params[3], 
 										  params[4], true);
-		return db.registerUser(p, params[5]);
+		return db.registerUser(u, params[5]);
 	}
 
 	public boolean populateNurse(String[] params) {
@@ -43,6 +43,6 @@ public class DatabasePopulator {
 		}
 		User u = new User(params[0], params[1], params[2], params[3], 
 										  params[4], false);
-		return db.registerUser(p, params[5]);
+		return db.registerUser(u, params[5]);
 	}
 }
