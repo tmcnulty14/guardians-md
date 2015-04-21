@@ -56,6 +56,4 @@ public interface DbConn {
     public String[] getPatientSearchTypes(); // Returns a list of strings, each of which represents an attribute you can search for patients by.
 
     public String[] getVisitSearchTypes(); // Returns a list of strings, each of which represents an attribute you can search for visits by.
-
-
 }

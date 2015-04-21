@@ -1,6 +1,7 @@
 package com.guardiansofthegalaxy.guardians_md.paneltests;
 
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
+import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
 import com.guardiansofthegalaxy.guardians_md.panels.LoginPanel;
 
 import javax.swing.*;
@@ -29,7 +30,7 @@ public class LoginPanelTest extends JFrame {
 
     private void buildPanels(){
 
-        loginPanel = new LoginPanel();
+        loginPanel = new LoginPanel(new DatabaseConnection());
         add(loginPanel);
 
     }

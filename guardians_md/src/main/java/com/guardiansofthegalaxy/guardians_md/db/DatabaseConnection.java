@@ -47,6 +47,7 @@ public class DatabaseConnection implements DbConn {
 		stmt = conn.createStatement();
 
 		try {
+			//stmt.execute("DROP DATABASE gotg_md");
 			initializeDatabase();
 			dbInitialized = true;
 		} catch(SQLException e) {
@@ -111,8 +112,8 @@ public class DatabaseConnection implements DbConn {
 				"field_f VARCHAR(500)," +
 				"field_g VARCHAR(500)," +
 				"comments VARCHAR(500)," +
-				"FOREIGN KEY(doctor_id) REFERENCES user(username)," +
-				"FOREIGN KEY(patient_id) REFERENCES patient(patient_id)," +
+				"FOREIGN KEY(doctor_id) REFERENCES user(username) ON DELETE CASCADE," +
+				"FOREIGN KEY(patient_id) REFERENCES patient(patient_id) ON DELETE CASCADE," +
 				"PRIMARY KEY(visit_id));";
 		stmt.execute(sql);
 
@@ -121,7 +122,7 @@ public class DatabaseConnection implements DbConn {
 				"visit_id INT UNSIGNED NOT NULL," +
 				"lab_name VARCHAR(48)," + 
 				"test_name VARCHAR(96)," +
-				"FOREIGN KEY(visit_id) REFERENCES general_practice_visit(visit_id)," +
+				"FOREIGN KEY(visit_id) REFERENCES general_practice_visit(visit_id) ON DELETE CASCADE," +
 				"PRIMARY KEY(lab_order_id));";
 		stmt.execute(sql);
 
@@ -130,7 +131,7 @@ public class DatabaseConnection implements DbConn {
 				"visit_id INT UNSIGNED NOT NULL," +
 				"medication_type VARCHAR(48)," + 
 				"medication_name VARCHAR(96)," +
-				"FOREIGN KEY(visit_id) REFERENCES general_practice_visit(visit_id)," +
+				"FOREIGN KEY(visit_id) REFERENCES general_practice_visit(visit_id) ON DELETE CASCADE," +
 				"PRIMARY KEY(prescription_id));";
 		stmt.execute(sql);
 	}
@@ -543,25 +544,25 @@ public class DatabaseConnection implements DbConn {
 	 **/
 	public boolean deleteVisit(int visitID) {
 		boolean error = false;
-		String sql1 = "DELETE FROM prescription WHERE visit_id=?;";
-		String sql2 = "DELETE FROM lab_order WHERE visit_id=?;";
+		//String sql1 = "DELETE FROM prescription WHERE visit_id=?;";
+		//String sql2 = "DELETE FROM lab_order WHERE visit_id=?;";
 		String sql = "DELETE FROM general_practice_visit WHERE visit_id=?;";
 
-		PreparedStatement deleteStmt1 = null;
-		PreparedStatement deleteStmt2 = null;
+		//PreparedStatement deleteStmt1 = null;
+		//PreparedStatement deleteStmt2 = null;
 		PreparedStatement deleteStmt = null;
 
 		Visit visit = null;
 		try {
-			deleteStmt1 = conn.prepareStatement(sql1);
-			deleteStmt2 = conn.prepareStatement(sql2);
+			//deleteStmt1 = conn.prepareStatement(sql1);
+			//deleteStmt2 = conn.prepareStatement(sql2);
 			deleteStmt = conn.prepareStatement(sql);
-			deleteStmt1.setInt(1, visitID);
-			deleteStmt2.setInt(1, visitID);
+			//deleteStmt1.setInt(1, visitID);
+			//deleteStmt2.setInt(1, visitID);
 			deleteStmt.setInt(1, visitID);
 
-			deleteStmt1.execute();
-			deleteStmt2.execute();
+			//deleteStmt1.execute();
+			//deleteStmt2.execute();
 			deleteStmt.execute();
 		} catch(SQLException se) {
 			logSQLException("deleteVisit()", "", se);
@@ -1044,5 +1045,19 @@ public class DatabaseConnection implements DbConn {
 	private void logSQLException(String method, String message, SQLException se) {
 		System.out.println("SQLException in " + method + (message.length()>0 ? (": " + message) : ""));
 		System.out.println(se.getMessage());
+	}
+
+	/**
+	 * Closes the connection.
+	 **/
+	public void close() {
+		try {
+			if(stmt != null)
+				stmt.close();
+			if(conn != null)
+				conn.close();
+		} catch(SQLException se) {
+			logSQLException("close", "", se);
+		}
 	}
 }
