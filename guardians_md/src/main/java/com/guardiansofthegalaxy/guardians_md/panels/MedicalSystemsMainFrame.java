@@ -2,6 +2,7 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 import com.guardiansofthegalaxy.guardians_md.db.User;
+import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,12 +32,16 @@ public class MedicalSystemsMainFrame extends JFrame {
     public JMenuItem logoutMenuItem;
     public JMenuItem exitMenuItem;
 
+    public DatabaseConnection database;
+
     public MedicalSystemsMainFrame() {
 
         super("Medical Doctor Main Menu System");
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(Color.WHITE);
+
+        database = new DatabaseConnection();
 
         buildPanels();
         // setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -50,7 +55,6 @@ public class MedicalSystemsMainFrame extends JFrame {
     }
 
     private void buildPanels() {
-
         cardPanel = new JPanel();
 
         pnUnivHeader = new UniversalHeaderPanel();
@@ -64,40 +68,39 @@ public class MedicalSystemsMainFrame extends JFrame {
             }
         });
 
-        pnLogin = new LoginPanel();
+        pnLogin = new LoginPanel(database);
         pnLogin.loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = pnLogin.usernameField.getText();
                 String password = new String(pnLogin.passwordField.getPassword());
 
-                //TODO: this is where login check needs to happen
-                //boolean valid = dbConnection.validateLogin(username, password);
-                //if(valid) {
-                //User activeUser = dbConnection.getLoginUser(username);
-                User activeUser = new User("medicalDoctor", true);
-
-                activeUser.setFirstName("Christina");
-                MedicalConfigurator.setLoginUser(activeUser);
-                MedicalConfigurator.setUserLoggedIn(true);
-                pnUnivHeader.setHeaderIfUserLoggedIn();
-                loginMenuItem.setVisible(false);
-                gettingStartedMenuItem.setVisible(true);
-                searchMenuItem.setVisible(true);
-                doctorMedicalMenuItem.setVisible(true);
-                nursingMedicalMenuItem.setVisible(true);
-                logoutMenuItem.setVisible(true);
-                pnLogin.usernameField.setText("");
-                pnLogin.passwordField.setText("");
-                cardLayout.show(cardPanel, "GettingStartedPanel");
-                pnUnivHeader.setHeaderIfUserLoggedIn();
-                pnUnivHeader.btnReturnMain.setVisible(false);
-
-
-
-                //} else {
-                //  JOptionPane.showMessageDialog(null, "Please check your username and password.", "Login Error", JOptionPane.ERROR_MESSAGE);
-                //	}
+                boolean valid = database.validateLogin(username, password);
+                if(valid) {
+                    User activeUser = database.getUser(username); 
+                    MedicalConfigurator.setLoginUser(activeUser);
+                    MedicalConfigurator.setUserLoggedIn(true);
+                    pnUnivHeader.setHeaderIfUserLoggedIn();
+                    loginMenuItem.setVisible(false);
+                    gettingStartedMenuItem.setVisible(true);
+                    searchMenuItem.setVisible(true);
+                    doctorMedicalMenuItem.setVisible(true);
+                    nursingMedicalMenuItem.setVisible(true);
+                    logoutMenuItem.setVisible(true);
+                    pnLogin.usernameField.setText("");
+                    pnLogin.passwordField.setText("");
+                    cardLayout.show(cardPanel, "GettingStartedPanel");
+                    pnUnivHeader.setHeaderIfUserLoggedIn();
+                    pnUnivHeader.btnReturnMain.setVisible(false);  
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please check your username and password.", "Login Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        pnLogin.registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Insert code for displaying registration panel
             }
         });
         pnGetStart = new GettingStartedPanel();
