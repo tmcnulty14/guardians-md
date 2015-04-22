@@ -6,7 +6,7 @@ import org.junit.*;
 import java.util.ArrayList;
 
 public class DbTest {
-	private final static String DEFAULT_USERNAME = "drdoctorson";
+	private final static String DEFAULT_USERNAME = "doctor";
 	private final static String DEFAULT_PASSWORD = "password";
 
 	private static DatabaseConnection database = null;
