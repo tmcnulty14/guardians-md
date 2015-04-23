@@ -3,6 +3,8 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 
 import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -12,16 +14,22 @@ public class NursingPanel extends JPanel {
 	//labels and text areas for the general practice section
 	public JTextArea txtaComm;
 	public JCheckBox ckEditComm;
+	public boolean commChanged;
 
 	public NursingPanel(){
 		setLayout(new BorderLayout());
         setBackground(Color.WHITE);
-		setBorder(BorderFactory.createTitledBorder("Nursing Comments"));
+		setBorder(BorderFactory.createCompoundBorder(new TitledBorder("Nursing Comments"), new EmptyBorder(10, 10, 10, 10)));
+
         txtaComm = new JTextArea(5,26);
         txtaComm.setEditable(false);
         txtaComm.setFont(new Font("Times New Roman", 0, 16));
- 		JScrollPane scroll = new JScrollPane(txtaComm);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        txtaComm.setLineWrap(true);
+        txtaComm.setWrapStyleWord(true);
+        txtaComm.getDocument().addDocumentListener(new ChangeListener());
+ 		
+ 		JScrollPane scroll = new JScrollPane(txtaComm, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 	  	ckEditComm = new JCheckBox("Edit Nursing Comments");
 	  	ckEditComm.setFont(new Font("Times New Roman", 0, 16));
@@ -37,14 +45,31 @@ public class NursingPanel extends JPanel {
 	  			}
 		}});
 
-		add(ckEditComm, BorderLayout.SOUTH);
+	  	commChanged = false;
 
+		add(ckEditComm, BorderLayout.SOUTH);
         add(scroll, BorderLayout.CENTER);
 	}
 
     public void loadNursingComments() {
-        txtaComm.append(MedicalConfigurator.getActiveVisit().getComments());
+    	
+    	// setText() used to ensure previous comments of panel are replaced
+        txtaComm.setText(MedicalConfigurator.getActiveVisit().getComments());
 
     }
 
+    private class ChangeListener implements DocumentListener {
+
+    	public void insertUpdate(DocumentEvent e) {
+    		commChanged = true;
+    	}
+
+    	public void removeUpdate(DocumentEvent e) {
+    		commChanged = true;
+    	}
+
+    	public void changedUpdate(DocumentEvent e) {
+    		commChanged = true;
+    	}
+    }
 }

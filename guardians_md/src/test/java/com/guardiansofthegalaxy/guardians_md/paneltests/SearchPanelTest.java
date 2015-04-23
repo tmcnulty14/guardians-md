@@ -1,5 +1,6 @@
 package com.guardiansofthegalaxy.guardians_md.paneltests;
 
+import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 import com.guardiansofthegalaxy.guardians_md.panels.SearchPanel;
 
@@ -29,7 +30,7 @@ public class SearchPanelTest extends JFrame {
 
     private void buildPanels(){
 
-        searchPanel = new SearchPanel();
+        searchPanel = new SearchPanel(new DatabaseConnection());
         add(searchPanel);
 
     }

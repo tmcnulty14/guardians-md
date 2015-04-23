@@ -2,11 +2,12 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 import com.guardiansofthegalaxy.guardians_md.db.Patient;
+import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,32 +22,32 @@ public class PatientInformationPanel extends JPanel {
     //labels and textfields for the patient personal information
     public JLabel lblFName, lblLName, lblAddress1, lblAddress2, lblCity, lblState, lblZip, lblCountry, lblBirthDate, lblAge, lblInsProv, lblInsNum, lblGender;
     public JTextField txtFName, txtLName, txtAddress1, txtAddress2, txtCity, txtState, txtZip, txtCountry, txtBirthDate, txtAge, txtInsProv, txtInsNum;
-    public JCheckBox ckEdit, ckMale, ckFemale;
+    public JCheckBox ckEdit;
+    public JRadioButton rbMale, rbFemale;
+    public ButtonGroup buttonGroup;
     public JButton btnSubmitPatientData;
 
     public JPanel pnName, pnAddress, pnGender, pnEdit;
 
     public PatientInformationPanel() {
 
-        setLayout(new GridLayout(5, 1));
-
-        setBorder(BorderFactory.createTitledBorder("Patient Information"));
+        setLayout(new GridLayout(4, 1));
+        setBorder(BorderFactory.createCompoundBorder(new TitledBorder("Patient Information"), new EmptyBorder(10, 10, 10, 10)));
         setBackground(Color.WHITE);
 
         pnName = new JPanel();
         pnName.setBackground(Color.WHITE);
-        pnName.setLayout(new GridLayout(2, 4));
+        pnName.setLayout(new GridLayout(2, 4, 10, 10));
         pnAddress = new JPanel();
         pnAddress.setBackground(Color.WHITE);
-        pnAddress.setLayout(new GridLayout(4, 4));
+        pnAddress.setLayout(new GridLayout(4, 4, 10, 10));
         pnGender = new JPanel();
         pnGender.setBackground(Color.WHITE);
         pnGender.setLayout(new GridLayout(1, 4));
-        pnEdit = new JPanel();
+        pnEdit = new JPanel(new BorderLayout());
         pnEdit.setBackground(Color.WHITE);
-        pnEdit.setLayout(new GridLayout(1,4));
-        buildComponents();
 
+        buildComponents();
 
         pnName.add(lblFName);
         pnName.add(txtFName);
@@ -59,9 +60,9 @@ public class PatientInformationPanel extends JPanel {
         pnName.add(txtAge);
 
         pnGender.add(lblGender);
-        pnGender.add(ckMale);
-        pnGender.add(ckFemale);
-        pnGender.add(new JLabel("      "));
+        pnGender.add(rbMale);
+        pnGender.add(rbFemale);
+        pnGender.add(new JLabel(""));
 
         pnAddress.add(lblAddress1);
         pnAddress.add(txtAddress1);
@@ -78,28 +79,27 @@ public class PatientInformationPanel extends JPanel {
         pnAddress.add(lblCountry);
         pnAddress.add(txtCountry);
 
-
         pnAddress.add(lblInsProv);
         pnAddress.add(txtInsProv);
         pnAddress.add(lblInsNum);
         pnAddress.add(txtInsNum);
 
-        pnEdit.add(ckEdit);
-        pnEdit.add(new JLabel("                            "));
-        pnEdit.add(new JLabel("                            "));
-        pnEdit.add(btnSubmitPatientData);
+        JPanel fix1 = new JPanel(new BorderLayout()), fix2 = new JPanel(new BorderLayout());
+        fix1.setBackground(Color.WHITE);
+        fix2.setBackground(Color.WHITE);
+        fix1.add(ckEdit, BorderLayout.SOUTH);
+        fix2.add(btnSubmitPatientData, BorderLayout.SOUTH);
+
+        pnEdit.add(fix1, BorderLayout.WEST);
+        pnEdit.add(fix2, BorderLayout.EAST);
 
         add(pnName);
         add(pnGender);
         add(pnAddress);
-
-        add(new JPanel().add(new JLabel("                                ")));
         add(pnEdit);
-
     }
 
     public void buildComponents() {
-
         lblFName = new JLabel("First Name");
         lblFName.setFont(new Font("Times New Roman", 0, 16));
         txtFName = new JTextField(10);
@@ -157,7 +157,7 @@ public class PatientInformationPanel extends JPanel {
         txtCountry.setFont(new Font("Times New Roman", 0, 16));
         txtCountry.setBackground(Color.WHITE);
 
-        lblBirthDate = new JLabel("Birth Date");
+        lblBirthDate = new JLabel("Birth Date (yyyy-mm-dd)");
         lblBirthDate.setFont(new Font("Times New Roman", 0, 16));
         txtBirthDate = new JTextField(10);
         txtBirthDate.setEditable(false);
@@ -173,14 +173,17 @@ public class PatientInformationPanel extends JPanel {
 
         lblGender = new JLabel("Gender");
         lblGender.setFont(new Font("Times New Roman", 0, 16));
-        ckMale = new JCheckBox("Male");
-        ckMale.setEnabled(false);
-        ckMale.setFont(new Font("Times New Roman", 0, 16));
-        ckMale.setBackground(Color.WHITE);
-        ckFemale = new JCheckBox("Female");
-        ckFemale.setEnabled(false);
-        ckFemale.setFont(new Font("Times New Roman", 0, 16));
-        ckFemale.setBackground(Color.WHITE);
+        rbMale = new JRadioButton("Male");
+        rbMale.setEnabled(false);
+        rbMale.setFont(new Font("Times New Roman", 0, 16));
+        rbMale.setBackground(Color.WHITE);
+        rbFemale = new JRadioButton("Female");
+        rbFemale.setEnabled(false);
+        rbFemale.setFont(new Font("Times New Roman", 0, 16));
+        rbFemale.setBackground(Color.WHITE);
+        buttonGroup = new ButtonGroup();
+        buttonGroup.add(rbMale);
+        buttonGroup.add(rbFemale);
 
         lblInsProv = new JLabel("Insurance Provider");
         lblInsProv.setFont(new Font("Times New Roman", 0, 16));
@@ -215,13 +218,10 @@ public class PatientInformationPanel extends JPanel {
 
 
         btnSubmitPatientData = new JButton("Submit");
-        btnSubmitPatientData.setFont(new Font("Times New Roman", 0, 16));
-        btnSubmitPatientData.setBackground(Color.WHITE);
-        btnSubmitPatientData.setPreferredSize(new Dimension(20,10));
+        btnSubmitPatientData.setFont(new Font("DejaVu Serif", 0, 16));
+        //btnSubmitPatientData.setPreferredSize(new Dimension(20, 10));
         btnSubmitPatientData.setEnabled(false);
-
-        //TODO: add action listener to the submit button to the db
-        //TODO: create a patient object and send to db.
+        btnSubmitPatientData.addActionListener(new SubmitPatientListener());
     }
 
 
@@ -251,12 +251,10 @@ public class PatientInformationPanel extends JPanel {
 
     public void setGender() {
         if (patient.getGender().equalsIgnoreCase("F")) {
-            ckFemale.setSelected(true);
+            rbFemale.setSelected(true);
         }
-        if (patient.getGender().equalsIgnoreCase("M")) {
-            ckMale.setSelected(true);
-        } else {
-            //nothing is selected
+        else if (patient.getGender().equalsIgnoreCase("M")) {
+            rbMale.setSelected(true);
         }
     }
 
@@ -287,8 +285,8 @@ public class PatientInformationPanel extends JPanel {
         txtBirthDate.setEditable(true);
 
         txtAge.setEditable(false);
-        ckFemale.setEnabled(true);
-        ckMale.setEnabled(true);
+        rbFemale.setEnabled(true);
+        rbMale.setEnabled(true);
         txtInsProv.setEditable(true);
         txtInsNum.setEditable(true);
     }
@@ -306,9 +304,70 @@ public class PatientInformationPanel extends JPanel {
         txtAge.setEditable(false);
         txtInsProv.setEditable(false);
         txtInsNum.setEditable(false);
-        ckFemale.setEnabled(false);
-        ckMale.setEnabled(false);
+        rbFemale.setEnabled(false);
+        rbMale.setEnabled(false);
 
     }
 
+    private class SubmitPatientListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            DatabaseConnection dbc = new DatabaseConnection();
+
+            String gender = "";
+
+            if (rbMale.isSelected()) {
+                gender = "M";
+            }
+            else if (rbFemale.isSelected()) {
+                gender = "F";
+            }
+
+            // New patients have an ID of -1
+            // TODO make sure that when a patient is being registered, that a new patient with ID -1 is set in med config
+            if (MedicalConfigurator.isNewPatient()) {
+
+                if (!dbc.registerPatient(new Patient(
+                    txtFName.getText(), txtLName.getText(),
+                    txtBirthDate.getText(), gender,
+                    txtAddress1.getText(), txtAddress2.getText(),
+                    txtCity.getText(), txtState.getText(),
+                    txtZip.getText(), txtCountry.getText(),
+                    txtInsProv.getText(), txtInsNum.getText()
+                    ))) {
+
+                    JOptionPane.showMessageDialog(null, "Could not create patient. Please check that all fields are valid and try again.",
+                        "Registration failed", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Successfully registered patient " + txtFName.getText() +
+                        " " + txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+                    MedicalConfigurator.setActivePatient(dbc.getPatient(dbc.getMaxPatientId()));
+                }
+            }
+
+            // Update existing patient
+            else {
+                Patient updatedPatient = new Patient(MedicalConfigurator.getActivePatient().getPatientID(),
+                        txtFName.getText(), txtLName.getText(),
+                        txtBirthDate.getText(), gender,
+                        txtAddress1.getText(), txtAddress2.getText(),
+                        txtCity.getText(), txtState.getText(),
+                        txtZip.getText(), txtCountry.getText(),
+                        txtInsProv.getText(), txtInsNum.getText());
+
+                if (!dbc.updatePatient(updatedPatient)) {
+                    JOptionPane.showMessageDialog(null, "Could not update patient. Please check that all fields are valid and try again.",
+                        "Update failed", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Successfully updated patient " + txtFName.getText() +
+                        " " + txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+                    MedicalConfigurator.setActivePatient(updatedPatient);
+                }
+            }
+        }
+    }
 }

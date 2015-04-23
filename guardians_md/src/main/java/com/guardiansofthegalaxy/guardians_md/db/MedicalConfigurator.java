@@ -94,4 +94,12 @@ public class MedicalConfigurator {
     public static void setUserLoggedIn(boolean loggedIn) {
         isUserLoggedIn = loggedIn;
     }
+
+    public static boolean isNewVisit() {
+      return getActiveVisit().getVisitID() == -1;
+    }
+
+    public static boolean isNewPatient() {
+      return getActivePatient().getPatientID() == -1;
+    }
 }

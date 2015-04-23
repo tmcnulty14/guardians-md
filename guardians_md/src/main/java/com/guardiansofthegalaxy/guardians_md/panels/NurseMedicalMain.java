@@ -1,9 +1,12 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
+import com.guardiansofthegalaxy.guardians_md.db.*;
+
 public class NurseMedicalMain extends MedicalMainPanel {
 
 
-	public NurseMedicalMain() {
+	public NurseMedicalMain(DatabaseConnection database) {
+		super(database);
 		disableGeneralPractice();
 		disableLabratoryTests();
 		disablePrescriptions();
@@ -22,28 +25,28 @@ public class NurseMedicalMain extends MedicalMainPanel {
 	}
 
 	public void disableLabratoryTests(){
-		pnLabTests.rbRed.setEnabled(false);
-		pnLabTests.rbWhite.setEnabled(false);
-		pnLabTests.rbLiver.setEnabled(false);
-		pnLabTests.rbRenal.setEnabled(false);
-		pnLabTests.rbEletrol.setEnabled(false);
+		pnLabTests.ckRed.setEnabled(false);
+		pnLabTests.ckWhite.setEnabled(false);
+		pnLabTests.ckLiver.setEnabled(false);
+		pnLabTests.ckRenal.setEnabled(false);
+		pnLabTests.ckEletrol.setEnabled(false);
 
-		pnLabTests.rbXray.setEnabled(false);
-		pnLabTests.rbCompTom.setEnabled(false);
-		pnLabTests.rbMagRes.setEnabled(false);
+		pnLabTests.ckXray.setEnabled(false);
+		pnLabTests.ckCompTom.setEnabled(false);
+		pnLabTests.ckMagRes.setEnabled(false);
 
-		pnLabTests.rbUrin.setEnabled(false);
-		pnLabTests.rbStool.setEnabled(false);
+		pnLabTests.ckUrin.setEnabled(false);
+		pnLabTests.ckStool.setEnabled(false);
 
 	}
 
 
 	public void disablePrescriptions(){
 
-		pnPresc.rbIntramu.setEnabled(false);
-		pnPresc.rbIntravas.setEnabled(false);
-		pnPresc.rbSubcuta.setEnabled(false);
-		pnPresc.txtaPO.setEditable(false);
+		pnPresc.ckIntramu.setEnabled(false);
+		pnPresc.ckIntravas.setEnabled(false);
+		pnPresc.ckSubcuta.setEnabled(false);
+		pnPresc.ckOral.setEnabled(false);
 	}
 
 }

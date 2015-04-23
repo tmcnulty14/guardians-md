@@ -1,8 +1,12 @@
 package com.guardiansofthegalaxy.guardians_md.db;
 
+import com.guardiansofthegalaxy.guardians_md.db.*;
+
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public class DatabaseConnection implements DbConn {
 	// JDBC driver name and database URL
@@ -1196,7 +1200,43 @@ public class DatabaseConnection implements DbConn {
 	 **/
 	public String[] getVisitSearchTypes() {
 		return new String[]{"patient_id", "doctor_id", "date"};
-	} 
+	}
+
+	/**
+	 * @return An ArrayList of all visits created within the past 7 days.
+	 **/
+	public ArrayList<Visit> getRecentVisits() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+
+        cal.add(Calendar.DATE, -7);
+        String lastWeek = sdf.format(cal.getTime());
+
+		ResultSet rs = null;
+		ArrayList<Visit> matches = new ArrayList<>();
+
+		try {
+			rs = stmt.executeQuery("select * from general_practice_visit where date >= '" + lastWeek + "';");
+			
+			while(rs.next()) {
+				int visitId = rs.getInt(1);
+				matches.add(getVisit(visitId));
+			}
+		} catch(SQLException se) {
+			logSQLException("getRecentVisits()", "", se);
+		}
+		finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+			} catch(SQLException se2) {
+				logSQLException("getRecentVisits()", "", se2);
+			}
+		}
+
+		return matches;
+	}
 
 	/**
 	 * Called for logging whenever a SQLException is caught.

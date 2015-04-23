@@ -4,96 +4,137 @@ import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 import com.guardiansofthegalaxy.guardians_md.db.Visit;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GeneralPracticePanel extends JPanel {
 
 	//labels and text areas for the general practice section
 	public JLabel lblComp, lblPresIll, lblPsHist, lblRevSym, lblPhysEx, lblImp, lblDiag,lblLabTest, lblPresc;
-	public JTextField txtComp,txtPresIll, txtPsHist,txtRevSym, txtPhysEx, txtImp, txtDiag;
-
+	public JTextArea txtComp, txtPresIll, txtPsHist, txtRevSym, txtPhysEx, txtImp, txtDiag;
+	public JScrollPane compScroll, presIllScroll, psHistScroll, revSymScroll, physExScroll, impScroll, diagScroll;
 
 	public GeneralPracticePanel(){
-
-		setLayout(new GridLayout(7,2));
-		setBorder(BorderFactory.createTitledBorder("General Practice"));
+		setLayout(new GridLayout(7, 2, 0, 10));
+		setBorder(BorderFactory.createCompoundBorder(new TitledBorder("General Practice"), new EmptyBorder(10, 10, 10, 10)));
         setBackground(Color.WHITE);
 
         lblComp = new JLabel("Chief Complaint");
 		lblComp.setFont(new Font("Times New Roman", 0, 16));
 
-		txtComp = new JTextField(256);
+		txtComp = new JTextArea();
 		txtComp.setFont(new Font("Times New Roman", 0, 16));
-        txtComp.setBackground(Color.WHITE);
+		txtComp.setLineWrap(true);
+		txtComp.setWrapStyleWord(true);
+
+        compScroll = new JScrollPane(txtComp, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		lblPresIll = new JLabel("Present Illness");
 		lblPresIll.setFont(new Font("Times New Roman", 0, 16));
 
-		txtPresIll = new JTextField(256);
+		txtPresIll = new JTextArea();
 		txtPresIll.setFont(new Font("Times New Roman", 0, 16));
-        txtPresIll.setBackground(Color.WHITE);
+		txtPresIll.setLineWrap(true);
+		txtPresIll.setWrapStyleWord(true);
+
+        presIllScroll = new JScrollPane(txtPresIll, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		lblPsHist = new JLabel("Past History");
 		lblPsHist.setFont(new Font("Times New Roman", 0, 16));
 
-		txtPsHist = new JTextField(256);
+		txtPsHist = new JTextArea();
 		txtPsHist.setFont(new Font("Times New Roman", 0, 16));
-        txtPsHist.setBackground(Color.WHITE);
+		txtPsHist.setLineWrap(true);
+		txtPsHist.setWrapStyleWord(true);
 
-		lblRevSym = new JLabel("Review of the Symptom");
+        psHistScroll = new JScrollPane(txtPsHist, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+		lblRevSym = new JLabel("Review of Symptoms");
 		lblRevSym.setFont(new Font("Times New Roman", 0, 16));
 
-		txtRevSym = new JTextField(256);
+		txtRevSym = new JTextArea();
 		txtRevSym.setFont(new Font("Times New Roman", 0, 16));
-        txtRevSym.setBackground(Color.WHITE);
+		txtRevSym.setLineWrap(true);
+		txtRevSym.setWrapStyleWord(true);
+
+        revSymScroll = new JScrollPane(txtRevSym, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		lblPhysEx = new JLabel("Physical Exam");
 		lblPhysEx.setFont(new Font("Times New Roman", 0, 16));
 
-		txtPhysEx = new JTextField(256);
+		txtPhysEx = new JTextArea();
 		txtPhysEx.setFont(new Font("Times New Roman", 0, 16));
-        txtPhysEx.setBackground(Color.WHITE);
+		txtPhysEx.setLineWrap(true);
+		txtPhysEx.setWrapStyleWord(true);
+
+        physExScroll = new JScrollPane(txtPhysEx, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		lblImp = new JLabel("Impression");
 		lblImp.setFont(new Font("Times New Roman", 0, 16));
 
-		txtImp = new JTextField(256);
+		txtImp = new JTextArea();
 		txtImp.setFont(new Font("Times New Roman", 0, 16));
-        txtImp.setBackground(Color.WHITE);
+		txtImp.setLineWrap(true);
+		txtImp.setWrapStyleWord(true);
+
+        impScroll = new JScrollPane(txtImp, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		lblDiag = new JLabel("Diagnosis");
 		lblDiag.setFont(new Font("Times New Roman", 0, 16));
 
-		txtDiag = new JTextField(256);
+		txtDiag = new JTextArea();
 		txtDiag.setFont(new Font("Times New Roman", 0, 16));
-        txtDiag.setBackground(Color.WHITE);
+		txtDiag.setLineWrap(true);
+		txtDiag.setWrapStyleWord(true);
+
+        diagScroll = new JScrollPane(txtDiag, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		add(lblComp);
-		add(txtComp);
+		add(compScroll);
 		add(lblPresIll);
-		add(txtPresIll);
+		add(presIllScroll);
 		add(lblPsHist);
-		add(txtPsHist);
+		add(psHistScroll);
 		add(lblRevSym);
-		add(txtRevSym);
+		add(revSymScroll);
 		add(lblPhysEx);
-		add(txtPhysEx);
+		add(physExScroll);
 		add(lblImp);
-		add(txtImp);
+		add(impScroll);
 		add(lblDiag);
-		add(txtDiag);
+		add(diagScroll);
 	}
 
 
     public void loadGeneralPracticeInformation() {
-      Visit  visit = MedicalConfigurator.getActiveVisit();
-        txtDiag.setText(visit.getMdFields().get(0));
-        txtComp.setText(visit.getMdFields().get(1));
-        txtImp.setText(visit.getMdFields().get(2));
-        txtPhysEx.setText(visit.getMdFields().get(3));
-        txtPresIll.setText(visit.getMdFields().get(4));
-        txtPsHist.setText(visit.getMdFields().get(5));
-        txtRevSym.setText(visit.getMdFields().get(6));
+    	Visit  visit = MedicalConfigurator.getActiveVisit();
+
+    	if (!visit.getMdFields().isEmpty()) {
+	        txtDiag.setText(visit.getMdFields().get(0));
+	        txtComp.setText(visit.getMdFields().get(1));
+	        txtImp.setText(visit.getMdFields().get(2));
+	        txtPhysEx.setText(visit.getMdFields().get(3));
+	        txtPresIll.setText(visit.getMdFields().get(4));
+	        txtPsHist.setText(visit.getMdFields().get(5));
+	        txtRevSym.setText(visit.getMdFields().get(6));
+    	}
+    	else {
+    		txtDiag.setText("");
+	        txtComp.setText("");
+	        txtImp.setText("");
+	        txtPhysEx.setText("");
+	        txtPresIll.setText("");
+	        txtPsHist.setText("");
+	        txtRevSym.setText("");
+    	}
     }
 
 	public void readOnlyGeneralPractice(){

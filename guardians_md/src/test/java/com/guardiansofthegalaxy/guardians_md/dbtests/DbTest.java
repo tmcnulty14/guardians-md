@@ -22,7 +22,7 @@ public class DbTest {
 		database = null;
 	}
 
-	@Test
+	//@Test
 	/**
 	 * Tests methods associated with patients.
 	 **/
@@ -49,7 +49,7 @@ public class DbTest {
 		Assert.assertNull(database.getPatient(id));
 	}
 
-	@Test
+	//@Test
 	/**
 	 * Tests methods associated with users.
 	 **/
@@ -81,7 +81,7 @@ public class DbTest {
 		Assert.assertTrue(database.checkUsernameAvailable(DEFAULT_USERNAME));
 	}
 
-	@Test
+	//@Test
 	/**
 	 * Tests methods associated with visits.
 	 **/
@@ -137,7 +137,7 @@ public class DbTest {
 		Assert.assertTrue(database.deleteUser(DEFAULT_USERNAME));
 	}
 
-	@Test
+	//@Test
 	/**
 	 * Tests methods associated with searching.
 	 **/

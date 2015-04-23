@@ -26,6 +26,10 @@ public class Visit {
         this.date = date;
         this.mdFields = mdFields;
 
+        // Initialize lab orders, prescriptions, and comments to be empty
+        labOrders = new ArrayList<>();
+        prescriptions = new ArrayList<>();
+        comments = "";
     }
 
     /**
@@ -103,6 +107,10 @@ public class Visit {
         return mdFields;
     }
 
+    public void setMdFields(ArrayList<String> mdFields) {
+        this.mdFields = mdFields;
+    }
+
     public ArrayList<LabOrder> getLabOrders() {
         return labOrders;
     }
@@ -111,12 +119,20 @@ public class Visit {
         labOrders.add(labOrder);
     }
 
+    public void setLabOrders(ArrayList<LabOrder> labOrders) {
+        this.labOrders = labOrders;
+    }
+
     public ArrayList<Prescription> getPrescriptions() {
         return prescriptions;
     }
 
     public void addPrescription(Prescription prescription) {
         prescriptions.add(prescription);
+    }
+
+    public void setPrescriptions(ArrayList<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
     }
 
     @Override

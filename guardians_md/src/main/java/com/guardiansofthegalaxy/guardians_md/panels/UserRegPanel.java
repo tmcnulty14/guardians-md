@@ -3,6 +3,7 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 import com.guardiansofthegalaxy.guardians_md.db.*;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
@@ -10,33 +11,32 @@ import java.util.*;
 public class UserRegPanel extends JPanel
 {
     private JButton enter;
-    private JPanel fieldsPanel, buttonsPanel,titlePanel, regPanel;
+    private JPanel fieldsPanel, buttonsPanel, regPanel;
     private JTextField fNameField, lNameField, pagerNumberField, positionField, passwordField, usernameField;
-    private JLabel title, fnLabel, lnLabel, pagerLabel, posLabel, specialtyLabel, passLabel, usernameLabel;         
+    private JLabel fnLabel, lnLabel, pagerLabel, posLabel, specialtyLabel, passLabel, usernameLabel;         
     private JRadioButton nurse, doctor;
     private ButtonGroup specGroup;
-    
     public boolean isDoctor;
     
     public UserRegPanel()
     {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createBevelBorder(2, Color.green, Color.yellow));
+        setBackground(Color.WHITE);
         
-        BuildTitle();
         BuildFields();
         BuildButtons();
         
         add(fieldsPanel, BorderLayout.CENTER);
-        add(titlePanel, BorderLayout.NORTH);
         add(buttonsPanel, BorderLayout.SOUTH);
     }
     
     public void BuildFields()
     {
         fieldsPanel = new JPanel();
-        fieldsPanel.setBorder(BorderFactory.createTitledBorder("User Registration"));
-        fieldsPanel.setLayout(new GridLayout(4,4));
+        fieldsPanel.setBorder(BorderFactory.createCompoundBorder(new TitledBorder("User Registration"), new EmptyBorder(5, 5, 5, 5)));
+        fieldsPanel.setLayout(new GridLayout(4, 4, 20, 0));
+        fieldsPanel.setBackground(Color.WHITE);
         
         fNameField = new JTextField(10);
         lNameField = new JTextField(10);
@@ -96,19 +96,11 @@ public class UserRegPanel extends JPanel
         fieldsPanel.add(passwordField);
     }
     
-    public void BuildTitle()
-    {
-        titlePanel = new JPanel();
-        title = new JLabel("User Registration");
-        title.setFont(new Font("Times New Roman", 0, 16));
-        
-        titlePanel.add(title);
-        
-    }
-    
     public void BuildButtons()
     {
         buttonsPanel = new JPanel();
+        buttonsPanel.setBackground(Color.WHITE);
+
         enter = new JButton("Enter");
         enter.setFont(new Font("DejaVu Serif", 0, 16));
         enter.addActionListener(new userRegButtonListener());

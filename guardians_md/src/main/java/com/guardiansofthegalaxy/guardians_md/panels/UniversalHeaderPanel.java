@@ -23,9 +23,9 @@ public class UniversalHeaderPanel extends JPanel {
         pnUser = new JPanel();
         pnUser.setBackground(Color.WHITE);
         pnUser.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        pnUser.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         lblUserName = new JLabel(" ");
-        lblUserName.setPreferredSize(new Dimension(300,50));
         lblUserName.setFont(new Font("DejaVu Serif", 0, 16));
 
         btnReturnMain = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("Home_button.png"),60,60);
@@ -46,7 +46,7 @@ public class UniversalHeaderPanel extends JPanel {
             lblUserName.setVisible(false);
             btnReturnMain.setVisible(false);
         } else {
-            lblUserName.setText("         User logged in: " + MedicalConfigurator.getLoginUser().getFirstName());
+            lblUserName.setText("         User logged in: " + MedicalConfigurator.getLoginUser().getFirstName() + " " + MedicalConfigurator.getLoginUser().getLastName());
             lblUserName.setVisible(true);
             btnReturnMain.setVisible(true);
         }

@@ -3,10 +3,13 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 import com.guardiansofthegalaxy.guardians_md.db.*;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class SearchPanel extends JPanel {
     private CardLayout mainCardLayout, resultCardLayout;
@@ -16,30 +19,38 @@ public class SearchPanel extends JPanel {
     private NurseMedicalMain nurseResultPanel;
 
     private int index;
-    private JLabel searchForLabel, searchByLabel, keywordLabel, resultsLabel, statusLabel;
+    private JLabel searchForLabel, searchByLabel, keywordLabel, resultsLabel, failedLabel;
     private JComboBox searchFor, searchBy;
     private JTextField searchTerm;
-    private JButton submit, viewResult, back;
+    private JButton submit, back, newVisit, viewResult;
     private JScrollPane scrollResults;
     private JList results;
 
-    private String[] searchForOptions = {"Patients", "Visits"}, searchByPatients, searchByVisits, patientStrings, visitStrings;
+    private String[] searchForOptions = {"Patients", "Visits"}, patientStrings, visitStrings;
+    private ArrayList<String> searchByPatients, searchByVisits;
     private ArrayList<Patient> patientResults;
     private ArrayList<Visit> visitResults;
 
-    private DbConnDummy database;
+    private DatabaseConnection database;
 
-    public SearchPanel() {
+    public SearchPanel(DatabaseConnection database) {
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createTitledBorder("Search"));
+        setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(5, 5, 5, 5), new TitledBorder("Search")));
         setBackground(Color.WHITE);
 
-        // Initialize as 0 in case user keeps default searchFor selection
+        // Initialize as 0 in case user keeps default search for patients selection
         index = 0;
-        database = new DbConnDummy();
+<<<<<<< HEAD
+        database = new DatabaseConnection();
 
-        searchByPatients = database.getPatientSearchTypes();
-        searchByVisits = database.getVisitSearchTypes();
+        searchByPatients = new ArrayList<>(Arrays.asList(database.getPatientSearchTypes()));
+        searchByVisits = new ArrayList<>(Arrays.asList(database.getVisitSearchTypes()));
+=======
+        this.database = database;
+>>>>>>> origin/master
+
+        // Allow visits to be searched by patient info
+        searchByVisits.addAll(searchByPatients);
 
         buildNorthPanel();
         buildCenterPanel();
@@ -76,7 +87,7 @@ public class SearchPanel extends JPanel {
         searchFor.addActionListener(new SearchForListener());
 
         // Initialize with patient search options because search for "Patients" will be selected by default
-        searchBy = new JComboBox(searchByPatients);
+        searchBy = new JComboBox(searchByPatients.toArray());
 
         searchTerm = new JTextField(10);
         searchTerm.setFont(new Font("Times New Roman", 0, 16));
@@ -103,15 +114,16 @@ public class SearchPanel extends JPanel {
             SwingConstants.CENTER);
         resultsLabel.setFont(new Font("Times New Roman", 0, 16));
 
-        statusLabel = new JLabel("", SwingConstants.CENTER);
-        statusLabel.setFont(new Font("Times New Roman", 0, 16));
-        statusLabel.setForeground(Color.RED);
+        failedLabel = new JLabel("Search returned 0 records.", SwingConstants.CENTER);
+        failedLabel.setFont(new Font("Times New Roman", 0, 16));
+        failedLabel.setForeground(Color.RED);
+        failedLabel.setVisible(false);
 
         JPanel centerLabels = new JPanel(new GridLayout(2, 1));
         centerLabels.setBackground(Color.WHITE);
 
         centerLabels.add(resultsLabel);
-        centerLabels.add(statusLabel);
+        centerLabels.add(failedLabel);
 
         results = new JList(new String[0]);
         results.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -127,14 +139,25 @@ public class SearchPanel extends JPanel {
         centerPanel.add(scrollResults, BorderLayout.CENTER);
     }
 
+    /**
+    * 
+    */
     private void buildSouthPanel() {
-        viewResult = new JButton("View");
-        viewResult.setFont(new Font("DejaVu Serif", 0, 16));
-        viewResult.addActionListener(new ViewListener());
-
         southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         southPanel.setBackground(Color.WHITE);
 
+        newVisit = new JButton("New Visit");
+        newVisit.setFont(new Font("DejaVu Serif", 0, 16));
+        newVisit.addActionListener(new NewVisitListener());
+        newVisit.setVisible(false);
+        newVisit.setEnabled(false);
+
+        viewResult = new JButton("View");
+        viewResult.setFont(new Font("DejaVu Serif", 0, 16));
+        viewResult.addActionListener(new ViewListener());
+        viewResult.setEnabled(false);
+
+        southPanel.add(newVisit);
         southPanel.add(viewResult);
     }
 
@@ -152,8 +175,14 @@ public class SearchPanel extends JPanel {
         resultCardPanel = new JPanel(resultCardLayout);
 
         patientResultPanel = new PatientInformationPanel();
+<<<<<<< HEAD
+        patientResultPanel.btnSubmitPatientData.setVisible(true);
         doctorResultPanel = new DoctorMedicalMain();
         nurseResultPanel = new NurseMedicalMain();
+=======
+        doctorResultPanel = new DoctorMedicalMain(database);
+        nurseResultPanel = new NurseMedicalMain(database);
+>>>>>>> origin/master
 
         resultCardPanel.add(doctorResultPanel, "doctorResultPanel");
         resultCardPanel.add(nurseResultPanel, "nurseResultPanel");
@@ -164,33 +193,6 @@ public class SearchPanel extends JPanel {
 
         resultPanel.add(backPanel, BorderLayout.NORTH);
         resultPanel.add(resultCardPanel, BorderLayout.CENTER);
-    }
-
-    /**
-     * Displays results of search performed in the JList object.
-     */
-    private void showResults() {
-
-        if (index == 0) {
-            
-            if (patientResults.size() == 0)
-                statusLabel.setText("Search returned 0 records.");
-            else {
-                statusLabel.setText("");
-                results.setListData(patientStrings);
-            }
-        }
-        else if (index == 1) {
-
-            if (visitResults.size() == 0)
-                statusLabel.setText("Search returned 0 records.");
-            else {
-                statusLabel.setText("");
-                results.setListData(visitStrings);
-            }
-        }
-
-        scrollResults.setViewportView(results);
     }
 
     private void setPatientStringResults() {
@@ -210,7 +212,7 @@ public class SearchPanel extends JPanel {
     }
 
     /**
-     * 
+     * Sets the search-by list of options in the search panel based on what the user is searching for.
      */
     private class SearchForListener implements ActionListener {
 
@@ -218,34 +220,113 @@ public class SearchPanel extends JPanel {
             index = searchFor.getSelectedIndex();
 
             if (index == 0) {
-                searchBy.setModel(new DefaultComboBoxModel(searchByPatients));
+                searchBy.setModel(new DefaultComboBoxModel(searchByPatients.toArray()));
             }
             else if (index == 1) {
-                searchBy.setModel(new DefaultComboBoxModel(searchByVisits));
+                searchBy.setModel(new DefaultComboBoxModel(searchByVisits.toArray()));
             }
         }
     }
 
     /**
-     * 
+     * Sets the search results to the correct array list of results based on what is being searched for,
+     * patients or visits. Displays results of search performed in the JList object.
      */
     private class SubmitListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
 
             try {
+                String currentSearchBy = searchBy.getSelectedItem().toString();
+
                 if (index == 0) {
-                    patientResults = (ArrayList<Patient>) database.findPatient(searchTerm.getText(), (String) searchBy.getSelectedItem());
+                    patientResults = database.findPatient(searchTerm.getText(), currentSearchBy);
+
+                    if (patientResults.size() == 0) {
+                        failedLabel.setVisible(true);
+                        viewResult.setEnabled(false);
+                        newVisit.setEnabled(false);
+                    }
+                    else {
+                        failedLabel.setVisible(false);
+                        viewResult.setEnabled(true);
+
+                        if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) {
+                            newVisit.setVisible(true);
+                            newVisit.setEnabled(true);
+                        }
+                    }
+
+                    setPatientStringResults();
+                    results.setListData(patientStrings);
                 }
                 else if (index == 1) {
-                    visitResults = (ArrayList<Visit>) database.findVisit(searchTerm.getText(), (String) searchBy.getSelectedItem());
-                }
-                showResults();
 
-            }catch(NullPointerException npe){
+                    // Check if search by is a patient attribute, and use it to search for patients, then their visits
+                    if (searchByPatients.contains(currentSearchBy)) {
+                        patientResults = database.findPatient(searchTerm.getText(), currentSearchBy);
+
+                        ArrayList<Visit> tempVisits = new ArrayList<>();
+                        visitResults.clear();
+
+                        for (int i = 0, len = patientResults.size(); i < len; i++) {
+                            tempVisits.addAll(database.findVisit(Integer.toString(patientResults.get(i).getPatientID()), "patient_id"));
+                        }
+
+                        visitResults.addAll(tempVisits);
+                    }
+                    else {
+                        visitResults = database.findVisit(searchTerm.getText(), currentSearchBy);
+                    }
+
+                    newVisit.setVisible(false);
+
+                    if (visitResults.size() == 0) {
+                        failedLabel.setVisible(true);
+                        viewResult.setEnabled(false);
+                    }
+                    else {
+                        failedLabel.setVisible(false);
+                        viewResult.setEnabled(true);
+                    }
+
+                    setVisitStringResults();
+                    results.setListData(visitStrings);
+                }
+
+                // Select first search result by default if list is not empty
+                if (results.getModel().getSize() > 0)
+                    results.setSelectedIndex(0);
+                scrollResults.setViewportView(results);
+            }
+            catch(NullPointerException npe){
                 npe.printStackTrace();
             }
+        }
+    }
 
+    private class NewVisitListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            Patient selectedPatient = patientResults.get(results.getSelectedIndex());
+            MedicalConfigurator.setActivePatient(selectedPatient);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+            MedicalConfigurator.setActiveVisit(new Visit(
+                selectedPatient.getPatientID(),
+                MedicalConfigurator.getLoginUser().getUsername(),
+                dateFormat.format(new Date()).toString(),
+                new ArrayList<String>()));
+
+            mainCardLayout.show(mainCardPanel, "resultPanel");
+            doctorResultPanel.pnPat.loadPatientInformation();
+            doctorResultPanel.pnGenPract.loadGeneralPracticeInformation();
+            doctorResultPanel.pnLabTests.loadLabTestInformation();
+            doctorResultPanel.pnPresc.loadPrescriptionsInformation();
+            doctorResultPanel.pnNursComm.loadNursingComments();
+
+            resultCardLayout.show(doctorResultPanel, "doctorResultPanel");
         }
     }
 
@@ -258,35 +339,38 @@ public class SearchPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
 
             if (index == 0) {
-                //Patient selectedPatient = patientResults.get(results.getSelectedIndex());
+                Patient selectedPatient = patientResults.get(results.getSelectedIndex());
+                MedicalConfigurator.setActivePatient(selectedPatient);
 
-                //MedicalConfigurator.setActivePatient(selectedPatient);
-
-                // TODO remove this, for testing only
-                patientResultPanel.txtFName.setText("Sara");
-                patientResultPanel.txtLName.setText("Hakkoum");
-                patientResultPanel.txtAddress1.setText("100 State St.");
-                patientResultPanel.txtCity.setText("Framingham");
-                patientResultPanel.txtState.setText("MA");
-                patientResultPanel.txtZip.setText("01702");
-                patientResultPanel.txtCountry.setText("USA");
-                patientResultPanel.txtBirthDate.setText("02/24/1995");
-                patientResultPanel.txtInsProv.setText("MassHealth");
-                patientResultPanel.txtInsNum.setText("100");
+                patientResultPanel.loadPatientInformation();
 
                 mainCardLayout.show(mainCardPanel, "resultPanel");
-                // MEETING change to resultCardPanel to show what search result will look like once everything works
                 resultCardLayout.show(resultCardPanel, "patientResultPanel");
             }
             else if (index == 1) {
                 Visit selectedVisit = visitResults.get(results.getSelectedIndex());
-
                 MedicalConfigurator.setActiveVisit(selectedVisit);
 
-                // TODO search for patient using patient id in visit object
-                //MedicalConfigurator.setActivePatient();
+                mainCardLayout.show(mainCardPanel, "resultPanel");
 
-                // TODO switch to appropriate panel depending on hasDoctorPrivileges of User from getLoginUser in Configurator
+                if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) {
+                    doctorResultPanel.pnPat.loadPatientInformation();
+                    doctorResultPanel.pnGenPract.loadGeneralPracticeInformation();
+                    doctorResultPanel.pnLabTests.loadLabTestInformation();
+                    doctorResultPanel.pnPresc.loadPrescriptionsInformation();
+                    doctorResultPanel.pnNursComm.loadNursingComments();
+
+                    resultCardLayout.show(doctorResultPanel, "doctorResultPanel");
+                }
+                else {
+                    nurseResultPanel.pnPat.loadPatientInformation();
+                    nurseResultPanel.pnGenPract.loadGeneralPracticeInformation();
+                    nurseResultPanel.pnLabTests.loadLabTestInformation();
+                    nurseResultPanel.pnPresc.loadPrescriptionsInformation();
+                    nurseResultPanel.pnNursComm.loadNursingComments();
+
+                    resultCardLayout.show(nurseResultPanel, "nurseResultPanel");
+                }
             }
         }
     }
@@ -296,5 +380,16 @@ public class SearchPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             mainCardLayout.show(mainCardPanel, "searchPanel");
         }
+    }
+
+    public void reset() {
+        searchFor.setSelectedIndex(0);
+        index = 0;
+        searchBy.setModel(new DefaultComboBoxModel(searchByPatients.toArray()));
+        searchTerm.setText("");
+        failedLabel.setVisible(false);
+        results.setListData(new String[0]);
+        viewResult.setEnabled(false);
+        newVisit.setVisible(false);
     }
 }

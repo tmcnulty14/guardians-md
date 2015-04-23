@@ -18,19 +18,21 @@ public class MedicalSystemsMainFrame extends JFrame {
     public UniversalHeaderPanel pnUnivHeader;
     public LoginPanel pnLogin;
     public GettingStartedPanel pnGetStart;
-    public SearchPanel pnSearch;
+    public UserRegPanel pnUserReg;
     public DoctorMedicalMain pnDoctorMedical;
     public NurseMedicalMain pnNursingMedical;
+    public PatientInformationPanel pnPatientReg;
+    public SearchPanel pnSearch;
 
     public JMenu mainMenu;
     public JMenuBar menuBar;
     public JMenuItem loginMenuItem;
     public JMenuItem gettingStartedMenuItem;
-    public JMenuItem doctorMedicalMenuItem;
-    public JMenuItem nursingMedicalMenuItem;
     public JMenuItem searchMenuItem;
     public JMenuItem logoutMenuItem;
     public JMenuItem exitMenuItem;
+
+    // TODO add menu items for patient reg, user info, and creating a visit
 
     public DatabaseConnection database;
 
@@ -61,10 +63,9 @@ public class MedicalSystemsMainFrame extends JFrame {
         pnUnivHeader.btnReturnMain.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object source = e.getSource();
-                if(source == pnUnivHeader.btnReturnMain){
-                    cardLayout.show(cardPanel,"GettingStartedPanel");
-                }
+                pnGetStart.refreshRecentList();
+                pnUnivHeader.btnReturnMain.setVisible(false);
+                cardLayout.show(cardPanel,"GettingStartedPanel");
             }
         });
 
@@ -76,88 +77,132 @@ public class MedicalSystemsMainFrame extends JFrame {
                 String password = new String(pnLogin.passwordField.getPassword());
 
                 boolean valid = database.validateLogin(username, password);
+
                 if(valid) {
                     User activeUser = database.getUser(username); 
                     MedicalConfigurator.setLoginUser(activeUser);
                     MedicalConfigurator.setUserLoggedIn(true);
-                    pnUnivHeader.setHeaderIfUserLoggedIn();
                     loginMenuItem.setVisible(false);
                     gettingStartedMenuItem.setVisible(true);
                     searchMenuItem.setVisible(true);
-                    doctorMedicalMenuItem.setVisible(true);
-                    nursingMedicalMenuItem.setVisible(true);
                     logoutMenuItem.setVisible(true);
                     pnLogin.usernameField.setText("");
                     pnLogin.passwordField.setText("");
-                    cardLayout.show(cardPanel, "GettingStartedPanel");
                     pnUnivHeader.setHeaderIfUserLoggedIn();
-                    pnUnivHeader.btnReturnMain.setVisible(false);  
+                    pnUnivHeader.btnReturnMain.setVisible(false);
+
+                    if (activeUser.hasDoctorPrivileges()) {
+                        pnGetStart.btnCreateVisit.setVisible(true);
+                        pnGetStart.lblCreateVisit.setVisible(true);
+                    }
+                    else {
+                        pnGetStart.btnCreateVisit.setVisible(false);
+                        pnGetStart.lblCreateVisit.setVisible(false);
+                    }
+
+                    cardLayout.show(cardPanel, "GettingStartedPanel");
                 } else {
                     JOptionPane.showMessageDialog(null, "Please check your username and password.", "Login Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
+
         pnLogin.registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Insert code for displaying registration panel
+                cardLayout.show(cardPanel, "UserRegPanel");
             }
         });
+
         pnGetStart = new GettingStartedPanel();
         pnGetStart.btnUserAccountInformation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object source = e.getSource();
                 //TODO: call the user registration panel with fields populated
-                if(source == pnGetStart.btnUserAccountInformation){
-                    cardLayout.show(cardPanel,"DoctorMedicalMain");
-                    pnUnivHeader.setHeaderIfUserLoggedIn();
-
-                }
+                pnUnivHeader.btnReturnMain.setVisible(true);
+                cardLayout.show(cardPanel,"UserRegPanel");
             }
         });
 
         pnGetStart.btnPatientRegistration.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object source = e.getSource();
-                //TODO: call the user registration panel with fields populated
-                if(source == pnGetStart.btnPatientRegistration){
-                    cardLayout.show(cardPanel,"NursingMedicalMain");
-                    pnUnivHeader.setHeaderIfUserLoggedIn();
+                pnUnivHeader.btnReturnMain.setVisible(true);
+                cardLayout.show(cardPanel,"PatientInformationPanel");
+            }
+        });
 
-                }
+        pnGetStart.btnCreateVisit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pnUnivHeader.btnReturnMain.setVisible(true);
+
+                if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges())
+                    cardLayout.show(cardPanel, "DoctorMedicalMain");
+                else
+                    cardLayout.show(cardPanel, "NurseMedicalMain");
             }
         });
 
         pnGetStart.btnSearchRecords.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object source = e.getSource();
-                //TODO: call the user registration panel with fields populated
-                if(source == pnGetStart.btnSearchRecords){
-                    cardLayout.show(cardPanel,"SearchPanel");
-                    pnUnivHeader.setHeaderIfUserLoggedIn();
+                pnSearch.reset();
+                pnUnivHeader.btnReturnMain.setVisible(true);
+                cardLayout.show(cardPanel,"SearchPanel");
+            }
+        });
 
+        pnGetStart.btnViewRecent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MedicalConfigurator.setActiveVisit(pnGetStart.recentVisits.get(pnGetStart.recentList.getSelectedIndex()));
+                MedicalConfigurator.setActivePatient(pnGetStart.dbc.getPatient(MedicalConfigurator.getActiveVisit().getPatientID()));
+
+                pnUnivHeader.btnReturnMain.setVisible(true);
+
+                // Show appropriate panel of most recent visit of that patient
+                if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) {
+                    pnDoctorMedical.pnPat.loadPatientInformation();
+                    pnDoctorMedical.pnGenPract.loadGeneralPracticeInformation();
+                    pnDoctorMedical.pnLabTests.loadLabTestInformation();
+                    pnDoctorMedical.pnPresc.loadPrescriptionsInformation();
+                    pnDoctorMedical.pnNursComm.loadNursingComments();
+
+                    cardLayout.show(cardPanel, "DoctorMedicalMain");
+                }
+                else {
+                    pnNursingMedical.pnPat.loadPatientInformation();
+                    pnNursingMedical.pnGenPract.loadGeneralPracticeInformation();
+                    pnNursingMedical.pnLabTests.loadLabTestInformation();
+                    pnNursingMedical.pnPresc.loadPrescriptionsInformation();
+                    pnNursingMedical.pnNursComm.loadNursingComments();
+
+                    cardLayout.show(cardPanel, "NursingMedicalMain");
                 }
             }
         });
-        pnSearch = new SearchPanel();
-        pnDoctorMedical = new DoctorMedicalMain();
-        pnNursingMedical = new NurseMedicalMain();
 
+        pnUserReg = new UserRegPanel();
+        pnPatientReg = new PatientInformationPanel();
+        pnPatientReg.btnSubmitPatientData.setVisible(true);
+        pnSearch = new SearchPanel(database);
+        pnDoctorMedical = new DoctorMedicalMain(database);
+        pnNursingMedical = new NurseMedicalMain(database);
 
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
         cardPanel.add(pnLogin, "LoginPanel");
         cardPanel.add(pnGetStart, "GettingStartedPanel");
-        cardPanel.add(pnSearch, "SearchPanel");
+        cardPanel.add(pnUserReg, "UserRegPanel");
         cardPanel.add(pnDoctorMedical, "DoctorMedicalMain");
         cardPanel.add(pnNursingMedical, "NursingMedicalMain");
+        cardPanel.add(pnPatientReg,"PatientInformationPanel");
+        cardPanel.add(pnSearch, "SearchPanel");
 
         add(pnUnivHeader,BorderLayout.NORTH);
         add(cardPanel, BorderLayout.CENTER);
-
     }
 
     private void buildMenuBar() {
@@ -168,7 +213,6 @@ public class MedicalSystemsMainFrame extends JFrame {
         buildMenu();
 
         menuBar.add(mainMenu);
-
 
         setJMenuBar(menuBar);
     }
@@ -183,11 +227,6 @@ public class MedicalSystemsMainFrame extends JFrame {
         searchMenuItem = new JMenuItem("Search Records");
         searchMenuItem.addActionListener(new MenuListener());
 
-        doctorMedicalMenuItem = new JMenuItem("Doctor Medical Main");
-        doctorMedicalMenuItem.addActionListener(new MenuListener());
-        nursingMedicalMenuItem = new JMenuItem("Nursing Medical Main");
-        nursingMedicalMenuItem.addActionListener(new MenuListener());
-
         logoutMenuItem = new JMenuItem("Logout");
         logoutMenuItem.addActionListener(new MenuListener());
 
@@ -200,65 +239,49 @@ public class MedicalSystemsMainFrame extends JFrame {
         gettingStartedMenuItem.setVisible(false);
         mainMenu.add(searchMenuItem);
         searchMenuItem.setVisible(false);
-        mainMenu.add(doctorMedicalMenuItem);
-        doctorMedicalMenuItem.setVisible(false);
-        mainMenu.add(nursingMedicalMenuItem);
-        nursingMedicalMenuItem.setVisible(false);
         mainMenu.add(logoutMenuItem);
         logoutMenuItem.setVisible(false);
         mainMenu.add(exitMenuItem);
-
     }
-
 
     private class MenuListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             Object source = e.getSource();
-            if (source == loginMenuItem & !MedicalConfigurator.isUserLoggedIn) {
+
+            if (source == loginMenuItem & !MedicalConfigurator.isUserLoggedIn)
+            {
                 cardLayout.show(cardPanel, "LoginPanel");
-                pnUnivHeader.setHeaderIfUserLoggedIn();
-
             }
-            if (source == gettingStartedMenuItem &  MedicalConfigurator.isUserLoggedIn) {
-                cardLayout.show(cardPanel, "GettingStartedPanel");
-                pnUnivHeader.setHeaderIfUserLoggedIn();
+
+            else if (source == gettingStartedMenuItem &  MedicalConfigurator.isUserLoggedIn)
+            {
                 pnUnivHeader.btnReturnMain.setVisible(false);
+                pnGetStart.refreshRecentList();
+                cardLayout.show(cardPanel, "GettingStartedPanel");
             }
-            if (source == searchMenuItem & MedicalConfigurator.isUserLoggedIn)
 
+            else if (source == searchMenuItem & MedicalConfigurator.isUserLoggedIn)
             {
+                pnSearch.reset();
+                pnUnivHeader.btnReturnMain.setVisible(true);
                 cardLayout.show(cardPanel, "SearchPanel");
-                pnUnivHeader.setHeaderIfUserLoggedIn();
-
             }
 
-            if (source == doctorMedicalMenuItem & MedicalConfigurator.isUserLoggedIn)
-
-            {
-                cardLayout.show(cardPanel, "DoctorMedicalMain");
-                pnUnivHeader.setHeaderIfUserLoggedIn();
-
-            }
-
-            if (source == nursingMedicalMenuItem & MedicalConfigurator.isUserLoggedIn)
-
-            {
-                cardLayout.show(cardPanel, "NursingMedicalMain");
-                pnUnivHeader.setHeaderIfUserLoggedIn();
-
-            }
-
-            if (source == logoutMenuItem & MedicalConfigurator.isUserLoggedIn)
-
+            else if (source == logoutMenuItem & MedicalConfigurator.isUserLoggedIn)
             {
                 MedicalConfigurator.setUserLoggedIn(false);
                 MedicalConfigurator.resetActiveUserToNull();
                 pnUnivHeader.setHeaderIfUserLoggedIn();
+
+                loginMenuItem.setVisible(true);
+                gettingStartedMenuItem.setVisible(false);
+                searchMenuItem.setVisible(false);
+                logoutMenuItem.setVisible(false);
+                
                 cardLayout.show(cardPanel, "LoginPanel");
             }
 
-            if (source == exitMenuItem)
-
+            else if (source == exitMenuItem)
             {
                 System.exit(0);
             }
