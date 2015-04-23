@@ -111,6 +111,13 @@ public class DbTest {
 		dbVisit = database.getVisit(visitId);
 		Assert.assertEquals(testVisit, dbVisit);
 
+		// Test update with deleted prescription and lab orders
+		testVisit.getLabOrders().remove(newLabOrder);
+		testVisit.getPrescriptions().remove(newPrescription);
+		Assert.assertTrue(database.updateVisit(testVisit));
+		dbVisit = database.getVisit(visitId);
+		Assert.assertEquals(testVisit, dbVisit);
+
 		// Test add comments
 		String addedComments = " added";
 		testVisit.setComments(testVisit.getComments() + "\n" + addedComments);

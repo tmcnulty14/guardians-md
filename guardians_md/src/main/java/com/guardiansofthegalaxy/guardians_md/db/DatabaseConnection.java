@@ -664,10 +664,14 @@ public class DatabaseConnection implements DbConn {
 			regStmt.execute();
 
 			ArrayList<LabOrder> oldLabOrders = getVisitLabOrders(visitId);
+			ArrayList<LabOrder> existingLabOrders = new ArrayList<>();
 			for(LabOrder labOrder : updatedVisit.getLabOrders()) {
 				boolean orderExists = false;
 				for(LabOrder oldLab : oldLabOrders) {
-					orderExists |= (labOrder.getLabOrderID() == oldLab.getLabOrderID());
+					if(labOrder.getLabOrderID() == oldLab.getLabOrderID()) {
+						orderExists = true;
+						existingLabOrders.add(oldLab);
+					}
 				}
 				if(orderExists) {
 					updateLabOrder(labOrder);	
@@ -676,17 +680,31 @@ public class DatabaseConnection implements DbConn {
 					createLabOrder(labOrder);
 				}
 			}
+			for(LabOrder oldLab : oldLabOrders) {
+				if(!existingLabOrders.contains(oldLab)) {
+					deleteLabOrder(oldLab);
+				}
+			}
 			ArrayList<Prescription> oldPrescriptions = getVisitPrescriptions(visitId);
+			ArrayList<Prescription> existingPrescriptions = new ArrayList<>();
 			for(Prescription prescription : updatedVisit.getPrescriptions()) {
 				boolean orderExists = false;
 				for(Prescription oldPrescription : oldPrescriptions) {
-					orderExists |= (prescription.getPrescriptionID() == oldPrescription.getPrescriptionID());
+					if (prescription.getPrescriptionID() == oldPrescription.getPrescriptionID()) {
+						orderExists = true;
+						existingPrescriptions.add(oldPrescription);
+					}
 				}
 				if(orderExists) {
 					updatePrescription(prescription);	
 				} else {
 					prescription.setVisitID(visitId);
 					createPrescription(prescription);
+				}
+			}
+			for(Prescription oldPrescription : oldPrescriptions) {
+				if(!existingPrescriptions.contains(oldPrescription)) {
+					deletePrescription(oldPrescription);
 				}
 			}
 		} catch(SQLException se) {
@@ -865,6 +883,34 @@ public class DatabaseConnection implements DbConn {
 		return !error;
 	}
 
+	/**
+	 * Delete a Prescription entry.
+	 * @return True if the prescription was successfully deleted.
+	 **/
+	public boolean deletePrescription(Prescription prescription) {
+		boolean error = false;
+		String sql = "DELETE FROM prescription WHERE prescription_id=?;";
+		PreparedStatement regStmt = null;
+		try {
+			regStmt = conn.prepareStatement(sql);
+			regStmt.setInt(1, prescription.getPrescriptionID());
+			regStmt.execute();
+		} catch(SQLException se) {
+			logSQLException("deletePrescription()", "", se);
+			error = true;
+		} finally {
+			try {
+				if(regStmt != null) {
+					regStmt.close();
+				}
+			} catch(SQLException se2) {
+				logSQLException("deletePrescription()", "", se2);
+			}
+		}
+
+		return !error;
+	}
+
 // LabOrder methods
 	/**
 	 * Returns a list of all of the lab orders associated with the given visit id.
@@ -959,6 +1005,34 @@ public class DatabaseConnection implements DbConn {
 				}
 			} catch(SQLException se2) {
 				logSQLException("updateLabOrder()", "", se2);
+			}
+		}
+
+		return !error;
+	}
+
+	/**
+	 * Deletes a LabOrder entry.
+	 * @return True if the LabOrder was successfully deleted.
+	 **/
+	public boolean deleteLabOrder(LabOrder labOrder) {
+		boolean error = false;
+		String sql = "DELETE FROM lab_order WHERE lab_order_id=?;";
+		PreparedStatement regStmt = null;
+		try {
+			regStmt = conn.prepareStatement(sql);
+			regStmt.setInt(1, labOrder.getLabOrderID());
+			regStmt.execute();
+		} catch(SQLException se) {
+			logSQLException("deleteLabOrder()", "", se);
+			error = true;
+		} finally {
+			try {
+				if(regStmt != null) {
+					regStmt.close();
+				}
+			} catch(SQLException se2) {
+				logSQLException("deleteLabOrder()", "", se2);
 			}
 		}
 
