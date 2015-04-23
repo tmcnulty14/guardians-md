@@ -1,8 +1,6 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
-import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
-import com.guardiansofthegalaxy.guardians_md.db.Patient;
-import com.guardiansofthegalaxy.guardians_md.db.Visit;
+import com.guardiansofthegalaxy.guardians_md.db.*;
 
 import javax.swing.*;
 import java.awt.*;
