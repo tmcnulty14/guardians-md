@@ -27,16 +27,16 @@ public class SearchPanel extends JPanel {
     private ArrayList<Patient> patientResults;
     private ArrayList<Visit> visitResults;
 
-    private DbConnDummy database;
+    private DatabaseConnection database;
 
-    public SearchPanel() {
+    public SearchPanel(DatabaseConnection database) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createTitledBorder("Search"));
         setBackground(Color.WHITE);
 
         // Initialize as 0 in case user keeps default searchFor selection
         index = 0;
-        database = new DbConnDummy();
+        this.database = database;
 
         searchByPatients = database.getPatientSearchTypes();
         searchByVisits = database.getVisitSearchTypes();
@@ -152,8 +152,8 @@ public class SearchPanel extends JPanel {
         resultCardPanel = new JPanel(resultCardLayout);
 
         patientResultPanel = new PatientInformationPanel();
-        doctorResultPanel = new DoctorMedicalMain();
-        nurseResultPanel = new NurseMedicalMain();
+        doctorResultPanel = new DoctorMedicalMain(database);
+        nurseResultPanel = new NurseMedicalMain(database);
 
         resultCardPanel.add(doctorResultPanel, "doctorResultPanel");
         resultCardPanel.add(nurseResultPanel, "nurseResultPanel");

@@ -31,7 +31,7 @@ public class  MedicalPanelTest extends JFrame{
 
 	private void buildPanels(){
 
-		medicalMainPanel = new MedicalMainPanel();
+		medicalMainPanel = new MedicalMainPanel(new DatabaseConnection());
 		add(medicalMainPanel);
 
 	}

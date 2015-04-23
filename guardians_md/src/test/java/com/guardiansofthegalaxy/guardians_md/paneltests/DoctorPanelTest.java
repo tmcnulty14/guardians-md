@@ -26,7 +26,7 @@ public class DoctorPanelTest extends JFrame {
 
 	private void buildPanels(){
 
-		doctorMedicalMain = new DoctorMedicalMain();
+		doctorMedicalMain = new DoctorMedicalMain(new DatabaseConnection());
 		add(doctorMedicalMain);
 
 	}

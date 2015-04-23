@@ -1,9 +1,12 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
+import com.guardiansofthegalaxy.guardians_md.db.*;
+
 public class NurseMedicalMain extends MedicalMainPanel {
 
 
-	public NurseMedicalMain() {
+	public NurseMedicalMain(DatabaseConnection database) {
+		super(database);
 		disableGeneralPractice();
 		disableLabratoryTests();
 		disablePrescriptions();

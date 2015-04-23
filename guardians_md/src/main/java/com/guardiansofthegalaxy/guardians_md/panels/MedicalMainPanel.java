@@ -1,5 +1,6 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
+import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
 import com.guardiansofthegalaxy.guardians_md.db.Patient;
 import com.guardiansofthegalaxy.guardians_md.db.Visit;
 
@@ -27,12 +28,13 @@ public class MedicalMainPanel extends JPanel {
     public JButton btnPat, btnGenPract, btnLabTests, btnPresc, btnNursComm, btnSubmit;
     public Patient patient = null;
     public Visit visit = null;
-
+    public DatabaseConnection database;
 
     public JPanel pnSubmitButton;
 
 
-    public MedicalMainPanel() {
+    public MedicalMainPanel(DatabaseConnection database) {
+        this.database = database;
         setLayout(new BorderLayout());
         buildPanels();
         setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));

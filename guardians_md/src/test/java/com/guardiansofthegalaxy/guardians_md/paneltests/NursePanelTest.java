@@ -27,7 +27,7 @@ public class NursePanelTest extends JFrame {
 
 	private void buildPanels(){
 
-		nurseMedicalMain = new NurseMedicalMain();
+		nurseMedicalMain = new NurseMedicalMain(new DatabaseConnection());
 		add(nurseMedicalMain);
 
 	}

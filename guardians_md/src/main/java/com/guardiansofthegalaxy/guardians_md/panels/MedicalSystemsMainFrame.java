@@ -142,9 +142,9 @@ public class MedicalSystemsMainFrame extends JFrame {
                 }
             }
         });
-        pnSearch = new SearchPanel();
-        pnDoctorMedical = new DoctorMedicalMain();
-        pnNursingMedical = new NurseMedicalMain();
+        pnSearch = new SearchPanel(database);
+        pnDoctorMedical = new DoctorMedicalMain(database);
+        pnNursingMedical = new NurseMedicalMain(database);
 
 
         cardLayout = new CardLayout();
