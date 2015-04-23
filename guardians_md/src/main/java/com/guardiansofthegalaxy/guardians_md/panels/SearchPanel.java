@@ -40,14 +40,13 @@ public class SearchPanel extends JPanel {
 
         // Initialize as 0 in case user keeps default search for patients selection
         index = 0;
-<<<<<<< HEAD
+
         database = new DatabaseConnection();
 
         searchByPatients = new ArrayList<>(Arrays.asList(database.getPatientSearchTypes()));
         searchByVisits = new ArrayList<>(Arrays.asList(database.getVisitSearchTypes()));
-=======
+
         this.database = database;
->>>>>>> origin/master
 
         // Allow visits to be searched by patient info
         searchByVisits.addAll(searchByPatients);
@@ -175,14 +174,9 @@ public class SearchPanel extends JPanel {
         resultCardPanel = new JPanel(resultCardLayout);
 
         patientResultPanel = new PatientInformationPanel();
-<<<<<<< HEAD
         patientResultPanel.btnSubmitPatientData.setVisible(true);
-        doctorResultPanel = new DoctorMedicalMain();
-        nurseResultPanel = new NurseMedicalMain();
-=======
         doctorResultPanel = new DoctorMedicalMain(database);
         nurseResultPanel = new NurseMedicalMain(database);
->>>>>>> origin/master
 
         resultCardPanel.add(doctorResultPanel, "doctorResultPanel");
         resultCardPanel.add(nurseResultPanel, "nurseResultPanel");
