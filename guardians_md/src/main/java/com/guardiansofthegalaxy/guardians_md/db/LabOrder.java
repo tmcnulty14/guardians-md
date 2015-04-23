@@ -13,20 +13,28 @@ public class LabOrder {
 	private String results;
 
 	/**
-	* Constructor for creating a brand new lab order.
-	*/
+	 * Constructor for creating a brand new lab order.
+	 **/
 	public LabOrder(String labName, String testName) {
 		this(-1, -1, labName, testName, "");
 	}
 
+	/** 
+	 * Constructor for creating a new lab order that already has results.
+	 **/
+	public LabOrder(String labName, String testName, String results) {
+		this(-1, -1, labName, testName, results);
+	}
+
 	/**
-	* Constructor for retrieving lab orders from the database.
-	*/
+	 * Constructor for retrieving lab orders from the database.
+	 **/
 	public LabOrder(int labOrderID, int visitID, String labName, String testName, String results) {
 		this.labOrderID = labOrderID;
 		this.visitID = visitID;
 		this.labName = labName;
 		this.testName = testName;
+		this.results = results;
 	}
 
 	// Getters
@@ -74,8 +82,8 @@ public class LabOrder {
 
 	@Override
 	public String toString() {
-		String str = String.format("Lab Order #%d GP Visit #%d Lab: %s Test: %s",
-			labOrderID, visitID, labName, testName);
+		String str = String.format("Lab Order #%d GP Visit #%d Lab: %s Test: %s Results: %s",
+			labOrderID, visitID, labName, testName, results);
 
 		return str;
 	}
@@ -95,6 +103,7 @@ public class LabOrder {
         return l.getLabOrderID() == this.labOrderID &&
         	   l.getVisitID() == this.visitID &&
         	   l.getLabName().equals(this.labName) &&
-        	   l.getTestName().equals(this.testName);
+        	   l.getTestName().equals(this.testName) &&
+        	   (l.getResults()==null ? this.results==null : l.getResults().equals(this.results));
 	}
 }

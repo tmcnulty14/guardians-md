@@ -122,7 +122,7 @@ public class DatabaseConnection implements DbConn {
 				"visit_id INT UNSIGNED NOT NULL," +
 				"lab_name VARCHAR(48)," + 
 				"test_name VARCHAR(96)," +
-				"results VARCHAR(256)," +
+				"results VARCHAR(255)," +
 				"FOREIGN KEY(visit_id) REFERENCES general_practice_visit(visit_id) ON DELETE CASCADE," +
 				"PRIMARY KEY(lab_order_id));";
 		stmt.execute(sql);
@@ -663,15 +663,32 @@ public class DatabaseConnection implements DbConn {
 			regStmt.setInt(12, visitId);
 			regStmt.execute();
 
-			/* Commented out - this is creating duplicate laborders and prescriptions, since the entries are autoincremented.
+			ArrayList<LabOrder> oldLabOrders = getVisitLabOrders(visitId);
 			for(LabOrder labOrder : updatedVisit.getLabOrders()) {
-				labOrder.setVisitID(visitId);
-				createLabOrder(labOrder);
+				boolean orderExists = false;
+				for(LabOrder oldLab : oldLabOrders) {
+					orderExists |= (labOrder.getLabOrderID() == oldLab.getLabOrderID());
+				}
+				if(orderExists) {
+					updateLabOrder(labOrder);	
+				} else {
+					labOrder.setVisitID(visitId);
+					createLabOrder(labOrder);
+				}
 			}
+			ArrayList<Prescription> oldPrescriptions = getVisitPrescriptions(visitId);
 			for(Prescription prescription : updatedVisit.getPrescriptions()) {
-				prescription.setVisitID(visitId);
-				createPrescription(prescription);
-			}*/
+				boolean orderExists = false;
+				for(Prescription oldPrescription : oldPrescriptions) {
+					orderExists |= (prescription.getPrescriptionID() == oldPrescription.getPrescriptionID());
+				}
+				if(orderExists) {
+					updatePrescription(prescription);	
+				} else {
+					prescription.setVisitID(visitId);
+					createPrescription(prescription);
+				}
+			}
 		} catch(SQLException se) {
 			logSQLException("updateVisit()", "", se);
 			error = true;
@@ -817,6 +834,37 @@ public class DatabaseConnection implements DbConn {
 		return !error;
 	}
 
+	/**
+	 * Updates a Prescription entry.
+	 * @return True if the prescription was successfully updated.
+	 **/
+	public boolean updatePrescription(Prescription prescription) {
+		boolean error = false;
+		String sql = "UPDATE prescription SET visit_id=?, medication_type=?, medication_name=? WHERE prescription_id=?;";
+		PreparedStatement regStmt = null;
+		try {
+			regStmt = conn.prepareStatement(sql);
+			regStmt.setInt(1, prescription.getVisitID());
+			regStmt.setString(2, prescription.getMedType());
+			regStmt.setString(3, prescription.getMedName());
+			regStmt.setInt(4, prescription.getPrescriptionID());
+			regStmt.execute();
+		} catch(SQLException se) {
+			logSQLException("updatePrescription()", "", se);
+			error = true;
+		} finally {
+			try {
+				if(regStmt != null) {
+					regStmt.close();
+				}
+			} catch(SQLException se2) {
+				logSQLException("updatePrescription()", "", se2);
+			}
+		}
+
+		return !error;
+	}
+
 // LabOrder methods
 	/**
 	 * Returns a list of all of the lab orders associated with the given visit id.
@@ -879,6 +927,38 @@ public class DatabaseConnection implements DbConn {
 				}
 			} catch(SQLException se2) {
 				logSQLException("createLabOrder()", "", se2);
+			}
+		}
+
+		return !error;
+	}
+
+	/**
+	 * Updates a LabOrder entry.
+	 * @return True if the LabOrder was successfully updated.
+	 **/
+	public boolean updateLabOrder(LabOrder labOrder) {
+		boolean error = false;
+		String sql = "UPDATE lab_order SET visit_id=?, lab_name=?, test_name=?, results=? WHERE lab_order_id=?;";
+		PreparedStatement regStmt = null;
+		try {
+			regStmt = conn.prepareStatement(sql);
+			regStmt.setInt(1, labOrder.getVisitID());
+			regStmt.setString(2, labOrder.getLabName());
+			regStmt.setString(3, labOrder.getTestName());
+			regStmt.setString(4, labOrder.getResults());
+			regStmt.setInt(5, labOrder.getLabOrderID());
+			regStmt.execute();
+		} catch(SQLException se) {
+			logSQLException("updateLabOrder()", "", se);
+			error = true;
+		} finally {
+			try {
+				if(regStmt != null) {
+					regStmt.close();
+				}
+			} catch(SQLException se2) {
+				logSQLException("updateLabOrder()", "", se2);
 			}
 		}
 

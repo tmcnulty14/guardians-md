@@ -95,7 +95,19 @@ public class DbTest {
 
 		// Test update
 		testVisit.setDate("2000-01-01");
+		testVisit.getLabOrders().get(0).setResults("Test was negative.");
 		Assert.assertTrue(database.updateVisit(testVisit));
+		dbVisit = database.getVisit(visitId);
+		Assert.assertEquals(testVisit, dbVisit);
+
+		// Test update with new prescription and lab orders
+		Prescription newPrescription = new Prescription("AllergyMed", "Benadryl");
+		testVisit.addPrescription(newPrescription);
+		LabOrder newLabOrder = new LabOrder("X-Ray", "Chest X-ray");
+		testVisit.addLabOrder(newLabOrder);
+		Assert.assertTrue(database.updateVisit(testVisit));
+		newPrescription.setPrescriptionID(database.getMaxPrescriptionId());
+		newLabOrder.setLabOrderID(database.getMaxLabOrderId());
 		dbVisit = database.getVisit(visitId);
 		Assert.assertEquals(testVisit, dbVisit);
 
