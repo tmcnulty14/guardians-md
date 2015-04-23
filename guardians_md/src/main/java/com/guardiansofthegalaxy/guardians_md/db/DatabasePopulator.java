@@ -12,12 +12,12 @@ public class DatabasePopulator {
 	 **/
 	public void populateDatabase() {
 		// Examples:
-		//populatePatient(new String[]{"Patience", "Patientson", "1990-03-31", "female", 
-		//								  "100 State St", "", "Framingham", "MA", "01701", 
-		//								  "United States", "GenericProvider Healthcare", "GP1836009-01"});
+		populatePatient(new String[]{"Patience", "Patientson", "1990-03-31", "female", 
+										  "100 State St", "", "Framingham", "MA", "01701", 
+										  "United States", "GenericProvider Healthcare", "GP1836009-01"});
 
-		//populateDoctor(new String[]{"drdoctorson", "Doc", "Doctorson", "Doctoring", "555-555-5555", "password"});
-		//populateNurse(new String[]{"nrsnurse", "Nurse", "Nurse", "Nursing", "555-555-5555", "password"});
+		populateDoctor(new String[]{"drdoctorson", "Doc", "Doctorson", "Doctoring", "555-555-5555", "password"});
+		populateNurse(new String[]{"nrsnurse", "Nurse", "Nurse", "Nursing", "555-555-5555", "password"});
 	}
 
 	public boolean populatePatient(String[] params) {
