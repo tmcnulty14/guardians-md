@@ -122,7 +122,7 @@ public class DatabaseConnection implements DbConn {
 				"visit_id INT UNSIGNED NOT NULL," +
 				"lab_name VARCHAR(48)," + 
 				"test_name VARCHAR(96)," +
-				"results VARCHAR(255)," +
+				"results TEXT," +
 				"FOREIGN KEY(visit_id) REFERENCES general_practice_visit(visit_id) ON DELETE CASCADE," +
 				"PRIMARY KEY(lab_order_id));";
 		stmt.execute(sql);
