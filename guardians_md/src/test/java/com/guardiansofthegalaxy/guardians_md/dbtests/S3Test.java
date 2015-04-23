@@ -43,6 +43,7 @@ public class S3Test {
 			//Assert.assertEquals(testImage, image);
 
 			Assert.assertTrue(s3Conn.deleteImage(TEST_KEY));
+			testFile.delete();
 		} catch(IOException ioe) {
 			Assert.fail();
 		}
