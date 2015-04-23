@@ -110,7 +110,6 @@ public class MedicalSystemsMainFrame extends JFrame {
         pnLogin.registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Insert code for displaying registration panel
                 cardLayout.show(cardPanel, "UserRegPanel");
             }
         });
