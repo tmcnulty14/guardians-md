@@ -104,14 +104,14 @@ public class DatabaseConnection implements DbConn {
 				"patient_id INT UNSIGNED NOT NULL," +
 				"doctor_id VARCHAR(12) NOT NULL," +
 				"date DATE NOT NULL," +
-				"field_a VARCHAR(500)," +
-				"field_b VARCHAR(500)," +
-				"field_c VARCHAR(500)," +
-				"field_d VARCHAR(500)," +
-				"field_e VARCHAR(500)," +
-				"field_f VARCHAR(500)," +
-				"field_g VARCHAR(500)," +
-				"comments VARCHAR(500)," +
+				"field_a TEXT," +
+				"field_b TEXT," +
+				"field_c TEXT," +
+				"field_d TEXT," +
+				"field_e TEXT," +
+				"field_f TEXT," +
+				"field_g TEXT," +
+				"comments TEXT," +
 				"FOREIGN KEY(doctor_id) REFERENCES user(username) ON DELETE CASCADE," +
 				"FOREIGN KEY(patient_id) REFERENCES patient(patient_id) ON DELETE CASCADE," +
 				"PRIMARY KEY(visit_id));";
