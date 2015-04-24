@@ -1,7 +1,7 @@
 package com.guardiansofthegalaxy.guardians_md.db;
 
-import com.guardiansofthegalaxy.guardians_md.panels.*;
-import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ public class MedicalConfigurator {
 
     public static Patient patient = null;
     public static Visit visit = null;
-    public static User user  = null;
+    public static User user = null;
     public static boolean isUserLoggedIn = false;
 
     public static void setLoginUser(String username, String firstName, String lastName, boolean doctorPrivileges) {
@@ -19,21 +19,21 @@ public class MedicalConfigurator {
 
     }
 
-    public static void setLoginUser(User newUser){
+    public static void setLoginUser(User newUser) {
         user = newUser;
     }
 
-    public static User getLoginUser(){
+    public static User getLoginUser() {
         return user;
 
     }
 
-    public static boolean isUserLoggedIn(){
+    public static boolean isUserLoggedIn() {
         return isUserLoggedIn;
 
     }
 
-    public static void resetActiveUserToNull(){
+    public static void resetActiveUserToNull() {
         user = null;
     }
 
@@ -69,7 +69,7 @@ public class MedicalConfigurator {
      */
 
     public static void setActiveVisit(int patientID, String doctorID, String date, ArrayList<String> mdFields,
-                                      ArrayList<LabOrder> labOrders, ArrayList<Prescription> prescriptions,String comments) {
+                                      ArrayList<LabOrder> labOrders, ArrayList<Prescription> prescriptions, String comments) {
 
         visit = new Visit(patientID, doctorID, date, mdFields, labOrders, prescriptions, comments);
 
@@ -96,10 +96,22 @@ public class MedicalConfigurator {
     }
 
     public static boolean isNewVisit() {
-      return getActiveVisit().getVisitID() == -1;
+        return getActiveVisit().getVisitID() == -1;
     }
 
     public static boolean isNewPatient() {
-      return getActivePatient().getPatientID() == -1;
+        return getActivePatient().getPatientID() == -1;
     }
+
+    public static String[] getResultListByType(LabName labName, TestName testName) {
+        ArrayList<LabOrder> resultList = MedicalConfigurator.getActiveVisit().getLabOrders();
+        for (LabOrder labOrder : resultList) {
+            if (labOrder.getLabName_enum().equals(labName) & labOrder.getTestName_enum().equals(testName)) {
+                return labOrder.getResultList();
+            }
+        }
+        return null;
+    }
+
+
 }

@@ -1,35 +1,37 @@
 package com.guardiansofthegalaxy.guardians_md.db;
 
-import com.guardiansofthegalaxy.guardians_md.panels.*;
-import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;
 
 public class LabOrder {
 	private int labOrderID;
 
 	// Visits will have to already be created before labs can be added to them; can't know visitID beforehand.
 	private int visitID;
-	private String labName;
-	private String testName;
+	private LabName labName;
+	private TestName testName;
 	private String results;
 
 	/**
 	 * Constructor for creating a brand new lab order.
-	 **/
-	public LabOrder(String labName, String testName) {
+	 *
+     * @param labName
+     * @param testName*/
+	public LabOrder(LabName labName, TestName testName) {
 		this(-1, -1, labName, testName, "");
 	}
 
 	/** 
 	 * Constructor for creating a new lab order that already has results.
 	 **/
-	public LabOrder(String labName, String testName, String results) {
+	public LabOrder(LabName labName, TestName testName, String results) {
 		this(-1, -1, labName, testName, results);
 	}
 
 	/**
 	 * Constructor for retrieving lab orders from the database.
 	 **/
-	public LabOrder(int labOrderID, int visitID, String labName, String testName, String results) {
+	public LabOrder(int labOrderID, int visitID, LabName labName, TestName testName, String results) {
 		this.labOrderID = labOrderID;
 		this.visitID = visitID;
 		this.labName = labName;
@@ -47,17 +49,29 @@ public class LabOrder {
 		return visitID;
 	}
 
-	public String getLabName() {
-		return labName;
+    public LabName getLabName_enum() {
+        return labName;
+    }
+
+    public TestName getTestName_enum() {
+        return testName;
+    }
+
+	public String getLabName_str() {
+		return labName.toString();
 	}
 
-	public String getTestName() {
-		return testName;
+	public String getTestName_str() {
+		return testName.toString();
 	}
 
 	public String getResults() {
 		return results;
 	}
+
+    public String[] getResultList(){
+        return results.split(",");
+    }
 
 	// Setters
 	public void setLabOrderID(int labOrderID) {
@@ -68,15 +82,24 @@ public class LabOrder {
 		this.visitID = visitID;
 	}
 
-	public void setLabName(String labName) {
-		this.labName = labName;
+	public void setLabName_str(String labName) {
+		this.labName = LabName.valueOf(labName);
 	}
 
-	public void setTestName(String testName) {
-		this.testName = testName;
+	public void setTestName_str(String testName) {
+		this.testName = TestName.valueOf(testName);
 	}
 
-	public void setResults(String results) {
+    public void setLabName_enum(LabName labName) {
+        this.labName = labName;
+    }
+
+    public void setTestName_enum(TestName testName) {
+        this.testName = testName;
+    }
+
+
+    public void setResults(String results) {
 		this.results = results;
 	}
 
@@ -102,8 +125,8 @@ public class LabOrder {
 
         return l.getLabOrderID() == this.labOrderID &&
         	   l.getVisitID() == this.visitID &&
-        	   l.getLabName().equals(this.labName) &&
-        	   l.getTestName().equals(this.testName) &&
+        	   l.getLabName_str().equals(this.labName) &&
+        	   l.getTestName_str().equals(this.testName) &&
         	   (l.getResults()==null ? this.results==null : l.getResults().equals(this.results));
 	}
 }

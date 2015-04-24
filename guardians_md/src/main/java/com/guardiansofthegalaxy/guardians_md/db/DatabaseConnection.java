@@ -1,9 +1,6 @@
 package com.guardiansofthegalaxy.guardians_md.db;
 
-import com.guardiansofthegalaxy.guardians_md.db.*;
-
 import java.sql.*;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
@@ -963,8 +960,8 @@ public class DatabaseConnection implements DbConn {
 		try {
 			regStmt = conn.prepareStatement(sql);
 			regStmt.setInt(1, newLabOrder.getVisitID());
-			regStmt.setString(2, newLabOrder.getLabName());
-			regStmt.setString(3, newLabOrder.getTestName());
+			regStmt.setString(2, newLabOrder.getLabName_str());
+			regStmt.setString(3, newLabOrder.getTestName_str());
 			regStmt.setString(4, newLabOrder.getResults());
 			regStmt.execute();
 		} catch(SQLException se) {
@@ -994,8 +991,8 @@ public class DatabaseConnection implements DbConn {
 		try {
 			regStmt = conn.prepareStatement(sql);
 			regStmt.setInt(1, labOrder.getVisitID());
-			regStmt.setString(2, labOrder.getLabName());
-			regStmt.setString(3, labOrder.getTestName());
+			regStmt.setString(2, labOrder.getLabName_str());
+			regStmt.setString(3, labOrder.getTestName_str());
 			regStmt.setString(4, labOrder.getResults());
 			regStmt.setInt(5, labOrder.getLabOrderID());
 			regStmt.execute();

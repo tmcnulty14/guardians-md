@@ -6,8 +6,10 @@ import com.guardiansofthegalaxy.guardians_md.db.Visit;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class LabTestsPanel extends JPanel {
 
@@ -64,7 +66,7 @@ public class LabTestsPanel extends JPanel {
         panel1.add(ckRed, BorderLayout.NORTH);
         panel1.add(panel2, BorderLayout.CENTER);
 
-        ckWhite = new JCheckBox("White Blood Test");
+        ckWhite = new JCheckBox("White Blood Cell Test");
 		ckWhite.setFont(new Font("Times New Roman", 0, 16));
         ckWhite.setBackground(Color.WHITE);
         ckWhite.addItemListener(new HemBoxListener());
@@ -300,7 +302,7 @@ public class LabTestsPanel extends JPanel {
             for (int i = 0, len = visit.getLabOrders().size(); i < len; i++) {
 
                 labOrder = visit.getLabOrders().get(i);
-                checkLabTests(labOrder.getLabName(), labOrder.getTestName());
+                checkLabTests(labOrder.getLabName_str(), labOrder.getTestName_str());
             }
         }
         else {
@@ -357,6 +359,12 @@ public class LabTestsPanel extends JPanel {
     private class ViewResultListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            Object source = e.getSource();
+             JButton resultWhite, resultLiver, resultRenal, resultElectrol;
+             JButton  resultXray,  resultCompTom, resultMagRes;
+             JButton resultUrin, resultStool;
+            if(source == resultRed){
+            }
 
         }
     }
