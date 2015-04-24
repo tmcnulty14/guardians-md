@@ -1,22 +1,22 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
+import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 import com.guardiansofthegalaxy.guardians_md.db.Patient;
-import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
 
 import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.*;
-import java.text.DateFormat;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class PatientInformationPanel extends JPanel {
-    
+
     private Patient patient;
 
     //labels and textfields for the patient personal information
@@ -205,11 +205,11 @@ public class PatientInformationPanel extends JPanel {
         ckEdit.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 Object source = e.getSource();
-                if (source ==  ckEdit &  ckEdit.isSelected()) {
+                if (source == ckEdit & ckEdit.isSelected()) {
                     editPatientInformation();
                     btnSubmitPatientData.setEnabled(true);
                 }
-                if (source ==  ckEdit & ! ckEdit.isSelected()) {
+                if (source == ckEdit & !ckEdit.isSelected()) {
                     readOnlyPatientInformation();
                     btnSubmitPatientData.setEnabled(false);
                 }
@@ -250,21 +250,16 @@ public class PatientInformationPanel extends JPanel {
 
 
     public void setGender() {
-        if (patient.getGender().equalsIgnoreCase("F")) {
+        if (patient.getGender().equalsIgnoreCase("Female")) {
             rbFemale.setSelected(true);
-        }
-        else if (patient.getGender().equalsIgnoreCase("M")) {
+        } else if (patient.getGender().equalsIgnoreCase("Male")) {
             rbMale.setSelected(true);
         }
     }
 
     public void setAge() throws ParseException {
 
-        DateFormat formatter = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
-        Date date = formatter.parse(patient.getBirthdate());
-
-        DateFormat df = new SimpleDateFormat("yyyy");
-        String year = df.format(date);
+        String year = patient.getBirthdate().substring(0,4);
 
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int ageInt = currentYear - Integer.parseInt(year);
@@ -318,8 +313,7 @@ public class PatientInformationPanel extends JPanel {
 
             if (rbMale.isSelected()) {
                 gender = "M";
-            }
-            else if (rbFemale.isSelected()) {
+            } else if (rbFemale.isSelected()) {
                 gender = "F";
             }
 
@@ -328,20 +322,19 @@ public class PatientInformationPanel extends JPanel {
             if (MedicalConfigurator.isNewPatient()) {
 
                 if (!dbc.registerPatient(new Patient(
-                    txtFName.getText(), txtLName.getText(),
-                    txtBirthDate.getText(), gender,
-                    txtAddress1.getText(), txtAddress2.getText(),
-                    txtCity.getText(), txtState.getText(),
-                    txtZip.getText(), txtCountry.getText(),
-                    txtInsProv.getText(), txtInsNum.getText()
-                    ))) {
+                        txtFName.getText(), txtLName.getText(),
+                        txtBirthDate.getText(), gender,
+                        txtAddress1.getText(), txtAddress2.getText(),
+                        txtCity.getText(), txtState.getText(),
+                        txtZip.getText(), txtCountry.getText(),
+                        txtInsProv.getText(), txtInsNum.getText()
+                ))) {
 
                     JOptionPane.showMessageDialog(null, "Could not create patient. Please check that all fields are valid and try again.",
-                        "Registration failed", JOptionPane.ERROR_MESSAGE);
-                }
-                else {
+                            "Registration failed", JOptionPane.ERROR_MESSAGE);
+                } else {
                     JOptionPane.showMessageDialog(null, "Successfully registered patient " + txtFName.getText() +
-                        " " + txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
+                            " " + txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
 
                     MedicalConfigurator.setActivePatient(dbc.getPatient(dbc.getMaxPatientId()));
                 }
@@ -359,11 +352,10 @@ public class PatientInformationPanel extends JPanel {
 
                 if (!dbc.updatePatient(updatedPatient)) {
                     JOptionPane.showMessageDialog(null, "Could not update patient. Please check that all fields are valid and try again.",
-                        "Update failed", JOptionPane.ERROR_MESSAGE);
-                }
-                else {
+                            "Update failed", JOptionPane.ERROR_MESSAGE);
+                } else {
                     JOptionPane.showMessageDialog(null, "Successfully updated patient " + txtFName.getText() +
-                        " " + txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
+                            " " + txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
 
                     MedicalConfigurator.setActivePatient(updatedPatient);
                 }
