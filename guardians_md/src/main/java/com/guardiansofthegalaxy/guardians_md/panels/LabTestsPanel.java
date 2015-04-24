@@ -349,14 +349,82 @@ public class LabTestsPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object source = e.getSource();
-            JButton resultWhite, resultLiver, resultRenal, resultElectrol;
-            JButton resultXray, resultCompTom, resultMagRes;
-            JButton resultUrin, resultStool;
+
             if (source == resultRed) {
                 if (MedicalConfigurator.isResultSetEmpty(LabName.HEMATOLOGIC, TestName.RED)) {
                     JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
                 } else {
                     new ResultsFrameView(LabName.HEMATOLOGIC, TestName.RED).setVisible(true);
+                }
+            }
+            if (source == resultWhite) {
+                if (MedicalConfigurator.isResultSetEmpty(LabName.HEMATOLOGIC, TestName.WHITE)) {
+                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
+                } else {
+                    new ResultsFrameView(LabName.HEMATOLOGIC, TestName.WHITE).setVisible(true);
+                }
+            }
+            if (source == resultLiver) {
+                if (MedicalConfigurator.isResultSetEmpty(LabName.HEMATOLOGIC, TestName.LIVER)) {
+                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
+                } else {
+                    new ResultsFrameView(LabName.HEMATOLOGIC, TestName.WHITE).setVisible(true);
+                }
+            }
+
+            if (source == resultRenal) {
+                if (MedicalConfigurator.isResultSetEmpty(LabName.HEMATOLOGIC, TestName.RENAL)) {
+                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
+                } else {
+                    new ResultsFrameView(LabName.HEMATOLOGIC, TestName.RENAL).setVisible(true);
+                }
+            }
+
+            if (source == resultElectrol) {
+                if (MedicalConfigurator.isResultSetEmpty(LabName.HEMATOLOGIC, TestName.ELECTROL)) {
+                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
+                } else {
+                    new ResultsFrameView(LabName.HEMATOLOGIC, TestName.ELECTROL).setVisible(true);
+                }
+            }
+
+            if (source == resultXray) {
+                if (MedicalConfigurator.isResultSetEmpty(LabName.RADIOLOGIC, TestName.XRAY)) {
+                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
+                } else {
+                    new ResultsFrameView(LabName.RADIOLOGIC, TestName.XRAY).setVisible(true);
+                }
+            }
+
+            if (source == resultCompTom) {
+                if (MedicalConfigurator.isResultSetEmpty(LabName.RADIOLOGIC, TestName.CT)) {
+                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
+                } else {
+                    new ResultsFrameView(LabName.RADIOLOGIC, TestName.CT).setVisible(true);
+                }
+            }
+
+            if (source == resultMagRes) {
+                if (MedicalConfigurator.isResultSetEmpty(LabName.RADIOLOGIC, TestName.MRI)) {
+                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
+                } else {
+                    new ResultsFrameView(LabName.RADIOLOGIC, TestName.MRI).setVisible(true);
+                }
+            }
+
+            if (source == resultUrin) {
+                if (MedicalConfigurator.isResultSetEmpty(LabName.ADDITIONAL, TestName.URINARY)) {
+                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
+                } else {
+                    new ResultsFrameView(LabName.ADDITIONAL, TestName.URINARY).setVisible(true);
+                }
+            }
+
+            if (source == resultStool) {
+                if (MedicalConfigurator.isResultSetEmpty(LabName.ADDITIONAL, TestName.STOOL)) {
+                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
+                } else {
+                    new ResultsFrameView(LabName.ADDITIONAL, TestName.STOOL).setVisible(true);
                 }
             }
 

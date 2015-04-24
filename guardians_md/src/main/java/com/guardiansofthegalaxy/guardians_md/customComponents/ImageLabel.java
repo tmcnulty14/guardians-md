@@ -23,8 +23,8 @@ public class ImageLabel extends JLabel {
     private int height;
 
     public ImageLabel(){
-        this.width = 500;
-        this.height = 500;
+        this.width = 1026;
+        this.height = 1026;
     }
 
     public ImageLabel(int width, int height) {

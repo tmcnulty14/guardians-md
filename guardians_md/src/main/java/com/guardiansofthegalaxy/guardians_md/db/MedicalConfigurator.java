@@ -103,6 +103,8 @@ public class MedicalConfigurator {
         return getActivePatient().getPatientID() == -1;
     }
 
+
+
     public static String[] getActiveVisitLabOrderResultsImageListByType(LabName labName, TestName testName) {
         ArrayList<LabOrder> resultList = MedicalConfigurator.getActiveVisit().getLabOrders();
         for (LabOrder labOrder : resultList) {
@@ -113,17 +115,31 @@ public class MedicalConfigurator {
         return null;
     }
 
-    public static String[] getActiveVisitLabOrderResultsByType(LabName labName, TestName testName) {
+    public static String getActiveVisitLabOrderResultsByType(LabName labName, TestName testName) {
         ArrayList<LabOrder> resultList = MedicalConfigurator.getActiveVisit().getLabOrders();
         for (LabOrder labOrder : resultList) {
             if (labOrder.getLabName_enum().equals(labName) & labOrder.getTestName_enum().equals(testName)) {
-                if (labOrder.getHasResultsImage()) {
-                    return labOrder.getResultsImageList();
+                return labOrder.getResults();
+            }
+        }
+
+        return null;
+    }
+
+    public static boolean checkLabOrdersForHasResultsImage(LabName labName, TestName testName){
+        ArrayList<LabOrder> resultList = MedicalConfigurator.getActiveVisit().getLabOrders();
+        for (LabOrder labOrder : resultList) {
+            if (labOrder.getLabName_enum().equals(labName) & labOrder.getTestName_enum().equals(testName)) {
+                if(labOrder.getHasResultsImage()){
+                    return true;
                 }
             }
         }
-        return null;
+
+        return false;
+
     }
+
 
     public static boolean isResultSetEmpty(LabName labName, TestName testName) {
         ArrayList<LabOrder> resultList = MedicalConfigurator.getActiveVisit().getLabOrders();
