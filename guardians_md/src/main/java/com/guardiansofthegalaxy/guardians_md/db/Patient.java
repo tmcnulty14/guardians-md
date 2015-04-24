@@ -1,8 +1,5 @@
 package com.guardiansofthegalaxy.guardians_md.db;
 
-import com.guardiansofthegalaxy.guardians_md.panels.*;
-import com.guardiansofthegalaxy.guardians_md.db.*;
-
 public class Patient {
 	private int patientID;
 	private String firstName;
@@ -172,9 +169,11 @@ public class Patient {
 	*/
 	@Override
 	public String toString() {
-		String str = String.format("Patient ID#%s Name: %d %s Birthdate: %s Gender: %s",
-			patientID, firstName, lastName, birthdate, gender);
+	//	String str = String.format("Patient ID#%s Name: %d %s Birthdate: %s Gender: %s",
+	//		patientID, firstName, lastName, birthdate.toString(), gender);
 
+        String str = "Patient ID:" + patientID + " Name: " + firstName + " " + lastName +
+                " Birthdate: " + birthdate + " Gender: " + gender;
 		return str;
 	}
 

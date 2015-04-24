@@ -103,15 +103,38 @@ public class MedicalConfigurator {
         return getActivePatient().getPatientID() == -1;
     }
 
-    public static String[] getResultListByType(LabName labName, TestName testName) {
+    public static String[] getActiveVisitLabOrderResultsImageListByType(LabName labName, TestName testName) {
         ArrayList<LabOrder> resultList = MedicalConfigurator.getActiveVisit().getLabOrders();
         for (LabOrder labOrder : resultList) {
             if (labOrder.getLabName_enum().equals(labName) & labOrder.getTestName_enum().equals(testName)) {
-                return labOrder.getResultList();
+                return labOrder.getResultsImageList();
             }
         }
         return null;
     }
 
+    public static String[] getActiveVisitLabOrderResultsByType(LabName labName, TestName testName) {
+        ArrayList<LabOrder> resultList = MedicalConfigurator.getActiveVisit().getLabOrders();
+        for (LabOrder labOrder : resultList) {
+            if (labOrder.getLabName_enum().equals(labName) & labOrder.getTestName_enum().equals(testName)) {
+                if (labOrder.getHasResultsImage()) {
+                    return labOrder.getResultsImageList();
+                }
+            }
+        }
+        return null;
+    }
 
+    public static boolean isResultSetEmpty(LabName labName, TestName testName) {
+        ArrayList<LabOrder> resultList = MedicalConfigurator.getActiveVisit().getLabOrders();
+        for (LabOrder lab : resultList) {
+            if (lab.getLabName_enum().equals(labName) & lab.getTestName_enum().equals(testName)) {
+                String results = lab.getResults();
+                if (results.length() == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

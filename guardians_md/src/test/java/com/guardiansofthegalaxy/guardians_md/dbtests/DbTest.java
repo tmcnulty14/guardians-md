@@ -1,8 +1,12 @@
 package com.guardiansofthegalaxy.guardians_md.dbtests;
 
-import com.guardiansofthegalaxy.guardians_md.panels.*;
 import com.guardiansofthegalaxy.guardians_md.db.*;
-import org.junit.*;
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+
 import java.util.ArrayList;
 
 public class DbTest {
@@ -103,7 +107,7 @@ public class DbTest {
 		// Test update with new prescription and lab orders
 		Prescription newPrescription = new Prescription("AllergyMed", "Benadryl");
 		testVisit.addPrescription(newPrescription);
-		LabOrder newLabOrder = new LabOrder("X-Ray", "Chest X-ray");
+		LabOrder newLabOrder = new LabOrder(LabName.HEMATOLOGIC, TestName.XRAY);
 		testVisit.addLabOrder(newLabOrder);
 		Assert.assertTrue(database.updateVisit(testVisit));
 		newPrescription.setPrescriptionID(database.getMaxPrescriptionId());
@@ -177,7 +181,7 @@ public class DbTest {
 		ArrayList<Prescription> prescriptions = new ArrayList<>();
 		prescriptions.add(new Prescription("Medicine", "GenericMed"));
 		ArrayList<LabOrder> labOrders = new ArrayList<>();
-		labOrders.add(new LabOrder("GenericLab", "GenericTest"));
+		labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.LIVER));
 
 		// Get the test user and patient
 		int patientId = registerTestPatient(database).getPatientID();

@@ -3,6 +3,8 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 import com.guardiansofthegalaxy.guardians_md.db.LabOrder;
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 import com.guardiansofthegalaxy.guardians_md.db.Visit;
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,40 +15,40 @@ import java.awt.event.ItemListener;
 
 public class LabTestsPanel extends JPanel {
 
-	public JPanel pnHemLab, pnRadLab, pnTests;
-	//labels and text areas for the general practice section
+    public JPanel pnHemLab, pnRadLab, pnTests;
+    //labels and text areas for the general practice section
 
-	//labels for the subsections
-	public JCheckBox ckRed, ckWhite, ckLiver, ckRenal, ckEletrol;
-	public JCheckBox ckXray, ckCompTom, ckMagRes;
-	public JCheckBox ckUrin, ckStool;
+    //labels for the subsections
+    public JCheckBox ckRed, ckWhite, ckLiver, ckRenal, ckEletrol;
+    public JCheckBox ckXray, ckCompTom, ckMagRes;
+    public JCheckBox ckUrin, ckStool;
     public JButton resultRed, resultWhite, resultLiver, resultRenal, resultElectrol;
     public JButton newXray, resultXray, newCompTom, resultCompTom, newMagRes, resultMagRes;
     public JButton resultUrin, resultStool;
     public TestResultFrame resultFrame;
 
-	public LabTestsPanel(){
-		setLayout(new GridLayout(1,3));
-		setBorder(BorderFactory.createTitledBorder("Labratory Tests"));
-		createHemLabPanel();
-		createRadLabPanel();
-		createTestsPanel();
+    public LabTestsPanel() {
+        setLayout(new GridLayout(1, 3));
+        setBorder(BorderFactory.createTitledBorder("Labratory Tests"));
+        createHemLabPanel();
+        createRadLabPanel();
+        createTestsPanel();
 
         setBackground(Color.WHITE);
 
         add(pnHemLab);
-		add(pnRadLab);
-		add(pnTests);
-	}
+        add(pnRadLab);
+        add(pnTests);
+    }
 
-	public void createHemLabPanel(){
-		pnHemLab = new JPanel();
+    public void createHemLabPanel() {
+        pnHemLab = new JPanel();
         pnHemLab.setBackground(Color.WHITE);
         pnHemLab.setLayout(new GridLayout(5, 1, 0, 20));
         pnHemLab.setBorder(BorderFactory.createTitledBorder("Hematologic Laboratory"));
 
         ckRed = new JCheckBox("Red Blood Cell Test");
-		ckRed.setFont(new Font("Times New Roman", 0, 16));
+        ckRed.setFont(new Font("Times New Roman", 0, 16));
         ckRed.setBackground(Color.WHITE);
         ckRed.addItemListener(new HemBoxListener());
 
@@ -67,7 +69,7 @@ public class LabTestsPanel extends JPanel {
         panel1.add(panel2, BorderLayout.CENTER);
 
         ckWhite = new JCheckBox("White Blood Cell Test");
-		ckWhite.setFont(new Font("Times New Roman", 0, 16));
+        ckWhite.setFont(new Font("Times New Roman", 0, 16));
         ckWhite.setBackground(Color.WHITE);
         ckWhite.addItemListener(new HemBoxListener());
 
@@ -87,7 +89,7 @@ public class LabTestsPanel extends JPanel {
         panel3.add(panel4, BorderLayout.CENTER);
 
         ckLiver = new JCheckBox("Liver Function Test");
-		ckLiver.setFont(new Font("Times New Roman", 0, 16));
+        ckLiver.setFont(new Font("Times New Roman", 0, 16));
         ckLiver.setBackground(Color.WHITE);
         ckLiver.addItemListener(new HemBoxListener());
 
@@ -107,7 +109,7 @@ public class LabTestsPanel extends JPanel {
         panel5.add(panel6, BorderLayout.CENTER);
 
         ckRenal = new JCheckBox("Renal Function Test");
-		ckRenal.setFont(new Font("Times New Roman", 0, 16));
+        ckRenal.setFont(new Font("Times New Roman", 0, 16));
         ckRenal.setBackground(Color.WHITE);
         ckRenal.addItemListener(new HemBoxListener());
 
@@ -127,7 +129,7 @@ public class LabTestsPanel extends JPanel {
         panel7.add(panel8, BorderLayout.CENTER);
 
         ckEletrol = new JCheckBox("Electrol Test");
-		ckEletrol.setFont(new Font("Times New Roman", 0, 16));
+        ckEletrol.setFont(new Font("Times New Roman", 0, 16));
         ckEletrol.setBackground(Color.WHITE);
         ckEletrol.addItemListener(new HemBoxListener());
 
@@ -151,16 +153,16 @@ public class LabTestsPanel extends JPanel {
         pnHemLab.add(panel5);
         pnHemLab.add(panel7);
         pnHemLab.add(panel9);
-	}
+    }
 
-	public void createRadLabPanel(){
-		pnRadLab = new JPanel();
+    public void createRadLabPanel() {
+        pnRadLab = new JPanel();
         pnRadLab.setBackground(Color.WHITE);
         pnRadLab.setLayout(new GridLayout(3, 1, 0, 20));
         pnRadLab.setBorder(BorderFactory.createTitledBorder("Radiologic Laboratory"));
 
         ckXray = new JCheckBox("X-Ray");
-		ckXray.setFont(new Font("Times New Roman", 0, 16));
+        ckXray.setFont(new Font("Times New Roman", 0, 16));
         ckXray.setBackground(Color.WHITE);
         ckXray.addItemListener(new RadBoxListener());
 
@@ -187,7 +189,7 @@ public class LabTestsPanel extends JPanel {
         panel1.add(panel2, BorderLayout.CENTER);
 
         ckCompTom = new JCheckBox("Computed Tomography (CT)");
-		ckCompTom.setFont(new Font("Times New Roman", 0, 16));
+        ckCompTom.setFont(new Font("Times New Roman", 0, 16));
         ckCompTom.setBackground(Color.WHITE);
         ckCompTom.addItemListener(new RadBoxListener());
 
@@ -213,7 +215,7 @@ public class LabTestsPanel extends JPanel {
         panel3.add(panel4, BorderLayout.CENTER);
 
         ckMagRes = new JCheckBox("Magnetic Resonance Image (MRI)");
-		ckMagRes.setFont(new Font("Times New Roman", 0, 16));
+        ckMagRes.setFont(new Font("Times New Roman", 0, 16));
         ckMagRes.setBackground(Color.WHITE);
         ckMagRes.addItemListener(new RadBoxListener());
 
@@ -241,16 +243,16 @@ public class LabTestsPanel extends JPanel {
         pnRadLab.add(panel1);
         pnRadLab.add(panel3);
         pnRadLab.add(panel5);
-	}
+    }
 
-	public void createTestsPanel(){
-		pnTests = new JPanel();
+    public void createTestsPanel() {
+        pnTests = new JPanel();
         pnTests.setBackground(Color.WHITE);
         pnTests.setLayout(new GridLayout(2, 1, 0, 20));
         pnTests.setBorder(BorderFactory.createTitledBorder("Additional Tests"));
 
         ckUrin = new JCheckBox("Urinary Test");
-		ckUrin.setFont(new Font("Times New Roman", 0, 16));
+        ckUrin.setFont(new Font("Times New Roman", 0, 16));
         ckUrin.setBackground(Color.WHITE);
         ckUrin.addItemListener(new TestBoxListener());
 
@@ -271,7 +273,7 @@ public class LabTestsPanel extends JPanel {
         panel1.add(panel2, BorderLayout.CENTER);
 
         ckStool = new JCheckBox("Stool Test");
-		ckStool.setFont(new Font("Times New Roman", 0, 16));
+        ckStool.setFont(new Font("Times New Roman", 0, 16));
         ckStool.setBackground(Color.WHITE);
         ckStool.addItemListener(new TestBoxListener());
 
@@ -292,7 +294,7 @@ public class LabTestsPanel extends JPanel {
 
         pnTests.add(panel1);
         pnTests.add(panel3);
-	}
+    }
 
     public void loadLabTestInformation() {
         Visit visit = MedicalConfigurator.getActiveVisit();
@@ -302,10 +304,9 @@ public class LabTestsPanel extends JPanel {
             for (int i = 0, len = visit.getLabOrders().size(); i < len; i++) {
 
                 labOrder = visit.getLabOrders().get(i);
-                checkLabTests(labOrder.getLabName_str(), labOrder.getTestName_str());
+                checkLabTests(labOrder.getTestName_enum());
             }
-        }
-        else {
+        } else {
             ckRed.setSelected(false);
             ckWhite.setSelected(false);
             ckLiver.setSelected(false);
@@ -319,51 +320,44 @@ public class LabTestsPanel extends JPanel {
         }
     }
 
-    private void checkLabTests(String labName, String testName) {
-        if (labName.equalsIgnoreCase("lab")) {
-            if (testName.equalsIgnoreCase("red")) {
-                ckRed.setSelected(true);
-            }
-            else if (testName.equalsIgnoreCase("white")) {
-                ckWhite.setSelected(true);
-            }
-            else if (testName.equalsIgnoreCase("liver")) {
-                ckLiver.setSelected(true);
-            }
-            else if (testName.equalsIgnoreCase("renal")) {
-                ckRenal.setSelected(true);
-            }
-            else if (testName.equalsIgnoreCase("electrol")) {
-                ckEletrol.setSelected(true);
-            }
-            else if (testName.equalsIgnoreCase("xray")) {
-                ckXray.setSelected(true);
-            }
-            else if (testName.equalsIgnoreCase("comptom")) {
-                ckCompTom.setSelected(true);
-            }
-            else if (testName.equalsIgnoreCase("magres")) {
-                ckMagRes.setSelected(true);
-            }
-        }
-        else if (labName.equalsIgnoreCase("test")) {
-            if (testName.equalsIgnoreCase("urin")) {
-                ckUrin.setSelected(true);
-            }
-            else if (testName.equalsIgnoreCase("stool")) {
-                ckStool.setSelected(true);
-            }
+    private void checkLabTests(TestName testName) {
+        if (testName.equals(TestName.RED)) {
+            ckRed.setSelected(true);
+        } else if (testName.equals(TestName.WHITE)) {
+            ckWhite.setSelected(true);
+        } else if (testName.equals(TestName.LIVER)) {
+            ckLiver.setSelected(true);
+        } else if (testName.equals(TestName.RENAL)) {
+            ckRenal.setSelected(true);
+        } else if (testName.equals(TestName.ELECTROL)) {
+            ckEletrol.setSelected(true);
+        } else if (testName.equals(TestName.XRAY)) {
+            ckXray.setSelected(true);
+        } else if (testName.equals(TestName.CT)) {
+            ckCompTom.setSelected(true);
+        } else if (testName.equals(TestName.MRI)) {
+            ckMagRes.setSelected(true);
+        } else if (testName.equals(TestName.URINARY)) {
+            ckUrin.setSelected(true);
+        } else if (testName.equals(TestName.STOOL)) {
+            ckStool.setSelected(true);
         }
     }
+
 
     private class ViewResultListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object source = e.getSource();
-             JButton resultWhite, resultLiver, resultRenal, resultElectrol;
-             JButton  resultXray,  resultCompTom, resultMagRes;
-             JButton resultUrin, resultStool;
-            if(source == resultRed){
+            JButton resultWhite, resultLiver, resultRenal, resultElectrol;
+            JButton resultXray, resultCompTom, resultMagRes;
+            JButton resultUrin, resultStool;
+            if (source == resultRed) {
+                if (MedicalConfigurator.isResultSetEmpty(LabName.HEMATOLOGIC, TestName.RED)) {
+                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
+                } else {
+                    new ResultsFrameView(LabName.HEMATOLOGIC, TestName.RED).setVisible(true);
+                }
             }
 
         }
@@ -386,26 +380,22 @@ public class LabTestsPanel extends JPanel {
                     resultRed.setVisible(true);
                 else
                     resultRed.setVisible(false);
-            }
-            else if (obj == ckWhite) {
+            } else if (obj == ckWhite) {
                 if (ckWhite.isSelected())
                     resultWhite.setVisible(true);
                 else
                     resultWhite.setVisible(false);
-            }
-            else if (obj == ckLiver) {
+            } else if (obj == ckLiver) {
                 if (ckLiver.isSelected())
                     resultLiver.setVisible(true);
                 else
                     resultLiver.setVisible(false);
-            }
-            else if (obj == ckRenal) {
+            } else if (obj == ckRenal) {
                 if (ckRenal.isSelected())
                     resultRenal.setVisible(true);
                 else
                     resultRenal.setVisible(false);
-            }
-            else if (obj == ckRenal) {
+            } else if (obj == ckRenal) {
                 if (ckRenal.isSelected())
                     resultRenal.setVisible(true);
                 else
@@ -423,28 +413,23 @@ public class LabTestsPanel extends JPanel {
                 if (ckXray.isSelected()) {
                     newXray.setVisible(true);
                     resultXray.setVisible(true);
-                }
-                else {
+                } else {
                     newXray.setVisible(false);
                     resultXray.setVisible(false);
                 }
-            }
-            else if (obj == ckCompTom) {
+            } else if (obj == ckCompTom) {
                 if (ckCompTom.isSelected()) {
                     newCompTom.setVisible(true);
                     resultCompTom.setVisible(true);
-                }
-                else {
+                } else {
                     newCompTom.setVisible(false);
                     resultCompTom.setVisible(false);
                 }
-            }
-            else if (obj == ckMagRes) {
+            } else if (obj == ckMagRes) {
                 if (ckMagRes.isSelected()) {
                     newMagRes.setVisible(true);
                     resultMagRes.setVisible(true);
-                }
-                else {
+                } else {
                     newMagRes.setVisible(false);
                     resultMagRes.setVisible(false);
                 }
@@ -456,14 +441,13 @@ public class LabTestsPanel extends JPanel {
 
         public void itemStateChanged(ItemEvent e) {
             Object obj = e.getSource();
-            
+
             if (obj == ckUrin) {
                 if (ckUrin.isSelected())
                     resultUrin.setVisible(true);
                 else
                     resultUrin.setVisible(false);
-            }
-            else if (obj == ckStool) {
+            } else if (obj == ckStool) {
                 if (ckStool.isSelected())
                     resultStool.setVisible(true);
                 else

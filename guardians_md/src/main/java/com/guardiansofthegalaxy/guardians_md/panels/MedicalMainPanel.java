@@ -1,16 +1,16 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
 import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 
 public class MedicalMainPanel extends JPanel {
 
@@ -189,34 +189,34 @@ public class MedicalMainPanel extends JPanel {
                         // Add lab orders to new visit
 
                         if (pnLabTests.ckRed.isSelected()) {
-                            newVisit.addLabOrder(new LabOrder("lab", "red"));
+                            newVisit.addLabOrder(new LabOrder(LabName.HEMATOLOGIC, TestName.RED));
                         }
                         if (pnLabTests.ckWhite.isSelected()) {
-                            newVisit.addLabOrder(new LabOrder("lab", "white"));
+                            newVisit.addLabOrder(new LabOrder(LabName.HEMATOLOGIC, TestName.WHITE));
                         }
                         if (pnLabTests.ckLiver.isSelected()) {
-                            newVisit.addLabOrder(new LabOrder("lab", "liver"));
+                            newVisit.addLabOrder(new LabOrder(LabName.HEMATOLOGIC, TestName.LIVER));
                         }
                         if (pnLabTests.ckRenal.isSelected()) {
-                            newVisit.addLabOrder(new LabOrder("lab", "renal"));
+                            newVisit.addLabOrder(new LabOrder(LabName.HEMATOLOGIC, TestName.RENAL));
                         }
                         if (pnLabTests.ckEletrol.isSelected()) {
-                            newVisit.addLabOrder(new LabOrder("lab", "electrol"));
+                            newVisit.addLabOrder(new LabOrder(LabName.HEMATOLOGIC, TestName.ELECTROL));
                         }
                         if (pnLabTests.ckXray.isSelected()) {
-                            newVisit.addLabOrder(new LabOrder("lab", "xray"));
+                            newVisit.addLabOrder(new LabOrder(LabName.RADIOLOGIC, TestName.XRAY));
                         }
                         if (pnLabTests.ckCompTom.isSelected()) {
-                            newVisit.addLabOrder(new LabOrder("lab", "comptom"));
+                            newVisit.addLabOrder(new LabOrder(LabName.RADIOLOGIC, TestName.CT));
                         }
                         if (pnLabTests.ckMagRes.isSelected()) {
-                            newVisit.addLabOrder(new LabOrder("lab", "magres"));
+                            newVisit.addLabOrder(new LabOrder(LabName.RADIOLOGIC, TestName.MRI));
                         }
                         if (pnLabTests.ckUrin.isSelected()) {
-                            newVisit.addLabOrder(new LabOrder("test", "urin"));
+                            newVisit.addLabOrder(new LabOrder(LabName.ADDITIONAL, TestName.URINARY));
                         }
                         if (pnLabTests.ckStool.isSelected()) {
-                            newVisit.addLabOrder(new LabOrder("test", "stool"));
+                            newVisit.addLabOrder(new LabOrder(LabName.ADDITIONAL, TestName.STOOL));
                         }
 
                         // Add prescriptions to new visit
@@ -266,36 +266,35 @@ public class MedicalMainPanel extends JPanel {
                         // Set lab orders of visit
 
                         ArrayList<LabOrder> labOrders = new ArrayList<>();
-
                         if (pnLabTests.ckRed.isSelected()) {
-                            labOrders.add(new LabOrder("lab", "red"));
+                            labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.RED));
                         }
                         if (pnLabTests.ckWhite.isSelected()) {
-                            labOrders.add(new LabOrder("lab", "white"));
+                            labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.WHITE));
                         }
                         if (pnLabTests.ckLiver.isSelected()) {
-                            labOrders.add(new LabOrder("lab", "liver"));
+                            labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.LIVER));
                         }
                         if (pnLabTests.ckRenal.isSelected()) {
-                            labOrders.add(new LabOrder("lab", "renal"));
+                            labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.RENAL));
                         }
                         if (pnLabTests.ckEletrol.isSelected()) {
-                            labOrders.add(new LabOrder("lab", "electrol"));
+                            labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.ELECTROL));
                         }
                         if (pnLabTests.ckXray.isSelected()) {
-                            labOrders.add(new LabOrder("lab", "xray"));
+                            labOrders.add(new LabOrder(LabName.RADIOLOGIC, TestName.XRAY));
                         }
                         if (pnLabTests.ckCompTom.isSelected()) {
-                            labOrders.add(new LabOrder("lab", "comptom"));
+                            labOrders.add(new LabOrder(LabName.RADIOLOGIC, TestName.CT));
                         }
                         if (pnLabTests.ckMagRes.isSelected()) {
-                            labOrders.add(new LabOrder("lab", "magres"));
+                            labOrders.add(new LabOrder(LabName.RADIOLOGIC, TestName.MRI));
                         }
                         if (pnLabTests.ckUrin.isSelected()) {
-                            labOrders.add(new LabOrder("test", "urin"));
+                            labOrders.add(new LabOrder(LabName.ADDITIONAL, TestName.URINARY));
                         }
                         if (pnLabTests.ckStool.isSelected()) {
-                            labOrders.add(new LabOrder("test", "stool"));
+                            labOrders.add(new LabOrder(LabName.ADDITIONAL, TestName.STOOL));
                         }
 
                         updatedVisit.setLabOrders(labOrders);

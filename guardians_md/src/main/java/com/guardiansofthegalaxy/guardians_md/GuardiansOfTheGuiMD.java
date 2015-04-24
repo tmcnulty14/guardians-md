@@ -1,5 +1,7 @@
 package com.guardiansofthegalaxy.guardians_md;
 
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
+import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;
 import com.guardiansofthegalaxy.guardians_md.panels.*;
 import com.guardiansofthegalaxy.guardians_md.db.*;
 
@@ -23,10 +25,10 @@ public class GuardiansOfTheGuiMD {
         md.add("dsdsds");
 
         ArrayList<LabOrder> labOrders = new ArrayList<>();
-        labOrders.add(new LabOrder("lab","red"));
-        labOrders.add(new LabOrder("lab","white"));
-        labOrders.add(new LabOrder("lab","liver"));
-        labOrders.add(new LabOrder("test","stool"));
+        labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.RED));
+        labOrders.add(new LabOrder(LabName.HEMATOLOGIC,TestName.WHITE));
+        labOrders.add(new LabOrder(LabName.HEMATOLOGIC,TestName.LIVER));
+        labOrders.add(new LabOrder(LabName.ADDITIONAL, TestName.STOOL));
 
         ArrayList<Prescription> prescriptions = new ArrayList<>();
         prescriptions.add(new Prescription("PO", "Prescription for Morphine"));

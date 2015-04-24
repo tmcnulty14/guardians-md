@@ -11,6 +11,7 @@ public class LabOrder {
 	private LabName labName;
 	private TestName testName;
 	private String results;
+    private boolean hasResultsImage;
 
 	/**
 	 * Constructor for creating a brand new lab order.
@@ -18,28 +19,46 @@ public class LabOrder {
      * @param labName
      * @param testName*/
 	public LabOrder(LabName labName, TestName testName) {
-		this(-1, -1, labName, testName, "");
+		this(-1, -1, labName, testName, "",false);
 	}
 
 	/** 
 	 * Constructor for creating a new lab order that already has results.
 	 **/
-	public LabOrder(LabName labName, TestName testName, String results) {
-		this(-1, -1, labName, testName, results);
+	public LabOrder(LabName labName, TestName testName, String results, boolean hasResultsImage) {
+		this(-1, -1, labName, testName, results, hasResultsImage);
 	}
+
+
 
 	/**
 	 * Constructor for retrieving lab orders from the database.
 	 **/
-	public LabOrder(int labOrderID, int visitID, LabName labName, TestName testName, String results) {
+	public LabOrder(int labOrderID, int visitID, LabName labName, TestName testName, String results, boolean hasResultsImage) {
 		this.labOrderID = labOrderID;
 		this.visitID = visitID;
 		this.labName = labName;
 		this.testName = testName;
 		this.results = results;
+        this.hasResultsImage = hasResultsImage;
 	}
 
-	// Getters
+
+
+    /**
+     * Constructor for retrieving lab orders from the database.
+     **/
+    public LabOrder(int labOrderID, int visitID, String labName, String testName, String results) {
+        this.labOrderID = labOrderID;
+        this.visitID = visitID;
+        this.labName = LabName.valueOf(labName);
+        this.testName = TestName.valueOf(testName);
+        this.results = results;
+        this.hasResultsImage = false;
+    }
+
+
+    // Getters
 
 	public int getLabOrderID() {
 		return labOrderID;
@@ -69,7 +88,11 @@ public class LabOrder {
 		return results;
 	}
 
-    public String[] getResultList(){
+    public boolean getHasResultsImage(){
+        return hasResultsImage;
+    }
+
+    public String[] getResultsImageList(){
         return results.split(",");
     }
 
@@ -102,6 +125,10 @@ public class LabOrder {
     public void setResults(String results) {
 		this.results = results;
 	}
+
+    public void setResultsImage(boolean hasResultsImage){
+        this.hasResultsImage = hasResultsImage;
+    }
 
 	@Override
 	public String toString() {
