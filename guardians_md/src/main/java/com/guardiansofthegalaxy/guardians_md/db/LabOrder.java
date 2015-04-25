@@ -29,7 +29,12 @@ public class LabOrder {
 		this(-1, -1, labName, testName, results, hasResultsImage);
 	}
 
-
+	/**
+     * Constructor for retrieving lab orders from the database.
+     **/
+    public LabOrder(int labOrderID, int visitID, String labName, String testName, String results, boolean hasResultsImage) {
+    	this(labOrderID, visitID, LabName.valueOf(labName), TestName.valueOf(testName), results, hasResultsImage);
+    }
 
 	/**
 	 * Constructor for retrieving lab orders from the database.
@@ -42,21 +47,6 @@ public class LabOrder {
 		this.results = results;
         this.hasResultsImage = hasResultsImage;
 	}
-
-
-
-    /**
-     * Constructor for retrieving lab orders from the database.
-     **/
-    public LabOrder(int labOrderID, int visitID, String labName, String testName, String results) {
-        this.labOrderID = labOrderID;
-        this.visitID = visitID;
-        this.labName = LabName.valueOf(labName);
-        this.testName = TestName.valueOf(testName);
-        this.results = results;
-        this.hasResultsImage = false;
-    }
-
 
     // Getters
 
@@ -132,8 +122,8 @@ public class LabOrder {
 
 	@Override
 	public String toString() {
-		String str = String.format("Lab Order #%d GP Visit #%d Lab: %s Test: %s Results: %s",
-			labOrderID, visitID, labName, testName, results);
+		String str = String.format("Lab Order #%d GP Visit #%d Lab: %s Test: %s Results: %s hasResultsImage: %s",
+			labOrderID, visitID, labName, testName, results, "" + hasResultsImage);
 
 		return str;
 	}
@@ -152,8 +142,9 @@ public class LabOrder {
 
         return l.getLabOrderID() == this.labOrderID &&
         	   l.getVisitID() == this.visitID &&
-        	   l.getLabName_str().equals(this.labName) &&
-        	   l.getTestName_str().equals(this.testName) &&
-        	   (l.getResults()==null ? this.results==null : l.getResults().equals(this.results));
+        	   l.getLabName_enum().equals(this.labName) &&
+        	   l.getTestName_enum().equals(this.testName) &&
+        	   (l.getResults()==null ? this.results==null : l.getResults().equals(this.results)) &&
+        	   !(l.getHasResultsImage() ^ this.hasResultsImage);
 	}
 }

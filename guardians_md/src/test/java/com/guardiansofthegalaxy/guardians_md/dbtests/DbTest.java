@@ -3,6 +3,7 @@ package com.guardiansofthegalaxy.guardians_md.dbtests;
 import com.guardiansofthegalaxy.guardians_md.db.*;
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;
+import org.junit.Test;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -26,7 +27,7 @@ public class DbTest {
 		database = null;
 	}
 
-	//@Test
+	@Test
 	/**
 	 * Tests methods associated with patients.
 	 **/
@@ -53,7 +54,7 @@ public class DbTest {
 		Assert.assertNull(database.getPatient(id));
 	}
 
-	//@Test
+	@Test
 	/**
 	 * Tests methods associated with users.
 	 **/
@@ -85,7 +86,7 @@ public class DbTest {
 		Assert.assertTrue(database.checkUsernameAvailable(DEFAULT_USERNAME));
 	}
 
-	//@Test
+	@Test
 	/**
 	 * Tests methods associated with visits.
 	 **/
@@ -141,7 +142,7 @@ public class DbTest {
 		Assert.assertTrue(database.deleteUser(DEFAULT_USERNAME));
 	}
 
-	//@Test
+	@Test
 	/**
 	 * Tests methods associated with searching.
 	 **/
@@ -181,7 +182,7 @@ public class DbTest {
 		ArrayList<Prescription> prescriptions = new ArrayList<>();
 		prescriptions.add(new Prescription("Medicine", "GenericMed"));
 		ArrayList<LabOrder> labOrders = new ArrayList<>();
-		labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.LIVER));
+		labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.XRAY, "", true));
 
 		// Get the test user and patient
 		int patientId = registerTestPatient(database).getPatientID();

@@ -124,6 +124,7 @@ public class DatabaseConnection implements DbConn {
 				"lab_name VARCHAR(48)," + 
 				"test_name VARCHAR(96)," +
 				"results TEXT," +
+				"has_image BOOLEAN," +
 				"FOREIGN KEY(visit_id) REFERENCES general_practice_visit(visit_id) ON DELETE CASCADE," +
 				"PRIMARY KEY(lab_order_id));";
 		stmt.execute(sql);
@@ -928,8 +929,8 @@ public class DatabaseConnection implements DbConn {
 			labResult = selectStmt.executeQuery();
 			
 			while(labResult.next()) {
-				LabOrder p = new LabOrder(labResult.getInt(1), labResult.getInt(2), 
-												  labResult.getString(3), labResult.getString(4), labResult.getString(5));
+				LabOrder p = new LabOrder(labResult.getInt(1), labResult.getInt(2), labResult.getString(3), 
+												  labResult.getString(4), labResult.getString(5), labResult.getBoolean(6));
 				matches.add(p);
 			}
 		} catch(SQLException se) {
@@ -955,14 +956,15 @@ public class DatabaseConnection implements DbConn {
 	 **/
 	public boolean createLabOrder(LabOrder newLabOrder) {
 		boolean error = false;
-		String sql = "INSERT INTO lab_order VALUES(NULL, ?, ?, ?, ?);";
+		String sql = "INSERT INTO lab_order VALUES(NULL, ?, ?, ?, ?, ?);";
 		PreparedStatement regStmt = null;
 		try {
 			regStmt = conn.prepareStatement(sql);
 			regStmt.setInt(1, newLabOrder.getVisitID());
-			regStmt.setString(2, newLabOrder.getLabName_str());
-			regStmt.setString(3, newLabOrder.getTestName_str());
+			regStmt.setString(2, newLabOrder.getLabName_enum().name());
+			regStmt.setString(3, newLabOrder.getTestName_enum().name());
 			regStmt.setString(4, newLabOrder.getResults());
+			regStmt.setBoolean(5, newLabOrder.getHasResultsImage());
 			regStmt.execute();
 		} catch(SQLException se) {
 			logSQLException("createLabOrder()", "", se);
@@ -986,15 +988,17 @@ public class DatabaseConnection implements DbConn {
 	 **/
 	public boolean updateLabOrder(LabOrder labOrder) {
 		boolean error = false;
-		String sql = "UPDATE lab_order SET visit_id=?, lab_name=?, test_name=?, results=? WHERE lab_order_id=?;";
+		String sql = "UPDATE lab_order SET visit_id=?, lab_name=?, test_name=?, results=?, has_image=? WHERE lab_order_id=?;";
 		PreparedStatement regStmt = null;
 		try {
 			regStmt = conn.prepareStatement(sql);
 			regStmt.setInt(1, labOrder.getVisitID());
-			regStmt.setString(2, labOrder.getLabName_str());
-			regStmt.setString(3, labOrder.getTestName_str());
+			regStmt.setString(2, labOrder.getLabName_enum().name());
+			regStmt.setString(3, labOrder.getTestName_enum().name());
 			regStmt.setString(4, labOrder.getResults());
-			regStmt.setInt(5, labOrder.getLabOrderID());
+			regStmt.setBoolean(5, labOrder.getHasResultsImage());
+			regStmt.setInt(6, labOrder.getLabOrderID());
+
 			regStmt.execute();
 		} catch(SQLException se) {
 			logSQLException("updateLabOrder()", "", se);
