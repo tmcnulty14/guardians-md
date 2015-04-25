@@ -16,6 +16,8 @@ import org.apache.commons.io.FileUtils;
 public class S3Test {
 	private static final String TEST_IMAGE = ConfigDirectory.getImageFileFromDirectory("Home_button.png");
 	private static final String TEST_KEY = "test.png";
+	private static final String TEST_KEY_PREFIX = "test";
+	private static final String TEST_KEY_SUFFIX = "png";
 
 	private static S3ImageStorage s3Conn = null;
 
@@ -31,7 +33,7 @@ public class S3Test {
 			Image testImage = ImageIO.read(url); 
 			Assert.assertNotNull(testImage);
 
-			File testFile = new File(TEST_KEY);
+			File testFile = File.createTempFile(TEST_KEY_PREFIX, TEST_KEY_SUFFIX);
 			FileUtils.copyURLToFile(url, testFile);
 
 			Assert.assertTrue(s3Conn.storeImage(testFile, TEST_KEY));
@@ -39,11 +41,11 @@ public class S3Test {
 			Assert.assertNotNull(image);
 
 			// Due to the way equality of BufferedImages is handled, the redownloaded image will not be considered "equal".
-			// Therefore this assertion will fail.
+			// Therefore this assertion will fail, and we can't test for this without examining the data of the BufferedImage on a closer level.
 			//Assert.assertEquals(testImage, image);
 
 			Assert.assertTrue(s3Conn.deleteImage(TEST_KEY));
-			testFile.delete();
+			Assert.assertTrue(testFile.delete());
 		} catch(IOException ioe) {
 			Assert.fail();
 		}
