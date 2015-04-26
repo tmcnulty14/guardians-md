@@ -5,6 +5,8 @@ import com.guardiansofthegalaxy.guardians_md.environments.ConfigDirectory;
 import com.guardiansofthegalaxy.guardians_md.db.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -23,8 +25,8 @@ public class GettingStartedPanel extends JPanel {
 
     public DatabaseConnection dbc;
 
-    public GettingStartedPanel(){
-
+    public GettingStartedPanel(DatabaseConnection dbc){
+        this.dbc = dbc;
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
@@ -62,16 +64,16 @@ public class GettingStartedPanel extends JPanel {
         btnCreateVisit.setVisible(false);
 
         lblUserInfo = new JLabel("User Information", SwingConstants.CENTER);
-        lblUserInfo.setFont(new Font("Times New Roman", 0, 16));
+        lblUserInfo.setFont(new Font("DejaVu Serif", 0, 18));
 
         lblPatientReg = new JLabel("Patient Registration", SwingConstants.CENTER);
-        lblPatientReg.setFont(new Font("Times New Roman", 0, 16));
+        lblPatientReg.setFont(new Font("DejaVu Serif", 0, 18));
 
         lblSearchRecs = new JLabel("Search Records", SwingConstants.CENTER);
-        lblSearchRecs.setFont(new Font("Times New Roman", 0, 16));
+        lblSearchRecs.setFont(new Font("DejaVu Serif", 0, 18));
 
         lblCreateVisit = new JLabel("Create New Visit (under construction)", SwingConstants.CENTER);
-        lblCreateVisit.setFont(new Font("Times New Roman", 0, 16));
+        lblCreateVisit.setFont(new Font("DejaVu Serif", 0, 18));
         lblCreateVisit.setVisible(false);
 
         pnOption1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -127,14 +129,19 @@ public class GettingStartedPanel extends JPanel {
         recentList = new JList();
         recentList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         recentList.setVisibleRowCount(10);
+        recentList.addListSelectionListener(new SelectedListener());
 
         scrollPane = new JScrollPane(recentList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         btnViewRecent = new JButton("View");
         btnViewRecent.setFont(new Font("DejaVu Serif", 0, 16));
+        btnViewRecent.setEnabled(false);
 
-        dbc = new DatabaseConnection();
+        JPanel pnViewButton = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnViewButton.setBackground(Color.WHITE);
+        pnViewButton.add(btnViewRecent);
+
         refreshRecentList();
 
         pnEast = new JPanel(new BorderLayout());
@@ -144,7 +151,7 @@ public class GettingStartedPanel extends JPanel {
 
         pnEast.add(northPanel, BorderLayout.NORTH);
         pnEast.add(scrollPane, BorderLayout.CENTER);
-        pnEast.add(btnViewRecent, BorderLayout.SOUTH);
+        pnEast.add(pnViewButton, BorderLayout.SOUTH);
     }
 
     public void refreshRecentList() {
@@ -162,8 +169,6 @@ public class GettingStartedPanel extends JPanel {
         }
 
         recentList.setListData(visitStrings);
-
-        btnViewRecent.setEnabled((visitStrings.length > 0) ? true : false);
     }
 
     public int getRecentIndex() {
@@ -174,6 +179,13 @@ public class GettingStartedPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             refreshRecentList();
+        }
+    }
+
+    private class SelectedListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            btnViewRecent.setEnabled((recentList.isSelectionEmpty()) ? false : true);
         }
     }
 }

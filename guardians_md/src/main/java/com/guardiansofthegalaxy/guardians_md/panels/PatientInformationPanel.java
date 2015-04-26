@@ -255,8 +255,12 @@ public class PatientInformationPanel extends JPanel {
     public void setGender() {
         if (patient.getGender().equalsIgnoreCase("Female")) {
             rbFemale.setSelected(true);
-        } else if (patient.getGender().equalsIgnoreCase("Male")) {
+        }
+        else if (patient.getGender().equalsIgnoreCase("Male")) {
             rbMale.setSelected(true);
+        }
+        else {
+            buttonGroup.clearSelection();
         }
     }
 
@@ -313,9 +317,9 @@ public class PatientInformationPanel extends JPanel {
         String gender = "";
 
         if (rbMale.isSelected()) {
-            gender = "M";
+            gender = "Male";
         } else if (rbFemale.isSelected()) {
-            gender = "F";
+            gender = "Female";
         }
 
         String fixedBirth;
@@ -333,7 +337,6 @@ public class PatientInformationPanel extends JPanel {
         }
 
         // New patients have an ID of -1
-        // TODO make sure that when a patient is being registered, that a new patient with ID -1 is set in med config
         if (MedicalConfigurator.isNewPatient()) {
 
             if (!dbc.registerPatient(new Patient(
@@ -397,8 +400,7 @@ public class PatientInformationPanel extends JPanel {
         txtBirthDate.setText("");
         txtInsProv.setText("");
         txtInsNum.setText("");
-        rbFemale.setSelected(false);
-        rbMale.setSelected(false);
+        buttonGroup.clearSelection();
         ckEdit.setSelected(false);
     }
 

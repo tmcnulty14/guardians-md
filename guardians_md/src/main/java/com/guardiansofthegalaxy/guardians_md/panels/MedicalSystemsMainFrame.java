@@ -88,6 +88,11 @@ public class MedicalSystemsMainFrame extends JFrame {
                     pnLogin.passwordField.setText("");
                     pnUnivHeader.setHeaderIfUserLoggedIn();
                     pnUnivHeader.btnReturnMain.setVisible(false);
+                    
+                    pnUserReg.loadUserInformation();
+                    pnUserReg.passLabel.setVisible(false);
+                    pnUserReg.passwordField.setVisible(false);
+                    pnUserReg.usernameField.setEditable(false);
 
                     if (activeUser.hasDoctorPrivileges()) {
                         pnGetStart.btnCreateVisit.setVisible(true);
@@ -112,17 +117,17 @@ public class MedicalSystemsMainFrame extends JFrame {
         pnLogin.registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                pnUserReg.clearFields();
+                cardLayout.show(cardPanel, "UserRegPanel");
                 setSize(750, 300);
                 setLocationRelativeTo(null);
-                cardLayout.show(cardPanel, "UserRegPanel");
             }
         });
 
-        pnGetStart = new GettingStartedPanel();
+        pnGetStart = new GettingStartedPanel(database);
         pnGetStart.btnUserAccountInformation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: call the user registration panel with fields populated
                 pnUnivHeader.btnReturnMain.setVisible(true);
                 cardLayout.show(cardPanel,"UserRegPanel");
             }
@@ -199,7 +204,7 @@ public class MedicalSystemsMainFrame extends JFrame {
             }
         });
 
-        pnUserReg = new UserRegPanel();
+        pnUserReg = new UserRegPanel(database);
         
         pnPatientReg = new PatientInformationPanel(database);
         pnPatientReg.editPatientInformation();
@@ -298,7 +303,6 @@ public class MedicalSystemsMainFrame extends JFrame {
             }
 
             else if (source == userInfoMenuItem) {
-                // TODO populate user reg panel
                 pnUnivHeader.btnReturnMain.setVisible(true);
                 cardLayout.show(cardPanel, "UserRegPanel");
             }
@@ -345,6 +349,11 @@ public class MedicalSystemsMainFrame extends JFrame {
                 searchMenuItem.setVisible(false);
                 createVisitMenuItem.setVisible(false);
                 logoutMenuItem.setVisible(false);
+
+                pnUserReg.clearFields();
+                pnUserReg.passLabel.setVisible(true);
+                pnUserReg.passwordField.setVisible(true);
+                pnUserReg.usernameField.setEditable(true);
                 
                 cardLayout.show(cardPanel, "LoginPanel");
                 setSize(500, 400);

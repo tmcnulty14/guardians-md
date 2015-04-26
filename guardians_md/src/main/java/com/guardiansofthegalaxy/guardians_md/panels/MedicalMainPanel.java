@@ -148,7 +148,6 @@ public class MedicalMainPanel extends JPanel {
 
                 if (pnPat.submitPatient(false)) {
                     // New visits have an ID of -1
-                    // TODO make sure that when a visit is being created, that a new visit with ID -1 is set in med config
                     if (MedicalConfigurator.isNewVisit()) {
                         Date dt = new Date();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

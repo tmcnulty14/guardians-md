@@ -12,17 +12,20 @@ public class UserRegPanel extends JPanel
 {
     private JButton enter;
     private JPanel fieldsPanel, buttonsPanel, regPanel;
-    private JTextField fNameField, lNameField, pagerNumberField, positionField, passwordField, usernameField;
-    private JLabel fnLabel, lnLabel, pagerLabel, posLabel, specialtyLabel, passLabel, usernameLabel;         
+    public JTextField fNameField, lNameField, pagerNumberField, positionField, passwordField, usernameField;
+    public JLabel fnLabel, lnLabel, pagerLabel, posLabel, specialtyLabel, passLabel, usernameLabel;         
     private JRadioButton nurse, doctor;
     private ButtonGroup specGroup;
     public boolean isDoctor;
+    private final DatabaseConnection regConn;
     
-    public UserRegPanel()
+    public UserRegPanel(DatabaseConnection dbc)
     {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createBevelBorder(2, Color.green, Color.yellow));
         setBackground(Color.WHITE);
+
+        regConn = dbc;
         
         BuildFields();
         BuildButtons();
@@ -64,10 +67,8 @@ public class UserRegPanel extends JPanel
         
         nurse = new JRadioButton("Nurse");
         nurse.setFont(new Font("DejaVu Serif", 0, 16));
-        nurse.addActionListener(new choiceButtonListener());
         doctor = new JRadioButton("Doctor");
         doctor.setFont(new Font("DejaVu Serif", 0, 16));
-        doctor.addActionListener(new choiceButtonListener());
         
         specGroup = new ButtonGroup();
         specGroup.add(nurse);
@@ -105,16 +106,62 @@ public class UserRegPanel extends JPanel
         enter.setFont(new Font("DejaVu Serif", 0, 16));
         enter.addActionListener(new userRegButtonListener());
         
-        buttonsPanel.add(enter); 
+        buttonsPanel.add(enter);
+    }
+
+    public void loadUserInformation() {
+        User currentUser = MedicalConfigurator.getLoginUser();
+
+        fNameField.setText(currentUser.getFirstName());
+        lNameField.setText(currentUser.getLastName());
+        pagerNumberField.setText(currentUser.getSpecialty());
+        positionField.setText(currentUser.getPagerNumber());
+        usernameField.setText(currentUser.getUsername());
+
+        if (currentUser.hasDoctorPrivileges())
+            doctor.setSelected(true);
+        else
+            nurse.setSelected(true);
     }
     
+    public void clearFields() {
+        fNameField.setText("");
+        lNameField.setText("");
+        pagerNumberField.setText("");
+        positionField.setText("");
+        usernameField.setText("");
+        passwordField.setText("");
+        
+        specGroup.clearSelection();
+    }
+
+    public void getRole() {
+        if(nurse.isSelected())
+        {
+            isDoctor = false;
+        }
+        else if(doctor.isSelected())
+        {
+            isDoctor = true;
+        }
+    }
+
     private class userRegButtonListener implements ActionListener
     {
-	public void actionPerformed(ActionEvent e)
-	{  
-            DatabaseConnection regConn = new DatabaseConnection();
+	   public void actionPerformed(ActionEvent e)
+	   {  
+            getRole();
+
             User newUser = new User(usernameField.getText(), fNameField.getText(), lNameField.getText(), positionField.getText(), pagerNumberField.getText(), isDoctor );
-            if( regConn.checkUsernameAvailable(newUser.getUsername()) == true)
+            
+            if (MedicalConfigurator.isUserLoggedIn())
+            {
+                if (regConn.updateUser(newUser))
+                    JOptionPane.showMessageDialog(null, "User has been updated.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(null, "Unexpected error. User was not updated. Please try again or contact a system administrator.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if( regConn.checkUsernameAvailable(newUser.getUsername()) == true)
             {
                 regConn.registerUser(newUser, passwordField.getText());
                 if(regConn.validateLogin(newUser.getUsername(), passwordField.getText()) == true)
@@ -129,22 +176,6 @@ public class UserRegPanel extends JPanel
             else
             {
                 JOptionPane.showMessageDialog(null, "Username is already taken, Please try another", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            regConn.close();
-        }
-    } 
-    
-    private class choiceButtonListener implements ActionListener
-    {
-	public void actionPerformed(ActionEvent e)
-	{   
-            if(nurse.isSelected())
-            {
-                isDoctor = false;
-            }
-            if(doctor.isSelected())
-            {
-                isDoctor = true;
             }
         }
     }
