@@ -24,17 +24,14 @@ public class MedicalMainPanel extends JPanel {
     public LabTestsPanel pnLabTests;
     public PrescriptionPanel pnPresc;
     public NursingPanel pnNursComm;
-    public JPanel pnSelectButtons;
+    public JPanel pnSelectButtons, pnSubmitButton;
     public JButton btnPat, btnGenPract, btnLabTests, btnPresc, btnNursComm, btnSubmit;
     public Patient patient = null;
     public Visit visit = null;
-    public DatabaseConnection database;
-
-    public JPanel pnSubmitButton;
-
+    public DatabaseConnection dbc;
 
     public MedicalMainPanel(DatabaseConnection database) {
-        this.database = database;
+        this.dbc = database;
         setLayout(new BorderLayout());
         buildPanels();
         setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -46,7 +43,7 @@ public class MedicalMainPanel extends JPanel {
 
 
         cardPanel = new JPanel();
-        pnPat = new PatientInformationPanel();
+        pnPat = new PatientInformationPanel(dbc);
         pnGenPract = new GeneralPracticePanel();
         pnLabTests = new LabTestsPanel();
         pnPresc = new PrescriptionPanel();
@@ -84,7 +81,6 @@ public class MedicalMainPanel extends JPanel {
 
     }
 
-
     private void buildSelectionButtonsPanel() {
 
         pnSelectButtons = new JPanel();
@@ -121,6 +117,14 @@ public class MedicalMainPanel extends JPanel {
 
     }
 
+    public void clearFields() {
+        pnPat.clearFields();
+        pnGenPract.clearFields();
+        pnLabTests.clearFields();
+        pnPresc.clearFields();
+        pnNursComm.txtaComm.setText("");
+    }
+
     private class MenuListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             Object source = e.getSource();
@@ -141,32 +145,8 @@ public class MedicalMainPanel extends JPanel {
                 cardLayout.show(cardPanel, "NursingCommentsPanel");
             }
             else if (source == btnSubmit) {
-                DatabaseConnection dbc = new DatabaseConnection();
 
-                String gender = "";
-
-                if (pnPat.rbMale.isSelected()) {
-                    gender = "M";
-                }
-                else if (pnPat.rbFemale.isSelected()) {
-                    gender = "F";
-                }
-
-                Patient updatedPatient = new Patient(MedicalConfigurator.getActivePatient().getPatientID(),
-                        pnPat.txtFName.getText(), pnPat.txtLName.getText(),
-                        pnPat.txtBirthDate.getText(), gender,
-                        pnPat.txtAddress1.getText(), pnPat.txtAddress2.getText(),
-                        pnPat.txtCity.getText(), pnPat.txtState.getText(),
-                        pnPat.txtZip.getText(), pnPat.txtCountry.getText(),
-                        pnPat.txtInsProv.getText(), pnPat.txtInsNum.getText());
-
-                if (!dbc.updatePatient(updatedPatient)) {
-                    JOptionPane.showMessageDialog(null, "Could not update patient. Please check that all fields are valid and try again.",
-                        "Update failed", JOptionPane.ERROR_MESSAGE);
-                }
-                else {
-                    MedicalConfigurator.setActivePatient(updatedPatient);
-
+                if (pnPat.submitPatient(false)) {
                     // New visits have an ID of -1
                     // TODO make sure that when a visit is being created, that a new visit with ID -1 is set in med config
                     if (MedicalConfigurator.isNewVisit()) {
@@ -327,7 +307,7 @@ public class MedicalMainPanel extends JPanel {
                             String date = sdf.format(dt);
 
                             String comments = pnNursComm.txtaComm.getText();
-                            comments += "\n\n---Nurse: " + currentUser.getFirstName() + " " + currentUser.getLastName() + ", " + date;
+                            comments += "\n\n--- Nurse: " + currentUser.getFirstName() + " " + currentUser.getLastName() + ", " + date;
 
                             updatedVisit.setComments(comments);
                         }

@@ -12,12 +12,12 @@ import java.util.ArrayList;
 public class GettingStartedPanel extends JPanel {
 
 
-    public JPanel pnNorth, pnCenter, pnWest, pnOption1, pnOption2, pnOption3, pnOption4;
+    public JPanel pnNorth, pnCenter, pnEast, pnOption1, pnOption2, pnOption3, pnOption4;
     public JLabel lblWelcome, lblSelectActionsOrMainMenu, lblRecentList, lblUserInfo, lblPatientReg, lblCreateVisit, lblSearchRecs;
     public ImageButton btnUserAccountInformation, btnPatientRegistration, btnCreateVisit, btnSearchRecords;
     public JList recentList;
     public JScrollPane scrollPane;
-    public JButton btnViewRecent;
+    public JButton btnRefreshRecent, btnViewRecent;
 
     public ArrayList<Visit> recentVisits;
 
@@ -30,11 +30,11 @@ public class GettingStartedPanel extends JPanel {
 
         pnNorth = new JPanel(new GridLayout(2,1));
         pnNorth.setBackground(Color.WHITE);
-        lblWelcome = new JLabel("Welcome to the GotG Medical Record MainFrame", SwingConstants.CENTER);
+        lblWelcome = new JLabel("Welcome to Medical Doctor", SwingConstants.CENTER);
         lblWelcome.setFont(new Font("Times New Roman", 0, 40));
         lblWelcome.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        lblSelectActionsOrMainMenu = new JLabel("Select from the options in the Main Menu dropdown list of by the " +
+        lblSelectActionsOrMainMenu = new JLabel("Select from the options in the Main Menu dropdown list or by the " +
                 "short cut buttons on the side display.", SwingConstants.CENTER);
         lblSelectActionsOrMainMenu.setFont(new Font("Times New Roman", 0, 16));
         lblSelectActionsOrMainMenu.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -74,47 +74,55 @@ public class GettingStartedPanel extends JPanel {
         lblCreateVisit.setFont(new Font("Times New Roman", 0, 16));
         lblCreateVisit.setVisible(false);
 
-        pnOption1 = new JPanel();
+        pnOption1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         pnOption1.setBackground(Color.WHITE);
         pnOption1.setPreferredSize(new Dimension(150, 150));
         pnOption1.add(btnUserAccountInformation);
         pnOption1.add(lblUserInfo);
 
-        pnOption2 = new JPanel();
+        pnOption2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         pnOption2.setBackground(Color.WHITE);
         pnOption2.setPreferredSize(new Dimension(150, 150));
         pnOption2.add(btnPatientRegistration);
         pnOption2.add(lblPatientReg);
 
-        pnOption3 = new JPanel();
+        pnOption3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         pnOption3.setBackground(Color.WHITE);
         pnOption3.setPreferredSize(new Dimension(150, 150));
         pnOption3.add(btnSearchRecords);
         pnOption3.add(lblSearchRecs);
 
-        pnOption4 = new JPanel();
+        pnOption4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         pnOption4.setBackground(Color.WHITE);
         pnOption4.setPreferredSize(new Dimension(150, 150));
         pnOption4.add(btnCreateVisit);
         pnOption4.add(lblCreateVisit);
 
-        //TODO: quick lookup by id for patient
         pnCenter.add(pnOption1);
         pnCenter.add(pnOption2);
         pnCenter.add(pnOption3);
         pnCenter.add(pnOption4);
 
-        buildWestPanel();
+        buildEastPanel();
 
         add(pnNorth, BorderLayout.NORTH);
         add(pnCenter, BorderLayout.CENTER);
-        add(pnWest, BorderLayout.WEST);
+        add(pnEast, BorderLayout.EAST);
     }
 
-    private void buildWestPanel() {
+    private void buildEastPanel() {
         lblRecentList = new JLabel("Recent Visits:");
         lblRecentList.setFont(new Font("DejaVu Serif", Font.ITALIC, 14));
         lblRecentList.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+
+        btnRefreshRecent = new JButton("Refresh");
+        btnRefreshRecent.setFont(new Font("DejaVu Serif", Font.ITALIC, 12));
+        btnRefreshRecent.addActionListener(new RefreshListener());
+
+        JPanel northPanel = new JPanel(new BorderLayout());
+        northPanel.setBackground(Color.WHITE);
+        northPanel.add(lblRecentList, BorderLayout.WEST);
+        northPanel.add(btnRefreshRecent, BorderLayout.EAST);
 
         recentList = new JList();
         recentList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -129,14 +137,14 @@ public class GettingStartedPanel extends JPanel {
         dbc = new DatabaseConnection();
         refreshRecentList();
 
-        pnWest = new JPanel(new BorderLayout());
-        pnWest.setBackground(Color.WHITE);
-        pnWest.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        pnWest.setPreferredSize(new Dimension(250, 500));
+        pnEast = new JPanel(new BorderLayout());
+        pnEast.setBackground(Color.WHITE);
+        pnEast.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        pnEast.setPreferredSize(new Dimension(500, 500));
 
-        pnWest.add(lblRecentList, BorderLayout.NORTH);
-        pnWest.add(scrollPane, BorderLayout.CENTER);
-        pnWest.add(btnViewRecent, BorderLayout.SOUTH);
+        pnEast.add(northPanel, BorderLayout.NORTH);
+        pnEast.add(scrollPane, BorderLayout.CENTER);
+        pnEast.add(btnViewRecent, BorderLayout.SOUTH);
     }
 
     public void refreshRecentList() {
@@ -144,17 +152,28 @@ public class GettingStartedPanel extends JPanel {
 
         String[] visitStrings = new String[recentVisits.size()];
 
-        for (int i = 0, len = visitStrings.length; i < len; i++) {
+        for (int i = visitStrings.length - 1, j = 0; i >= 0; i--, j++) {
             Visit currentV = recentVisits.get(i);
             Patient currentP = dbc.getPatient(currentV.getPatientID());
 
             String visitStr = currentP.getFirstName() + " " + currentP.getLastName() + ", " + currentV.getDate();
 
-            visitStrings[i] = visitStr;
+            visitStrings[j] = visitStr;
         }
 
         recentList.setListData(visitStrings);
 
         btnViewRecent.setEnabled((visitStrings.length > 0) ? true : false);
+    }
+
+    public int getRecentIndex() {
+        return recentVisits.size() - recentList.getSelectedIndex() - 1;
+    }
+
+    private class RefreshListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            refreshRecentList();
+        }
     }
 }

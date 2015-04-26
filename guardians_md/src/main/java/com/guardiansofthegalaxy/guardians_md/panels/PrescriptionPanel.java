@@ -119,15 +119,7 @@ public class PrescriptionPanel extends JPanel {
             }
         }
         else {
-            ckIntramu.setSelected(false);
-            ckIntravas.setSelected(false);
-            ckSubcuta.setSelected(false);
-            ckOral.setSelected(false);
-
-            txtIntramu.setText("");
-            txtIntravas.setText("");
-            txtSubcuta.setText("");
-            txtOral.setText("");
+            clearFields();
         }
     }
 
@@ -157,6 +149,18 @@ public class PrescriptionPanel extends JPanel {
                 break;
             }
         }
+    }
+
+    public void clearFields() {
+        ckIntramu.setSelected(false);
+        ckIntravas.setSelected(false);
+        ckSubcuta.setSelected(false);
+        ckOral.setSelected(false);
+
+        txtIntramu.setText("");
+        txtIntravas.setText("");
+        txtSubcuta.setText("");
+        txtOral.setText("");
     }
 
     private class CheckBoxListener implements ItemListener {

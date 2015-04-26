@@ -2,6 +2,7 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 import com.guardiansofthegalaxy.guardians_md.db.User;
+import com.guardiansofthegalaxy.guardians_md.db.Patient;
 import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
 
 import javax.swing.*;
@@ -10,8 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MedicalSystemsMainFrame extends JFrame {
-    private final int FRAME_WIDTH = 1000;
-    private final int FRAME_HEIGHT = 500;
 
     public CardLayout cardLayout;
     public JPanel cardPanel;
@@ -28,17 +27,18 @@ public class MedicalSystemsMainFrame extends JFrame {
     public JMenuBar menuBar;
     public JMenuItem loginMenuItem;
     public JMenuItem gettingStartedMenuItem;
+    public JMenuItem userInfoMenuItem;
+    public JMenuItem patientRegMenuItem;
     public JMenuItem searchMenuItem;
+    public JMenuItem createVisitMenuItem;
     public JMenuItem logoutMenuItem;
     public JMenuItem exitMenuItem;
-
-    // TODO add menu items for patient reg, user info, and creating a visit
 
     public DatabaseConnection database;
 
     public MedicalSystemsMainFrame() {
 
-        super("Medical Doctor Main Menu System");
+        super("Medical Doctor Software");
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(Color.WHITE);
@@ -46,14 +46,11 @@ public class MedicalSystemsMainFrame extends JFrame {
         database = new DatabaseConnection();
 
         buildPanels();
-        // setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         buildMenuBar();
-
-        pack();
+        
+        setSize(500, 400);
         setLocationRelativeTo(null);
         setVisible(true);
-
-
     }
 
     private void buildPanels() {
@@ -63,7 +60,6 @@ public class MedicalSystemsMainFrame extends JFrame {
         pnUnivHeader.btnReturnMain.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pnGetStart.refreshRecentList();
                 pnUnivHeader.btnReturnMain.setVisible(false);
                 cardLayout.show(cardPanel,"GettingStartedPanel");
             }
@@ -84,6 +80,8 @@ public class MedicalSystemsMainFrame extends JFrame {
                     MedicalConfigurator.setUserLoggedIn(true);
                     loginMenuItem.setVisible(false);
                     gettingStartedMenuItem.setVisible(true);
+                    userInfoMenuItem.setVisible(true);
+                    patientRegMenuItem.setVisible(true);
                     searchMenuItem.setVisible(true);
                     logoutMenuItem.setVisible(true);
                     pnLogin.usernameField.setText("");
@@ -94,13 +92,17 @@ public class MedicalSystemsMainFrame extends JFrame {
                     if (activeUser.hasDoctorPrivileges()) {
                         pnGetStart.btnCreateVisit.setVisible(true);
                         pnGetStart.lblCreateVisit.setVisible(true);
+                        createVisitMenuItem.setVisible(true);
                     }
                     else {
                         pnGetStart.btnCreateVisit.setVisible(false);
                         pnGetStart.lblCreateVisit.setVisible(false);
+                        createVisitMenuItem.setVisible(false);
                     }
 
                     cardLayout.show(cardPanel, "GettingStartedPanel");
+                    pack();
+                    setLocationRelativeTo(null);
                 } else {
                     JOptionPane.showMessageDialog(null, "Please check your username and password.", "Login Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -110,6 +112,8 @@ public class MedicalSystemsMainFrame extends JFrame {
         pnLogin.registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setSize(750, 300);
+                setLocationRelativeTo(null);
                 cardLayout.show(cardPanel, "UserRegPanel");
             }
         });
@@ -128,6 +132,8 @@ public class MedicalSystemsMainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 pnUnivHeader.btnReturnMain.setVisible(true);
+                pnPatientReg.clearFields();
+                MedicalConfigurator.setActivePatient(new Patient("", "", "", "", "", "", "", "", "", "", "", ""));
                 cardLayout.show(cardPanel,"PatientInformationPanel");
             }
         });
@@ -137,10 +143,16 @@ public class MedicalSystemsMainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 pnUnivHeader.btnReturnMain.setVisible(true);
 
-                if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges())
+                // todo choose patient and set in med config, with new visit
+
+                if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) {
+                    pnDoctorMedical.clearFields();
                     cardLayout.show(cardPanel, "DoctorMedicalMain");
-                else
+                }
+                else {
+                    pnNursingMedical.clearFields();
                     cardLayout.show(cardPanel, "NurseMedicalMain");
+                }
             }
         });
 
@@ -156,13 +168,15 @@ public class MedicalSystemsMainFrame extends JFrame {
         pnGetStart.btnViewRecent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MedicalConfigurator.setActiveVisit(pnGetStart.recentVisits.get(pnGetStart.recentList.getSelectedIndex()));
+                MedicalConfigurator.setActiveVisit(pnGetStart.recentVisits.get(pnGetStart.getRecentIndex()));
                 MedicalConfigurator.setActivePatient(pnGetStart.dbc.getPatient(MedicalConfigurator.getActiveVisit().getPatientID()));
 
                 pnUnivHeader.btnReturnMain.setVisible(true);
 
                 // Show appropriate panel of most recent visit of that patient
                 if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) {
+                    pnDoctorMedical.clearFields();
+
                     pnDoctorMedical.pnPat.loadPatientInformation();
                     pnDoctorMedical.pnGenPract.loadGeneralPracticeInformation();
                     pnDoctorMedical.pnLabTests.loadLabTestInformation();
@@ -172,6 +186,8 @@ public class MedicalSystemsMainFrame extends JFrame {
                     cardLayout.show(cardPanel, "DoctorMedicalMain");
                 }
                 else {
+                    pnNursingMedical.clearFields();
+
                     pnNursingMedical.pnPat.loadPatientInformation();
                     pnNursingMedical.pnGenPract.loadGeneralPracticeInformation();
                     pnNursingMedical.pnLabTests.loadLabTestInformation();
@@ -184,8 +200,14 @@ public class MedicalSystemsMainFrame extends JFrame {
         });
 
         pnUserReg = new UserRegPanel();
-        pnPatientReg = new PatientInformationPanel();
-        pnPatientReg.btnSubmitPatientData.setVisible(true);
+        
+        pnPatientReg = new PatientInformationPanel(database);
+        pnPatientReg.editPatientInformation();
+        pnPatientReg.btnSubmitPatientData.setEnabled(true);
+        pnPatientReg.lblAge.setVisible(false);
+        pnPatientReg.txtAge.setVisible(false);
+        pnPatientReg.ckEdit.setVisible(false);
+
         pnSearch = new SearchPanel(database);
         pnDoctorMedical = new DoctorMedicalMain(database);
         pnNursingMedical = new NurseMedicalMain(database);
@@ -223,8 +245,17 @@ public class MedicalSystemsMainFrame extends JFrame {
         gettingStartedMenuItem = new JMenuItem("Getting Started");
         gettingStartedMenuItem.addActionListener(new MenuListener());
 
+        userInfoMenuItem = new JMenuItem("User Information");
+        userInfoMenuItem.addActionListener(new MenuListener());
+
+        patientRegMenuItem = new JMenuItem("Patient Registration");
+        patientRegMenuItem.addActionListener(new MenuListener());
+
         searchMenuItem = new JMenuItem("Search Records");
         searchMenuItem.addActionListener(new MenuListener());
+
+        createVisitMenuItem = new JMenuItem("Create New Visit");
+        createVisitMenuItem.addActionListener(new MenuListener());
 
         logoutMenuItem = new JMenuItem("Logout");
         logoutMenuItem.addActionListener(new MenuListener());
@@ -236,8 +267,14 @@ public class MedicalSystemsMainFrame extends JFrame {
         loginMenuItem.setVisible(true);
         mainMenu.add(gettingStartedMenuItem);
         gettingStartedMenuItem.setVisible(false);
+        mainMenu.add(userInfoMenuItem);
+        userInfoMenuItem.setVisible(false);
+        mainMenu.add(patientRegMenuItem);
+        patientRegMenuItem.setVisible(false);
         mainMenu.add(searchMenuItem);
         searchMenuItem.setVisible(false);
+        mainMenu.add(createVisitMenuItem);
+        createVisitMenuItem.setVisible(false);
         mainMenu.add(logoutMenuItem);
         logoutMenuItem.setVisible(false);
         mainMenu.add(exitMenuItem);
@@ -249,14 +286,28 @@ public class MedicalSystemsMainFrame extends JFrame {
 
             if (source == loginMenuItem & !MedicalConfigurator.isUserLoggedIn)
             {
+                setSize(500, 400);
+                setLocationRelativeTo(null);
                 cardLayout.show(cardPanel, "LoginPanel");
             }
 
             else if (source == gettingStartedMenuItem &  MedicalConfigurator.isUserLoggedIn)
             {
                 pnUnivHeader.btnReturnMain.setVisible(false);
-                pnGetStart.refreshRecentList();
                 cardLayout.show(cardPanel, "GettingStartedPanel");
+            }
+
+            else if (source == userInfoMenuItem) {
+                // TODO populate user reg panel
+                pnUnivHeader.btnReturnMain.setVisible(true);
+                cardLayout.show(cardPanel, "UserRegPanel");
+            }
+
+            else if (source == patientRegMenuItem) {
+                pnUnivHeader.btnReturnMain.setVisible(true);
+                pnPatientReg.clearFields();
+                MedicalConfigurator.setActivePatient(new Patient("", "", "", "", "", "", "", "", "", "", "", ""));
+                cardLayout.show(cardPanel,"PatientInformationPanel");
             }
 
             else if (source == searchMenuItem & MedicalConfigurator.isUserLoggedIn)
@@ -264,6 +315,21 @@ public class MedicalSystemsMainFrame extends JFrame {
                 pnSearch.reset();
                 pnUnivHeader.btnReturnMain.setVisible(true);
                 cardLayout.show(cardPanel, "SearchPanel");
+            }
+
+            else if (source == createVisitMenuItem) {
+                pnUnivHeader.btnReturnMain.setVisible(true);
+
+                // todo same for button
+
+                if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) {
+                    pnDoctorMedical.clearFields();
+                    cardLayout.show(cardPanel, "DoctorMedicalMain");
+                }
+                else {
+                    pnNursingMedical.clearFields();
+                    cardLayout.show(cardPanel, "NurseMedicalMain");
+                }
             }
 
             else if (source == logoutMenuItem & MedicalConfigurator.isUserLoggedIn)
@@ -274,10 +340,15 @@ public class MedicalSystemsMainFrame extends JFrame {
 
                 loginMenuItem.setVisible(true);
                 gettingStartedMenuItem.setVisible(false);
+                userInfoMenuItem.setVisible(false);
+                patientRegMenuItem.setVisible(false);
                 searchMenuItem.setVisible(false);
+                createVisitMenuItem.setVisible(false);
                 logoutMenuItem.setVisible(false);
                 
                 cardLayout.show(cardPanel, "LoginPanel");
+                setSize(500, 400);
+                setLocationRelativeTo(null);
             }
 
             else if (source == exitMenuItem)

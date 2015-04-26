@@ -115,26 +115,30 @@ public class GeneralPracticePanel extends JPanel {
 
 
     public void loadGeneralPracticeInformation() {
-    	Visit  visit = MedicalConfigurator.getActiveVisit();
+    	Visit visit = MedicalConfigurator.getActiveVisit();
 
     	if (!visit.getMdFields().isEmpty()) {
-	        txtDiag.setText(visit.getMdFields().get(0));
-	        txtComp.setText(visit.getMdFields().get(1));
-	        txtImp.setText(visit.getMdFields().get(2));
-	        txtPhysEx.setText(visit.getMdFields().get(3));
-	        txtPresIll.setText(visit.getMdFields().get(4));
-	        txtPsHist.setText(visit.getMdFields().get(5));
-	        txtRevSym.setText(visit.getMdFields().get(6));
+    		txtComp.setText(visit.getMdFields().get(0));
+    		txtPresIll.setText(visit.getMdFields().get(1));
+    		txtPsHist.setText(visit.getMdFields().get(2));
+    		txtRevSym.setText(visit.getMdFields().get(3));
+    		txtPhysEx.setText(visit.getMdFields().get(4));
+	        txtImp.setText(visit.getMdFields().get(5));
+	        txtDiag.setText(visit.getMdFields().get(6));
     	}
     	else {
-    		txtDiag.setText("");
-	        txtComp.setText("");
-	        txtImp.setText("");
-	        txtPhysEx.setText("");
-	        txtPresIll.setText("");
-	        txtPsHist.setText("");
-	        txtRevSym.setText("");
+    		clearFields();
     	}
+    }
+
+    public void clearFields() {
+    	txtDiag.setText("");
+        txtComp.setText("");
+        txtImp.setText("");
+        txtPhysEx.setText("");
+        txtPresIll.setText("");
+        txtPsHist.setText("");
+        txtRevSym.setText("");
     }
 
 	public void readOnlyGeneralPractice(){

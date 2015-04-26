@@ -40,8 +40,9 @@ public class SearchPanel extends JPanel {
 
         // Initialize as 0 in case user keeps default search for patients selection
         index = 0;
-
-        database = new DatabaseConnection();
+        this.database = database;
+        patientResults = new ArrayList<>();
+        visitResults = new ArrayList<>();
 
         searchByPatients = new ArrayList<>(Arrays.asList(database.getPatientSearchTypes()));
         searchByVisits = new ArrayList<>(Arrays.asList(database.getVisitSearchTypes()));
@@ -173,7 +174,7 @@ public class SearchPanel extends JPanel {
         resultCardLayout = new CardLayout();
         resultCardPanel = new JPanel(resultCardLayout);
 
-        patientResultPanel = new PatientInformationPanel();
+        patientResultPanel = new PatientInformationPanel(database);
         patientResultPanel.btnSubmitPatientData.setVisible(true);
         doctorResultPanel = new DoctorMedicalMain(database);
         nurseResultPanel = new NurseMedicalMain(database);
@@ -260,14 +261,11 @@ public class SearchPanel extends JPanel {
                     if (searchByPatients.contains(currentSearchBy)) {
                         patientResults = database.findPatient(searchTerm.getText(), currentSearchBy);
 
-                        ArrayList<Visit> tempVisits = new ArrayList<>();
                         visitResults.clear();
 
                         for (int i = 0, len = patientResults.size(); i < len; i++) {
-                            tempVisits.addAll(database.findVisit(Integer.toString(patientResults.get(i).getPatientID()), "patient_id"));
+                            visitResults.addAll(database.findVisit(Integer.toString(patientResults.get(i).getPatientID()), "patient_id"));
                         }
-
-                        visitResults.addAll(tempVisits);
                     }
                     else {
                         visitResults = database.findVisit(searchTerm.getText(), currentSearchBy);
@@ -305,22 +303,23 @@ public class SearchPanel extends JPanel {
             Patient selectedPatient = patientResults.get(results.getSelectedIndex());
             MedicalConfigurator.setActivePatient(selectedPatient);
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 
             MedicalConfigurator.setActiveVisit(new Visit(
                 selectedPatient.getPatientID(),
                 MedicalConfigurator.getLoginUser().getUsername(),
-                dateFormat.format(new Date()).toString(),
+                dateFormat.format(new Date()),
                 new ArrayList<String>()));
 
             mainCardLayout.show(mainCardPanel, "resultPanel");
+
             doctorResultPanel.pnPat.loadPatientInformation();
             doctorResultPanel.pnGenPract.loadGeneralPracticeInformation();
             doctorResultPanel.pnLabTests.loadLabTestInformation();
             doctorResultPanel.pnPresc.loadPrescriptionsInformation();
             doctorResultPanel.pnNursComm.loadNursingComments();
 
-            resultCardLayout.show(doctorResultPanel, "doctorResultPanel");
+            resultCardLayout.show(resultCardPanel, "doctorResultPanel");
         }
     }
 
@@ -354,7 +353,7 @@ public class SearchPanel extends JPanel {
                     doctorResultPanel.pnPresc.loadPrescriptionsInformation();
                     doctorResultPanel.pnNursComm.loadNursingComments();
 
-                    resultCardLayout.show(doctorResultPanel, "doctorResultPanel");
+                    resultCardLayout.show(resultCardPanel, "doctorResultPanel");
                 }
                 else {
                     nurseResultPanel.pnPat.loadPatientInformation();
@@ -363,7 +362,7 @@ public class SearchPanel extends JPanel {
                     nurseResultPanel.pnPresc.loadPrescriptionsInformation();
                     nurseResultPanel.pnNursComm.loadNursingComments();
 
-                    resultCardLayout.show(nurseResultPanel, "nurseResultPanel");
+                    resultCardLayout.show(resultCardPanel, "nurseResultPanel");
                 }
             }
         }
@@ -377,6 +376,7 @@ public class SearchPanel extends JPanel {
     }
 
     public void reset() {
+        mainCardLayout.show(mainCardPanel, "searchPanel");
         searchFor.setSelectedIndex(0);
         index = 0;
         searchBy.setModel(new DefaultComboBoxModel(searchByPatients.toArray()));

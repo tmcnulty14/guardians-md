@@ -307,16 +307,7 @@ public class LabTestsPanel extends JPanel {
                 checkLabTests(labOrder.getTestName_enum());
             }
         } else {
-            ckRed.setSelected(false);
-            ckWhite.setSelected(false);
-            ckLiver.setSelected(false);
-            ckRenal.setSelected(false);
-            ckEletrol.setSelected(false);
-            ckXray.setSelected(false);
-            ckCompTom.setSelected(false);
-            ckMagRes.setSelected(false);
-            ckUrin.setSelected(false);
-            ckStool.setSelected(false);
+            clearFields();
         }
     }
 
@@ -344,6 +335,18 @@ public class LabTestsPanel extends JPanel {
         }
     }
 
+    public void clearFields() {
+        ckRed.setSelected(false);
+        ckWhite.setSelected(false);
+        ckLiver.setSelected(false);
+        ckRenal.setSelected(false);
+        ckEletrol.setSelected(false);
+        ckXray.setSelected(false);
+        ckCompTom.setSelected(false);
+        ckMagRes.setSelected(false);
+        ckUrin.setSelected(false);
+        ckStool.setSelected(false);
+    }
 
     private class ViewResultListener implements ActionListener {
         @Override

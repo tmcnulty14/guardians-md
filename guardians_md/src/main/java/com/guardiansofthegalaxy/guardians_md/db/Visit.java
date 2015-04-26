@@ -137,7 +137,7 @@ public class Visit {
 
     @Override
     public String toString() {
-        String str = "GP Visit #" + visitID + " Patient: " + patientID + " Doctor: " + doctorID + " Date: " + date;
+        String str = "Visit ID:" + visitID + ", Patient: " + patientID + ", Doctor: " + doctorID + ", Date: " + date;
         return str;
     }
 

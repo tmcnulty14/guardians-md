@@ -172,8 +172,8 @@ public class Patient {
 	//	String str = String.format("Patient ID#%s Name: %d %s Birthdate: %s Gender: %s",
 	//		patientID, firstName, lastName, birthdate.toString(), gender);
 
-        String str = "Patient ID:" + patientID + " Name: " + firstName + " " + lastName +
-                " Birthdate: " + birthdate + " Gender: " + gender;
+        String str = "Patient ID: " + patientID + ", Name: " + firstName + " " + lastName +
+                ", Birthdate: " + birthdate + ", Gender: " + gender;
 		return str;
 	}
 
@@ -188,8 +188,6 @@ public class Patient {
 		}
 
 		Patient p = (Patient)o;
-
-		//System.out.println("Comparing patient " + p.getPatientID() + " to " + this.patientID);
 
 		return p.getPatientID() == this.patientID &&
 			   p.getFirstName().equals(this.firstName) &&
