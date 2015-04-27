@@ -9,29 +9,35 @@ import java.awt.*;
 
 public class ImageLabel extends JLabel {
 
-    /**
-     * Filename of the image to be used as the button's icon.
-     */
+
     private Image image;
-    /**
-     * The width of the button
-     */
     private int width;
-    /**
-     * The height of the button.
-     */
     private int height;
 
+    /**
+     * Default constructor
+     */
     public ImageLabel(){
         this.width = 1026;
         this.height = 1026;
     }
 
+    /**
+     * Constructor that takes the width and height of the image
+     * @param width
+     * @param height
+     */
     public ImageLabel(int width, int height) {
         this.width = width;
         this.height = height;
     }
 
+    /**
+     * Constructor that takes the image, width, and height
+     * @param image
+     * @param width
+     * @param height
+     */
     public ImageLabel(Image image, int width, int height) {
         this.image = image;
         this.width = width;
@@ -41,6 +47,10 @@ public class ImageLabel extends JLabel {
     }
 
 
+    /**
+     * This method creates an image label based on the image
+     * @param image
+     */
     public void changeLabelImage(Image image) {
         this.setEnabled(true);
 

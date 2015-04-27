@@ -8,17 +8,20 @@ import java.net.URL;
 
 public class ImageButton extends JButton {
 
-    /** Filename of the image to be used as the button's icon. */
-    /**
-     * The width of the button
-     */
+ // The width of the button
     private int width;
-    /**
-     * The height of the button.
-     */
+    //The height of the button.
+
     private int height;
 
 
+    /**
+     * This is the constructor of the ImageButton
+     * @param hasImage
+     * @param fileName
+     * @param width
+     * @param height
+     */
     public ImageButton(boolean hasImage, String fileName, int width, int height) {
         this.width = width;
         this.height = height;
@@ -26,6 +29,11 @@ public class ImageButton extends JButton {
 
     }
 
+    /**
+     * This method changes the button type based on whether it has an image or text
+     * @param hasImage
+     * @param fileName
+     */
     public void changeButtonImage(boolean hasImage, String fileName) {
         this.setEnabled(true);
         if (hasImage) {
@@ -37,6 +45,10 @@ public class ImageButton extends JButton {
 
     }
 
+    /**
+     * This method creates the button text object
+     * @param fileName
+     */
     private void createButtonText(String fileName) {
 
         this.setIcon(null);
@@ -59,6 +71,7 @@ public class ImageButton extends JButton {
 
     /**
      * Creates the button according to the fields set by the constructor.
+     * @param fileName
      */
     private void createButtonImage(String fileName) {
         this.setText(null);
@@ -76,50 +89,11 @@ public class ImageButton extends JButton {
 
     }
 
-    public void createWrongAnswerButton() {
-        this.setText("WRONG");
-        this.setFont(new Font("Times New Roman", 0, 16));
-        this.setIcon(null);
-        this.setBackground(Color.RED);
-        this.setPreferredSize(new Dimension(width, height));
-        this.setMaximumSize(new Dimension(width, height));
-        this.setFocusPainted(false);
-        this.setRolloverEnabled(false);
-        this.setOpaque(false);
-        this.setContentAreaFilled(true);
-        this.setBorderPainted(true);
-        this.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.BLACK, Color.BLACK),
-                BorderFactory.createEtchedBorder(EtchedBorder.RAISED)));
-
-
-        this.setEnabled(false);
-
-
-    }
-
-
-    public void createRightAnswerButton() {
-
-        this.setText("CORRECT");
-        this.setFont(new Font("Times New Roman", 0, 16));
-        this.setBackground(Color.GREEN);
-        this.setIcon(null);
-        this.setContentAreaFilled(true);
-        this.setBorderPainted(true);
-        this.setPreferredSize(new Dimension(width, height));
-        this.setMaximumSize(new Dimension(width, height));
-
-        this.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK.darker(), Color.BLACK),
-                BorderFactory.createEtchedBorder(EtchedBorder.LOWERED)));
-
-
-        this.setEnabled(false);
-
-
-    }
-
+    /**
+     * This method returns the icon image by the class loader get resource
+     * @param fileName
+     * @return ImageIcon
+     */
     public ImageIcon getImageIcon(String fileName) {
 
         System.out.println(fileName);

@@ -5,6 +5,9 @@ package com.guardiansofthegalaxy.guardians_md.labtesttypes;
  */
 public enum TestName {
 
+    /**
+     * Enums for TestName
+     */
     RED {
         @Override
         public String toString() {

@@ -7,6 +7,11 @@ public class ConfigDirectory {
 
     public static String imageDirectory = "images";
 
+    /**
+     * This method returns the filepath for the image in the resources directory
+     * @param filename
+     * @return String
+     */
     public static String getImageFileFromDirectory(String filename){
         return imageDirectory + "/" + filename;
     }
