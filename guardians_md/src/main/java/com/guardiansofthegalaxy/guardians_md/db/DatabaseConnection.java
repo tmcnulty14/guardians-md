@@ -11,8 +11,8 @@ public class DatabaseConnection implements DbConn {
 	static final String DB_URL = "jdbc:mysql://guardiansmddatabase.czanmkabbmcd.us-west-2.rds.amazonaws.com:3306";	// Amazon AWS instance
 
 	//  Database credentials
-	static final String DB_USER = "root";	//default
-	static final String DB_PASS = "starlord";// AWS RDS password
+	static final String DB_USER = "root";	// AWS RDS master username
+	static final String DB_PASS = "starlord";// AWS RDS master password
 
 	private Connection conn = null;
 	private Statement stmt = null;

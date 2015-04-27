@@ -10,6 +10,9 @@ import org.junit.BeforeClass;
 
 import java.util.ArrayList;
 
+/**
+ * A JUnit test class. This class systematically tests every method of the DatabaseConnection class.
+ **/
 public class DbTest {
 	private final static String DEFAULT_USERNAME = "doctor";
 	private final static String DEFAULT_PASSWORD = "password";
@@ -17,11 +20,17 @@ public class DbTest {
 	private static DatabaseConnection database = null;
 
 	@BeforeClass
+	/**
+	 * Runs before all the tests run. Makes a connection to the database.
+	 **/
 	public static void connectToDatabase() {
 		database = new DatabaseConnection();
 	}
 
 	@AfterClass
+	/**
+	 * Runs after all the tests have completed. Closes the database connection.
+	 **/
 	public static void closeDatabase() {
 		database.close();
 		database = null;
@@ -29,7 +38,7 @@ public class DbTest {
 
 	@Test
 	/**
-	 * Tests methods associated with patients.
+	 * Tests all methods associated with patients.
 	 **/
 	public void patientTest() {
 		// Register our test patient.
@@ -56,9 +65,10 @@ public class DbTest {
 
 	@Test
 	/**
-	 * Tests methods associated with users.
+	 * Tests all methods associated with users.
 	 **/
-	public void userTest() {// Check that the username is available
+	public void userTest() {
+		// Check that the username is available
 		Assert.assertTrue(database.checkUsernameAvailable(DEFAULT_USERNAME));
 
 		// Register the user
@@ -88,7 +98,7 @@ public class DbTest {
 
 	@Test
 	/**
-	 * Tests methods associated with visits.
+	 * Tests all methods associated with visits, prescriptions, and lab orders..
 	 **/
 	public void visitTest() {
 		Visit testVisit	= registerTestVisit(database);
@@ -144,7 +154,7 @@ public class DbTest {
 
 	@Test
 	/**
-	 * Tests methods associated with searching.
+	 * Tests all methods associated with searching.
 	 **/
 	public void testSearch() {
 		// Register test data
