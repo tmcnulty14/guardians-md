@@ -139,6 +139,8 @@ public class MedicalSystemsMainFrame extends JFrame {
                 pnUnivHeader.btnReturnMain.setVisible(true);
                 pnPatientReg.clearFields();
                 MedicalConfigurator.setActivePatient(new Patient("", "", "", "", "", "", "", "", "", "", "", ""));
+
+                //TODO patient id: number and N/A for new
                 cardLayout.show(cardPanel,"PatientInformationPanel");
             }
         });
@@ -146,18 +148,12 @@ public class MedicalSystemsMainFrame extends JFrame {
         pnGetStart.btnCreateVisit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 pnUnivHeader.btnReturnMain.setVisible(true);
 
-                // todo choose patient and set in med config, with new visit
-
-                if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) {
-                    pnDoctorMedical.clearFields();
-                    cardLayout.show(cardPanel, "DoctorMedicalMain");
-                }
-                else {
-                    pnNursingMedical.clearFields();
-                    cardLayout.show(cardPanel, "NurseMedicalMain");
-                }
+                // todo same for button
+                pnSearch.searchFor.setEnabled(false);
+                cardLayout.show(cardPanel, "SearchPanel");
             }
         });
 
@@ -166,6 +162,7 @@ public class MedicalSystemsMainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 pnSearch.reset();
                 pnUnivHeader.btnReturnMain.setVisible(true);
+                pnSearch.searchFor.setEnabled(true);
                 cardLayout.show(cardPanel,"SearchPanel");
             }
         });
@@ -318,6 +315,7 @@ public class MedicalSystemsMainFrame extends JFrame {
             {
                 pnSearch.reset();
                 pnUnivHeader.btnReturnMain.setVisible(true);
+                pnSearch.searchFor.setEnabled(true);
                 cardLayout.show(cardPanel, "SearchPanel");
             }
 
@@ -325,15 +323,9 @@ public class MedicalSystemsMainFrame extends JFrame {
                 pnUnivHeader.btnReturnMain.setVisible(true);
 
                 // todo same for button
+                pnSearch.searchFor.setEnabled(false);
+                cardLayout.show(cardPanel, "SearchPanel");
 
-                if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) {
-                    pnDoctorMedical.clearFields();
-                    cardLayout.show(cardPanel, "DoctorMedicalMain");
-                }
-                else {
-                    pnNursingMedical.clearFields();
-                    cardLayout.show(cardPanel, "NurseMedicalMain");
-                }
             }
 
             else if (source == logoutMenuItem & MedicalConfigurator.isUserLoggedIn)

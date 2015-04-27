@@ -22,6 +22,7 @@ public class PatientInformationPanel extends JPanel {
     private Patient patient;
 
     //labels and textfields for the patient personal information
+    public JTextField txtPatientId;
     public JLabel lblFName, lblLName, lblAddress1, lblAddress2, lblCity, lblState, lblZip, lblCountry, lblBirthDate, lblAge, lblInsProv, lblInsNum, lblGender;
     public JTextField txtFName, txtLName, txtAddress1, txtAddress2, txtCity, txtState, txtZip, txtCountry, txtBirthDate, txtAge, txtInsProv, txtInsNum;
     public JCheckBox ckEdit;
@@ -29,17 +30,21 @@ public class PatientInformationPanel extends JPanel {
     public ButtonGroup buttonGroup;
     public JButton btnSubmitPatientData;
 
-    public JPanel pnName, pnAddress, pnGender, pnEdit;
+    public JPanel pnPatientId, pnName, pnAddress, pnGender, pnEdit;
 
     public DatabaseConnection dbc;
 
     public PatientInformationPanel(DatabaseConnection dbc) {
         this.dbc = dbc;
-        setLayout(new GridLayout(4, 1));
+        setLayout(new GridLayout(5, 1));
         setBorder(BorderFactory.createCompoundBorder(new TitledBorder("Patient Information"), new EmptyBorder(10, 10, 10, 10)));
         setBackground(Color.WHITE);
 
         pnName = new JPanel();
+        txtPatientId = new JTextField(10);
+        txtPatientId.setEditable(false);
+        pnPatientId = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        pnPatientId.setBackground(Color.WHITE);
         pnName.setBackground(Color.WHITE);
         pnName.setLayout(new GridLayout(2, 4, 10, 10));
         pnAddress = new JPanel();
@@ -53,6 +58,7 @@ public class PatientInformationPanel extends JPanel {
 
         buildComponents();
 
+        pnPatientId.add(txtPatientId);
         pnName.add(lblFName);
         pnName.add(txtFName);
         pnName.add(lblLName);
@@ -97,6 +103,7 @@ public class PatientInformationPanel extends JPanel {
         pnEdit.add(fix1, BorderLayout.WEST);
         pnEdit.add(fix2, BorderLayout.EAST);
 
+        add(pnPatientId);
         add(pnName);
         add(pnGender);
         add(pnAddress);
@@ -230,6 +237,7 @@ public class PatientInformationPanel extends JPanel {
 
     public void loadPatientInformation() {
         patient = MedicalConfigurator.getActivePatient();
+        txtPatientId.setText("Patient Id: "+ String.valueOf(MedicalConfigurator.getActivePatient().getPatientID()));
         txtFName.setText(patient.getFirstName());
         txtLName.setText(patient.getLastName());
         txtAddress1.setText(patient.getAddress1());
@@ -276,6 +284,7 @@ public class PatientInformationPanel extends JPanel {
 
 
     public void editPatientInformation() {
+        txtPatientId.setEditable(false);
         txtFName.setEditable(true);
         txtLName.setEditable(true);
         txtAddress1.setEditable(true);
@@ -294,6 +303,7 @@ public class PatientInformationPanel extends JPanel {
     }
 
     public void readOnlyPatientInformation() {
+        txtPatientId.setEditable(false);
         txtFName.setEditable(false);
         txtLName.setEditable(false);
         txtAddress1.setEditable(false);
@@ -389,6 +399,7 @@ public class PatientInformationPanel extends JPanel {
     }
 
     public void clearFields() {
+        txtPatientId.setText("Patient Id: -1");
         txtFName.setText("");
         txtLName.setText("");
         txtAddress1.setText("");

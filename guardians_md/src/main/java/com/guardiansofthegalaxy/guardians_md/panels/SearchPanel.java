@@ -20,7 +20,7 @@ public class SearchPanel extends JPanel {
 
     private int index;
     private JLabel searchForLabel, searchByLabel, keywordLabel, resultsLabel, failedLabel;
-    private JComboBox searchFor, searchBy;
+    public JComboBox searchFor, searchBy;
     private JTextField searchTerm;
     private JButton submit, back, newVisit, viewResult;
     private JScrollPane scrollResults;
