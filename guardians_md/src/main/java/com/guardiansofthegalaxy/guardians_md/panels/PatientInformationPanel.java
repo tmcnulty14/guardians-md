@@ -402,6 +402,7 @@ public class PatientInformationPanel extends JPanel {
         txtInsNum.setText("");
         buttonGroup.clearSelection();
         ckEdit.setSelected(false);
+        txtAge.setText("");
     }
 
     private class SubmitPatientListener implements ActionListener {

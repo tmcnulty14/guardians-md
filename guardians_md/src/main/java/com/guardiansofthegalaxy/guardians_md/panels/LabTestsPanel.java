@@ -25,7 +25,6 @@ public class LabTestsPanel extends JPanel {
     public JButton resultRed, resultWhite, resultLiver, resultRenal, resultElectrol;
     public JButton newXray, resultXray, newCompTom, resultCompTom, newMagRes, resultMagRes;
     public JButton resultUrin, resultStool;
-    public TestResultFrame resultFrame;
 
     public LabTestsPanel() {
         setLayout(new GridLayout(1, 3));
