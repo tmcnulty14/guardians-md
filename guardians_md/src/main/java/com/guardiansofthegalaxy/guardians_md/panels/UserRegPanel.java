@@ -153,7 +153,9 @@ public class UserRegPanel extends JPanel
             getRole();
 
             User newUser = new User(usernameField.getText(), fNameField.getText(), lNameField.getText(), positionField.getText(), pagerNumberField.getText(), isDoctor );
-            
+            String username = newUser.getUsername();
+            String password = passwordField.getText();
+
             if (MedicalConfigurator.isUserLoggedIn())
             {
                 if (regConn.updateUser(newUser))
@@ -161,16 +163,22 @@ public class UserRegPanel extends JPanel
                 else
                     JOptionPane.showMessageDialog(null, "Unexpected error. User was not updated. Please try again or contact a system administrator.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else if( regConn.checkUsernameAvailable(newUser.getUsername()) == true)
-            {
-                regConn.registerUser(newUser, passwordField.getText());
-                if(regConn.validateLogin(newUser.getUsername(), passwordField.getText()) == true)
-                {
-                    JOptionPane.showMessageDialog(null, "User has been Registered", "Success", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "Unexpected error, User was not registered. Please try again or contact a system administrator", "Error", JOptionPane.ERROR_MESSAGE);
+            else if(regConn.checkUsernameAvailable(newUser.getUsername()) == true)
+            {   
+                if(username == null || username.length() < 5) {
+                    JOptionPane.showMessageDialog(null, "Usernames must be at least 5 characters", "Error", JOptionPane.ERROR_MESSAGE);
+                } else if(password == null || password.length() < 6) {
+                    JOptionPane.showMessageDialog(null, "Passwords must be at least 6 characters", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    regConn.registerUser(newUser, passwordField.getText());
+                    if(regConn.validateLogin(newUser.getUsername(), passwordField.getText()) == true)
+                    {
+                        JOptionPane.showMessageDialog(null, "User has been Registered", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Unexpected error, User was not registered. Please try again or contact a system administrator", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
             else
