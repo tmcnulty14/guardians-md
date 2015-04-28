@@ -699,7 +699,7 @@ public class DatabaseConnection implements DbConn {
 					}
 				}
 				if(orderExists) {
-					updateLabOrder(labOrder);	
+					updateLabOrder(labOrder);
 				} else {
 					labOrder.setVisitID(visitId);
 					createLabOrder(labOrder);
@@ -707,6 +707,14 @@ public class DatabaseConnection implements DbConn {
 			}
 			for(LabOrder oldLab : oldLabOrders) {
 				if(!existingLabOrders.contains(oldLab)) {
+					S3ImageStorage s3Conn = new S3ImageStorage();
+
+					for (String image : oldLab.getResultsImageList()) {
+						if (!image.equals("")) {
+							s3Conn.deleteImage(image);
+						}
+					}
+
 					deleteLabOrder(oldLab);
 				}
 			}

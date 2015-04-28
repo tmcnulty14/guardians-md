@@ -107,7 +107,7 @@ public class MedicalSystemsMainFrame extends JFrame {
                     }
 
                     cardLayout.show(cardPanel, "GettingStartedPanel");
-                    pack();
+                    setSize(1000, 950);
                     setLocationRelativeTo(null);
                 } else {
                     JOptionPane.showMessageDialog(null, "Please check your username and password.", "Login Error", JOptionPane.ERROR_MESSAGE);
@@ -150,7 +150,7 @@ public class MedicalSystemsMainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 pnUnivHeader.btnReturnMain.setVisible(true);
-
+                pnSearch.reset();
                 pnSearch.searchFor.setEnabled(false);
                 cardLayout.show(cardPanel, "SearchPanel");
             }

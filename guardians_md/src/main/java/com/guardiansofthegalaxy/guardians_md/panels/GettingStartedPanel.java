@@ -50,29 +50,33 @@ public class GettingStartedPanel extends JPanel {
         pnCenter.setPreferredSize(new Dimension(250, 500));
 
         btnUserAccountInformation = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("profileImage.jpg"),100,100);
-        btnUserAccountInformation.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
+        btnUserAccountInformation.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         btnPatientRegistration = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("register_button.png"),112,100);
-        btnPatientRegistration.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
+        btnPatientRegistration.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         btnSearchRecords = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("blueButton.jpg"),100,100);
-        btnSearchRecords.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
+        btnSearchRecords.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         btnCreateVisit = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("edit-blue (1).png"),100,101);
-        btnCreateVisit.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
+        btnCreateVisit.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         btnCreateVisit.setVisible(false);
 
         lblUserInfo = new JLabel("User Information", SwingConstants.CENTER);
         lblUserInfo.setFont(new Font("DejaVu Serif", 0, 18));
+        lblUserInfo.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
 
         lblPatientReg = new JLabel("Patient Registration", SwingConstants.CENTER);
         lblPatientReg.setFont(new Font("DejaVu Serif", 0, 18));
+        lblPatientReg.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
 
         lblSearchRecs = new JLabel("Search Records", SwingConstants.CENTER);
         lblSearchRecs.setFont(new Font("DejaVu Serif", 0, 18));
+        lblSearchRecs.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
 
         lblCreateVisit = new JLabel("Create New Visit", SwingConstants.CENTER);
         lblCreateVisit.setFont(new Font("DejaVu Serif", 0, 18));
+        lblCreateVisit.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
         lblCreateVisit.setVisible(false);
 
         pnOption1 = new JPanel(new FlowLayout(FlowLayout.LEFT));

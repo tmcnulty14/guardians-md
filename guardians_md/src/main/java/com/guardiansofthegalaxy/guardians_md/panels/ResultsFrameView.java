@@ -9,10 +9,12 @@ import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;
 
 import javax.swing.*;
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.io.File;
 
 /**
  * Created by Christina on 4/24/2015.
@@ -32,15 +34,17 @@ public class ResultsFrameView extends JFrame {
 
     //variables for the JFrame
     public CardLayout cardLayout;
-    public JPanel cardPanel;
+    public JPanel cardPanel, imagePanel, textPanel, centerImgPanel;
 
     public JScrollPane jScrollPane;
     public JTextArea textArea;
+    public JLabel noImage;
     public ImageLabel imageLabel;
     public JButton btnNext, btnSave, btnAddNew;
-    private ArrayList<LabOrder> currentLabOrders;
+    public JFileChooser fileChooser;
 
-    private JPanel imagePanel, textPanel;
+    private ArrayList<LabOrder> currentLabOrders;
+    private String[] supportedExts;
 
     public ResultsFrameView(LabName labName, TestName testName, ArrayList<LabOrder> orders) {
 
@@ -50,15 +54,22 @@ public class ResultsFrameView extends JFrame {
         this.testName = testName;
         this.currentLabOrders = orders;
         this.imageCounter = 0;
+        supportedExts = ImageIO.getReaderFormatNames();
 
         //frame component intialization
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBackground(Color.WHITE);
-        setLocationByPlatform(true);
-        setLocation(840, 0);
+        
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension screenSize = tk.getScreenSize();
+        int screenWidth = screenSize.width;
+        setLocation(screenWidth/4, 0);
+
         setSize(new Dimension(500, 500));
         setResizable(true);
+
+        fileChooser = new JFileChooser();
 
         createComponents();
 
@@ -92,8 +103,20 @@ public class ResultsFrameView extends JFrame {
         JPanel addPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         addPanel.setBackground(Color.WHITE);
         addPanel.add(btnAddNew);
+
+        noImage = new JLabel("No images found for this test.", SwingConstants.CENTER);
+        noImage.setFont(new Font("Times New Roman", 0, 16));
+        noImage.setForeground(Color.RED);
+        noImage.setVisible(false);
         
         imageLabel = new ImageLabel();
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setVerticalAlignment(JLabel.CENTER);
+
+        centerImgPanel = new JPanel(new BorderLayout());
+        centerImgPanel.setBackground(Color.WHITE);
+        centerImgPanel.add(noImage, BorderLayout.NORTH);
+        centerImgPanel.add(imageLabel, BorderLayout.CENTER);
 
         btnNext = new JButton("Next");
         btnNext.setFont(new Font("DejaVu Serif", 0, 14));
@@ -101,12 +124,14 @@ public class ResultsFrameView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == btnNext) {
-                    if (imageCounter < results.length) {
-                        imageLabel.changeLabelImage(s3Conn.getImage(results[imageCounter++]));
-                    } else {
+
+                    if (!(imageCounter < results.length)) {
                         imageCounter = 0;
-                        imageLabel.changeLabelImage(s3Conn.getImage(results[imageCounter++]));
                     }
+
+                    Image currentImage = s3Conn.getImage(results[imageCounter++]).getScaledInstance(500, -1,Image.SCALE_DEFAULT);
+                    imageLabel.changeLabelImage(currentImage);
+                    setSize(currentImage.getWidth(null) + 20, currentImage.getHeight(null) + 100);
                 }
             }
         });
@@ -116,7 +141,7 @@ public class ResultsFrameView extends JFrame {
         nextPanel.add(btnNext);
 
         imagePanel.add(addPanel, BorderLayout.NORTH);
-        imagePanel.add(imageLabel,BorderLayout.CENTER);
+        imagePanel.add(centerImgPanel,BorderLayout.CENTER);
         imagePanel.add(nextPanel, BorderLayout.SOUTH);
 
         textPanel.add(jScrollPane, BorderLayout.CENTER);
@@ -140,11 +165,17 @@ public class ResultsFrameView extends JFrame {
 
             // Split method returns an array of size 1 when string is empty (see LabOrder.java)
             if (!results[0].equals("")) {
+                noImage.setVisible(false);
+                btnNext.setEnabled((results.length > 1) ? true : false);
+
                 if (imageCounter < results.length) {
-                    imageLabel.changeLabelImage(s3Conn.getImage(results[imageCounter++]));
+                    Image currentImage = s3Conn.getImage(results[imageCounter++]).getScaledInstance(500, -1,Image.SCALE_DEFAULT);
+                    imageLabel.changeLabelImage(currentImage);
+                    setSize(currentImage.getWidth(null) + 20, currentImage.getHeight(null) + 100);
                 }
             }
             else {
+                noImage.setVisible(true);
                 btnNext.setEnabled(false);
             }
 
@@ -175,7 +206,59 @@ public class ResultsFrameView extends JFrame {
     private class AddListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
+            // New file chooser
+            int status = fileChooser.showOpenDialog(null);
 
+            if (status == JFileChooser.APPROVE_OPTION) {
+                File imageFile = fileChooser.getSelectedFile();
+                String fileName = imageFile.getName(), extension = "";
+
+                // Check extension
+                boolean accepted = false;
+                int i = fileName.lastIndexOf('.');
+
+                if (i > 0) {
+                    extension = fileName.substring(i+1);
+
+                    for (int j = 0, len = supportedExts.length; j < len; j++) {
+                        if (extension.equalsIgnoreCase(supportedExts[j])) {
+                            accepted = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (accepted) {
+                    int index = 0;
+
+                    if (!results[0].equals("")) {
+                        index = results.length;
+                    }
+
+                    String imageName = MedicalConfigurator.getActiveVisit().getVisitID() + "-" + testName + "-" + index + "." + extension;
+
+                    if (s3Conn.storeImage(imageFile, imageName)) {
+
+                        for (LabOrder search : currentLabOrders) {
+                            if (search.getTestName_enum().equals(testName)) {
+                                String newResults = search.getResults() + imageName + ",";
+                                search.setResults(newResults);
+                                break;
+                            }
+                        }
+
+                        changeResultsView();
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "An error occurred; please check your network connection and try again.",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "File type is not supported. Select a jpg/jpeg/bmp/gif/png/wbmp image and try again.",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }
 }

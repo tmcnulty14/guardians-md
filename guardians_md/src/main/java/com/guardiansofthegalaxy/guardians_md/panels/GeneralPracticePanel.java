@@ -12,7 +12,7 @@ public class GeneralPracticePanel extends JPanel {
 
     //labels and text areas for the general practice section
     public JTextField txtDate, txtDoc;
-    public JPanel pnDoc;
+    public JPanel pnDate, pnDoc;
     public JLabel lblComp, lblPresIll, lblPsHist, lblRevSym, lblPhysEx, lblImp, lblDiag, lblLabTest, lblPresc;
     public JTextArea txtComp, txtPresIll, txtPsHist, txtRevSym, txtPhysEx, txtImp, txtDiag;
     public JScrollPane compScroll, presIllScroll, psHistScroll, revSymScroll, physExScroll, impScroll, diagScroll;
@@ -22,19 +22,16 @@ public class GeneralPracticePanel extends JPanel {
         setBorder(BorderFactory.createCompoundBorder(new TitledBorder("General Practice"), new EmptyBorder(10, 10, 10, 10)));
         setBackground(Color.WHITE);
 
-        pnDoc = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        pnDate = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        pnDate.setBackground(Color.WHITE);
         txtDate = new JTextField(10);
-        txtDoc = new JTextField(10);
-
-        txtDate.setEditable(false);
         txtDate.setEditable(false);
 
+        pnDoc = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pnDoc.setBackground(Color.WHITE);
-
-        txtDoc.setBackground(Color.WHITE);
-        txtDate.setBackground(Color.WHITE);
-        txtDate.setEditable(false);
+        txtDoc = new JTextField(20);
         txtDoc.setEditable(false);
+
         lblComp = new JLabel("Chief Complaint");
         lblComp.setFont(new Font("Times New Roman", 0, 16));
 
@@ -112,10 +109,10 @@ public class GeneralPracticePanel extends JPanel {
         diagScroll = new JScrollPane(txtDiag, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        pnDoc.add(txtDate);
+        pnDate.add(txtDate);
         pnDoc.add(txtDoc);
 
-        add(new JLabel("  "));
+        add(pnDate);
         add(pnDoc);
         add(lblComp);
         add(compScroll);
