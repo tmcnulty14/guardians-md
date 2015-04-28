@@ -3,18 +3,39 @@ package com.guardiansofthegalaxy.guardians_md.db;
 import com.guardiansofthegalaxy.guardians_md.tuples.*;
 
 import java.sql.*;
+
 import java.util.ArrayList;
+
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
+/**
+ * DatabaseConnection is a full implementation of the DbConn interface.
+ * It connects to an AWS RDS instance and logs into a MYSQL database
+ * on that server.
+ * 
+ * The DatabaseConnection class handles all errors which occur, and 
+ * notifies users of the class via method returns.
+ * 
+ * DatabaseConnection provides full create/update/delete functionality
+ * for Patients, Users, Visits, Prescriptions, and LabOrders.
+ * 
+ * The class also provides some useful extra features, like automatically
+ * creating/updating/deleting prescriptions and laborders when a Visit
+ * they are related to is created/updated/deleted.
+ * 
+ * The class will automatically initialize and populate the database
+ * with sample data if it finds that the database on the server has
+ * been dropped.
+ **/
 public class DatabaseConnection implements DbConn {
-	// JDBC driver name and database URL
+	// JDBC driver name
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	private static final String DB_URL = "jdbc:mysql://guardiansmddatabase.czanmkabbmcd.us-west-2.rds.amazonaws.com:3306";	// Amazon AWS instance
 
-	//  Database credentials
-	private static final String DB_USER = "root";	// AWS RDS master username
-	private static final String DB_PASS = "starlord";// AWS RDS master password
+	//  Database URL and credentials
+	private static final String DB_URL = "jdbc:mysql://guardiansmddatabase.czanmkabbmcd.us-west-2.rds.amazonaws.com:3306";	// Amazon AWS instance
+	private static final String DB_USER = "root";		// AWS RDS master username
+	private static final String DB_PASS = "starlord";	// AWS RDS master password
 
 	protected Connection conn = null;
 	protected Statement stmt = null;
@@ -790,6 +811,7 @@ public class DatabaseConnection implements DbConn {
 	} 
 
 	/**
+	 * Gets a list of the most recent Visits in the database.
 	 * @return An ArrayList of all visits created within the past 7 days.
 	 **/
 	public ArrayList<Visit> getRecentVisits() {
@@ -803,7 +825,7 @@ public class DatabaseConnection implements DbConn {
 		ArrayList<Visit> matches = new ArrayList<>();
 
 		try {
-			rs = stmt.executeQuery("select * from general_practice_visit where date >= '" + lastWeek + "';");
+			rs = stmt.executeQuery("SELECT * FROM general_practice_visit WHERE date >= '" + lastWeek + "';");
 			
 			while(rs.next()) {
 				int visitId = rs.getInt(1);

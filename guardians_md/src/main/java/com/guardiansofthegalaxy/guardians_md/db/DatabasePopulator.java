@@ -7,12 +7,12 @@ import com.guardiansofthegalaxy.guardians_md.tuples.User;
  * This class is used by the DatabaseConnection to populate the database with sample data when it is initialized.
  **/
 public class DatabasePopulator {
-	DatabaseConnection db;
+	DbConn db;
 
 	/**
-	 * Constructor which takes in a DatabaseConnection.
+	 * Constructor which takes in and stores a DbConn.
 	 **/
-	public DatabasePopulator(DatabaseConnection dbConn) {
+	public DatabasePopulator(DbConn dbConn) {
 		this.db = dbConn;
 	}
 

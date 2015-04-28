@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.*;
+
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -16,8 +16,15 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 
+/**
+ * S3ImageStorage makes a connection to an Amazon AWS S3 bucket.
+ * It then uploads image files to the bucket and downloads
+ * Images from the bucket, based on a String key.
+ *
+ * This class was built with the help of Amazon's AWS documentation for java developers.
+ **/
 public class S3ImageStorage {
-	// A whole lot of stupid shit to bypass Amazon detecting this flagrant breach of security when it gets uploaded to github.
+	// AWS credentials
 	private static final String ACCESS_KEY_ID2="R7RYGUY6ZQ";
 	private static final String ACCESS_KEY_ID1="AKIAIJI6AN";
 	private static final String ACCESS_KEY_ID=ACCESS_KEY_ID1+ACCESS_KEY_ID2;
@@ -30,13 +37,16 @@ public class S3ImageStorage {
 
 	private final AmazonS3 s3Client;
 
+	/**
+	 * Constructor. Loads AWS credentials and creates a new client connection to the S3 bucket.
+	 **/
 	public S3ImageStorage() {
 		BasicAWSCredentials awsCreds = new BasicAWSCredentials(ACCESS_KEY_ID, SECRET_ACCESS_KEY);
 		s3Client = new AmazonS3Client(awsCreds);
 	}
 
 	/**
-	 * Stores an image at the specified file under the specified keyName.
+	 * Stores an image from the specified file on the AmazonS3 bucket using the specified keyName.
 	 * @param image The File where the image is stored.
 	 * @param keyName The name to upload the image to S3 under.
 	 **/
@@ -53,7 +63,7 @@ public class S3ImageStorage {
 	}
 
 	/**
-	 * Downloads an image with the given key from the AmazonS3 bucket.
+	 * Downloads an image with the given keyName from the AmazonS3 bucket.
 	 * @param keyName The key used to pull the image from S3.
 	 * @return An Image object.
 	 **/
@@ -67,11 +77,6 @@ public class S3ImageStorage {
 			return null;
 		} catch (AmazonServiceException ase) {
             System.out.println("AmazonServerException: Error on S3 Server.");
-            System.out.println("Error Message:    " + ase.getMessage());
-            System.out.println("HTTP Status Code: " + ase.getStatusCode());
-            System.out.println("AWS Error Code:   " + ase.getErrorCode());
-            System.out.println("Error Type:       " + ase.getErrorType());
-            System.out.println("Request ID:       " + ase.getRequestId());
         } catch (AmazonClientException ace) {
             System.out.println("AmazonClientException: Could not reach S3 server.");
         }
@@ -79,7 +84,7 @@ public class S3ImageStorage {
 	}
 
 	/**
-	 * Deletes an image with the given key from the AmazonS3 bucket.
+	 * Deletes an image with the given keyName from the AmazonS3 bucket.
 	 * @param keyName The key used to delete the image from S3.
 	 * @return true If deleted successfully.
 	 **/

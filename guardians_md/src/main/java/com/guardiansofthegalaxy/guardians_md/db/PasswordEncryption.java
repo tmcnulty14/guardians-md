@@ -1,8 +1,5 @@
 package com.guardiansofthegalaxy.guardians_md.db;
 
-import com.guardiansofthegalaxy.guardians_md.panels.*;
-import com.guardiansofthegalaxy.guardians_md.db.*;
-
 import java.security.SecureRandom;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.SecretKeyFactory;
@@ -10,6 +7,11 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+/**
+ * This class is used for everything related to password security.
+ * It provides methods for encrypting a password into a salt + hash,
+ * and for checking/validating a password against a stored salt + hash.
+ **/
 public class PasswordEncryption {
 	private static final SecureRandom random = new SecureRandom();
 
@@ -48,6 +50,9 @@ public class PasswordEncryption {
 	/**
 	 * Uses the PBKDF2 hashing algorithm to generate a hash of the password + salt.
 	 * This will always return the same hashcode if given the same password and salt.
+	 *
+	 * The entire method is basically just a single method call to 
+	 * SecretKeyFactory.generateSecretKey(...), with some wrapping to format input + output.
 	 **/
 	private static byte[] generateHash(String password, byte[] salt) {
 		byte[] hash;
