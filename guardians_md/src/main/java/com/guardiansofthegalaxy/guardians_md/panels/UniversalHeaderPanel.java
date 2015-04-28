@@ -28,7 +28,8 @@ public class UniversalHeaderPanel extends JPanel {
         lblUserName = new JLabel(" ");
         lblUserName.setFont(new Font("DejaVu Serif", 0, 16));
 
-        btnReturnMain = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("Home_button.png"),60,60);
+        btnReturnMain = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("Home-button.png"),60,60);
+        btnReturnMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         pnUser.add(lblUserName);
         setHeaderIfUserLoggedIn();

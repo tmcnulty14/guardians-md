@@ -49,16 +49,16 @@ public class GettingStartedPanel extends JPanel {
         pnCenter.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         pnCenter.setPreferredSize(new Dimension(250, 500));
 
-        btnUserAccountInformation = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("profileImage.jpg"),100,100);
+        btnUserAccountInformation = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("user-icon.png"),100,100);
         btnUserAccountInformation.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        btnPatientRegistration = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("register_button.png"),112,100);
+        btnPatientRegistration = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("register_button.png"),100,100);
         btnPatientRegistration.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        btnSearchRecords = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("blueButton.jpg"),100,100);
+        btnSearchRecords = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("Search.png"),100,100);
         btnSearchRecords.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        btnCreateVisit = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("edit-blue (1).png"),100,101);
+        btnCreateVisit = new ImageButton(true, ConfigDirectory.getImageFileFromDirectory("edit-blue (1).png"),100,100);
         btnCreateVisit.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         btnCreateVisit.setVisible(false);
 
