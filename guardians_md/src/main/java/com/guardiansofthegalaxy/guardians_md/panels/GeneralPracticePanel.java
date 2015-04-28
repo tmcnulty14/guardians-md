@@ -1,7 +1,7 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
-import com.guardiansofthegalaxy.guardians_md.db.Visit;
+import com.guardiansofthegalaxy.guardians_md.tuples.Visit;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

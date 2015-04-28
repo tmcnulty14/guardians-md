@@ -1,8 +1,8 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
-import com.guardiansofthegalaxy.guardians_md.db.User;
-import com.guardiansofthegalaxy.guardians_md.db.Patient;
+import com.guardiansofthegalaxy.guardians_md.tuples.User;
+import com.guardiansofthegalaxy.guardians_md.tuples.Patient;
 import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
 import com.guardiansofthegalaxy.guardians_md.db.DbConn;
 

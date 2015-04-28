@@ -1,4 +1,4 @@
-package com.guardiansofthegalaxy.guardians_md.db;
+package com.guardiansofthegalaxy.guardians_md.tuples;
 
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;

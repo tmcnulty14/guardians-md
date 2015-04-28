@@ -3,7 +3,7 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 import com.guardiansofthegalaxy.guardians_md.customComponents.ImageLabel;
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 import com.guardiansofthegalaxy.guardians_md.db.S3ImageStorage;
-import com.guardiansofthegalaxy.guardians_md.db.LabOrder;
+import com.guardiansofthegalaxy.guardians_md.tuples.LabOrder;
 import com.guardiansofthegalaxy.guardians_md.environments.ConfigDirectory;
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;

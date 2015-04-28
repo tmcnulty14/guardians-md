@@ -2,7 +2,8 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 
 import com.guardiansofthegalaxy.guardians_md.customComponents.ImageButton;
 import com.guardiansofthegalaxy.guardians_md.environments.ConfigDirectory;
-import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.db.DbConn;
+import com.guardiansofthegalaxy.guardians_md.tuples.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -12,8 +13,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class GettingStartedPanel extends JPanel {
-
-
     public JPanel pnNorth, pnCenter, pnEast, pnOption1, pnOption2, pnOption3, pnOption4;
     public JLabel lblWelcome, lblSelectActionsOrMainMenu, lblRecentList, lblUserInfo, lblPatientReg, lblCreateVisit, lblSearchRecs;
     public ImageButton btnUserAccountInformation, btnPatientRegistration, btnCreateVisit, btnSearchRecords;

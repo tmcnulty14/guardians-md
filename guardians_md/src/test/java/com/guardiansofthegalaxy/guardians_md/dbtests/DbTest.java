@@ -1,8 +1,11 @@
 package com.guardiansofthegalaxy.guardians_md.dbtests;
 
-import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.db.DbConn;
+import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
+import com.guardiansofthegalaxy.guardians_md.tuples.*;
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;
+
 import org.junit.Test;
 import org.junit.AfterClass;
 import org.junit.Assert;

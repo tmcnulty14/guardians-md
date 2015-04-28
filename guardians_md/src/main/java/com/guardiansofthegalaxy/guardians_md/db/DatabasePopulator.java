@@ -1,5 +1,8 @@
 package com.guardiansofthegalaxy.guardians_md.db;
 
+import com.guardiansofthegalaxy.guardians_md.tuples.Patient;
+import com.guardiansofthegalaxy.guardians_md.tuples.User;
+
 /**
  * This class is used by the DatabaseConnection to populate the database with sample data when it is initialized.
  **/

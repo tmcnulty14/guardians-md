@@ -1,4 +1,4 @@
-package com.guardiansofthegalaxy.guardians_md.db;
+package com.guardiansofthegalaxy.guardians_md.tuples;
 
 public class Patient {
 	private int patientID;

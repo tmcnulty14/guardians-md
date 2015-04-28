@@ -2,7 +2,7 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 
 import com.guardiansofthegalaxy.guardians_md.db.DbConn;
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
-import com.guardiansofthegalaxy.guardians_md.db.Patient;
+import com.guardiansofthegalaxy.guardians_md.tuples.Patient;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

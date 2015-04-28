@@ -1,5 +1,7 @@
 package com.guardiansofthegalaxy.guardians_md.db;
 
+import com.guardiansofthegalaxy.guardians_md.tuples.*;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;

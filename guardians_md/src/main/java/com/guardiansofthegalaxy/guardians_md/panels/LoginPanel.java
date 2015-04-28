@@ -1,6 +1,7 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
-import com.guardiansofthegalaxy.guardians_md.db.*;
+import com.guardiansofthegalaxy.guardians_md.tuples.*;
+import com.guardiansofthegalaxy.guardians_md.db.DbConn;
 
 import javax.swing.*;
 import javax.swing.border.*;
