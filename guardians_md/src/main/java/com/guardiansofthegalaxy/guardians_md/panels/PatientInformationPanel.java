@@ -1,6 +1,6 @@
 package com.guardiansofthegalaxy.guardians_md.panels;
 
-import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
+import com.guardiansofthegalaxy.guardians_md.db.DbConn;
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 import com.guardiansofthegalaxy.guardians_md.db.Patient;
 
@@ -32,9 +32,9 @@ public class PatientInformationPanel extends JPanel {
 
     public JPanel pnPatientId, pnName, pnAddress, pnGender, pnEdit;
 
-    public DatabaseConnection dbc;
+    public DbConn dbc;
 
-    public PatientInformationPanel(DatabaseConnection dbc) {
+    public PatientInformationPanel(DbConn dbc) {
         this.dbc = dbc;
         setLayout(new GridLayout(5, 1));
         setBorder(BorderFactory.createCompoundBorder(new TitledBorder("Patient Information"), new EmptyBorder(10, 10, 10, 10)));

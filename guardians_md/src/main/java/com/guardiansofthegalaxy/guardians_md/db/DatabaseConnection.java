@@ -7,15 +7,15 @@ import java.text.SimpleDateFormat;
 
 public class DatabaseConnection implements DbConn {
 	// JDBC driver name and database URL
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://guardiansmddatabase.czanmkabbmcd.us-west-2.rds.amazonaws.com:3306";	// Amazon AWS instance
+	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	private static final String DB_URL = "jdbc:mysql://guardiansmddatabase.czanmkabbmcd.us-west-2.rds.amazonaws.com:3306";	// Amazon AWS instance
 
 	//  Database credentials
-	static final String DB_USER = "root";	// AWS RDS master username
-	static final String DB_PASS = "starlord";// AWS RDS master password
+	private static final String DB_USER = "root";	// AWS RDS master username
+	private static final String DB_PASS = "starlord";// AWS RDS master password
 
-	private Connection conn = null;
-	private Statement stmt = null;
+	protected Connection conn = null;
+	protected Statement stmt = null;
 
 	/**
 	 * Constructor. Calls the connect() method and does some printing.
@@ -787,6 +787,42 @@ public class DatabaseConnection implements DbConn {
 		return !error;
 	} 
 
+	/**
+	 * @return An ArrayList of all visits created within the past 7 days.
+	 **/
+	public ArrayList<Visit> getRecentVisits() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+
+        cal.add(Calendar.DATE, -7);
+        String lastWeek = sdf.format(cal.getTime());
+
+		ResultSet rs = null;
+		ArrayList<Visit> matches = new ArrayList<>();
+
+		try {
+			rs = stmt.executeQuery("select * from general_practice_visit where date >= '" + lastWeek + "';");
+			
+			while(rs.next()) {
+				int visitId = rs.getInt(1);
+				matches.add(getVisit(visitId));
+			}
+		} catch(SQLException se) {
+			logSQLException("getRecentVisits()", "", se);
+		}
+		finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+			} catch(SQLException se2) {
+				logSQLException("getRecentVisits()", "", se2);
+			}
+		}
+
+		return matches;
+	}
+
 // Prescription methods
 	/**
 	 * Returns a list of all of the prescriptions associated with the given visit id.
@@ -1127,31 +1163,26 @@ public class DatabaseConnection implements DbConn {
 	}
 
 	/**
-	 * @return The largest ID of any patient in the patient table.
+	 * @return An array of strings, each of which represents an atribute of the patient table which it can be searched by.
 	 **/
-	public int getMaxPatientId() {
-		return getMaxId("patient_id", "patient");
+	public String[] getPatientSearchTypes() {
+		return new String[]{"first_name", "last_name", "birthdate",  
+							"address", "city", "state", "zipcode", "insurance_account_number"};
+	} 
+
+	/**
+	 * @return An array of strings, each of which represents an atribute of the general_practice_visit table which it can be searched by.
+	 **/
+	public String[] getVisitSearchTypes() {
+		return new String[]{"patient_id", "doctor_id", "date"};
 	}
 
 	/**
-	 * @return The largest ID of any visit in the general_practice_visit table.
+	 * Called for logging whenever a SQLException is caught.
 	 **/
-	public int getMaxVisitId() {
-		return getMaxId("visit_id", "general_practice_visit");
-	}
-
-	/**
-	 * @return The largest ID of any prescription in the prescription table.
-	 **/
-	public int getMaxPrescriptionId() {
-		return getMaxId("prescription_id", "prescription");
-	}
-
-	/**
-	 * @return The largest ID of any lab order in the lab_order table.
-	 **/
-	public int getMaxLabOrderId() {
-		return getMaxId("lab_order_id", "lab_order");
+	protected void logSQLException(String method, String message, SQLException se) {
+		System.out.println("SQLException in " + method + (message.length()>0 ? (": " + message) : ""));
+		System.out.println(se.getMessage());
 	}
 
 	/**
@@ -1159,7 +1190,7 @@ public class DatabaseConnection implements DbConn {
 	 * @param tableName - The table which this attribute is the id of.
 	 * @return The largest ID of any entry in the table.
 	 **/
-	private int getMaxId(String idName, String tableName) {
+	protected int getMaxId(String idName, String tableName) {
 		String sql = "SELECT MAX(" + idName + ") FROM " + tableName + ";";
 		PreparedStatement selectStmt = null;
 		ResultSet result = null;
@@ -1189,62 +1220,31 @@ public class DatabaseConnection implements DbConn {
 	}
 
 	/**
-	 * @return An array of strings, each of which represents an atribute of the patient table which it can be searched by.
+	 * @return The largest ID of any patient in the patient table.
 	 **/
-	public String[] getPatientSearchTypes() {
-		return new String[]{"first_name", "last_name", "birthdate",  
-							"address", "city", "state", "zipcode", "insurance_account_number"};
-	} 
-
-	/**
-	 * @return An array of strings, each of which represents an atribute of the general_practice_visit table which it can be searched by.
-	 **/
-	public String[] getVisitSearchTypes() {
-		return new String[]{"patient_id", "doctor_id", "date"};
+	public int getMaxPatientId() {
+		return getMaxId("patient_id", "patient");
 	}
 
 	/**
-	 * @return An ArrayList of all visits created within the past 7 days.
+	 * @return The largest ID of any visit in the general_practice_visit table.
 	 **/
-	public ArrayList<Visit> getRecentVisits() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar cal = Calendar.getInstance();
-
-        cal.add(Calendar.DATE, -7);
-        String lastWeek = sdf.format(cal.getTime());
-
-		ResultSet rs = null;
-		ArrayList<Visit> matches = new ArrayList<>();
-
-		try {
-			rs = stmt.executeQuery("select * from general_practice_visit where date >= '" + lastWeek + "';");
-			
-			while(rs.next()) {
-				int visitId = rs.getInt(1);
-				matches.add(getVisit(visitId));
-			}
-		} catch(SQLException se) {
-			logSQLException("getRecentVisits()", "", se);
-		}
-		finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-			} catch(SQLException se2) {
-				logSQLException("getRecentVisits()", "", se2);
-			}
-		}
-
-		return matches;
+	public int getMaxVisitId() {
+		return getMaxId("visit_id", "general_practice_visit");
 	}
 
 	/**
-	 * Called for logging whenever a SQLException is caught.
+	 * @return The largest ID of any prescription in the prescription table.
 	 **/
-	private void logSQLException(String method, String message, SQLException se) {
-		System.out.println("SQLException in " + method + (message.length()>0 ? (": " + message) : ""));
-		System.out.println(se.getMessage());
+	public int getMaxPrescriptionId() {
+		return getMaxId("prescription_id", "prescription");
+	}
+
+	/**
+	 * @return The largest ID of any lab order in the lab_order table.
+	 **/
+	public int getMaxLabOrderId() {
+		return getMaxId("lab_order_id", "lab_order");
 	}
 
 	/**

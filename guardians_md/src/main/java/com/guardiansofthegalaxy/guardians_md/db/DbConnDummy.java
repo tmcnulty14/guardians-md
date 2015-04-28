@@ -1,11 +1,13 @@
 package com.guardiansofthegalaxy.guardians_md.db;
 
 import java.util.ArrayList;
-import java.util.List;
 
-
+/**
+ * A dummy implementation of the DbConn interface. This class provides stub implementations of all of the
+ * DbConn methods, which allows for panel testing without a working database connection.
+ **/
 public class DbConnDummy implements DbConn  {
-
+// Patient methods
     @Override
     public boolean registerPatient(Patient patient) {
         return false;
@@ -26,6 +28,7 @@ public class DbConnDummy implements DbConn  {
         return false;
     }
 
+// User methods
     @Override
     public boolean registerUser(User user, String password) {
         return false;
@@ -56,6 +59,7 @@ public class DbConnDummy implements DbConn  {
         return false;
     }
 
+// Visit methods
     @Override
     public Visit getVisit(int visitID) {
         return null;
@@ -77,15 +81,21 @@ public class DbConnDummy implements DbConn  {
     }
 
     @Override
+    public boolean updateComments(int visitID, String comments) {
+        return false;
+    }
+
+    @Override
     public boolean addComments(int visitID, String comments) {
         return false;
     }
 
     @Override
-    public boolean updateComments(int visitID, String comments) {
-        return false;
+    public ArrayList<Visit> getRecentVisits() {
+        return new ArrayList<Visit>();
     }
 
+// Prescription methods
     @Override
     public ArrayList<Prescription> getVisitPrescriptions(int visitID) {
         return null;
@@ -97,6 +107,17 @@ public class DbConnDummy implements DbConn  {
     }
 
     @Override
+    public boolean updatePrescription(Prescription prescription) {
+        return false;
+    }
+
+    @Override
+    public boolean deletePrescription(Prescription prescription) {
+        return false;
+    }
+
+// LabOrder methods
+    @Override
     public ArrayList<LabOrder> getVisitLabOrders(int visitID) {
         return null;
     }
@@ -106,6 +127,17 @@ public class DbConnDummy implements DbConn  {
         return false;
     }
 
+    @Override
+    public boolean updateLabOrder(LabOrder labOrder) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteLabOrder(LabOrder labOrder) {
+        return false;
+    }
+
+// Search methods
     @Override
     public ArrayList<Patient> findPatient(String searchTerm, String searchBy) {
         return new ArrayList<Patient>();
@@ -125,4 +157,24 @@ public class DbConnDummy implements DbConn  {
     public String[] getVisitSearchTypes() {
         return new String[] {"Visit ID", "Patient ID", "Date"};
     }
+
+// MaxId methods
+    public int getMaxPatientId() {
+        return -1;
+    }
+
+    public int getMaxVisitId() {
+        return -1;
+    }
+
+    public int getMaxPrescriptionId() {
+        return -1;
+    }
+
+    public int getMaxLabOrderId() {
+        return -1;
+    }
+
+// General methods
+    public void close() {}
 }

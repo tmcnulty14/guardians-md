@@ -4,6 +4,7 @@ import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 import com.guardiansofthegalaxy.guardians_md.db.User;
 import com.guardiansofthegalaxy.guardians_md.db.Patient;
 import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
+import com.guardiansofthegalaxy.guardians_md.db.DbConn;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +35,7 @@ public class MedicalSystemsMainFrame extends JFrame {
     public JMenuItem logoutMenuItem;
     public JMenuItem exitMenuItem;
 
-    public DatabaseConnection database;
+    public DbConn database;
 
     public MedicalSystemsMainFrame() {
 

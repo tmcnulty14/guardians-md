@@ -31,9 +31,9 @@ public class SearchPanel extends JPanel {
     private ArrayList<Patient> patientResults;
     private ArrayList<Visit> visitResults;
 
-    private DatabaseConnection database;
+    private DbConn database;
 
-    public SearchPanel(DatabaseConnection database) {
+    public SearchPanel(DbConn database) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(5, 5, 5, 5), new TitledBorder("Search")));
         setBackground(Color.WHITE);
@@ -46,8 +46,6 @@ public class SearchPanel extends JPanel {
 
         searchByPatients = new ArrayList<>(Arrays.asList(database.getPatientSearchTypes()));
         searchByVisits = new ArrayList<>(Arrays.asList(database.getVisitSearchTypes()));
-
-        this.database = database;
 
         // Allow visits to be searched by patient info
         searchByVisits.addAll(searchByPatients);

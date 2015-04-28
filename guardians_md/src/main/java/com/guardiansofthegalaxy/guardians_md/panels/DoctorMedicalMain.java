@@ -12,7 +12,7 @@ import java.text.*;
 public class DoctorMedicalMain extends MedicalMainPanel {
 
 
-	public DoctorMedicalMain(DatabaseConnection database) {
+	public DoctorMedicalMain(DbConn database) {
 		super(database);
 		disableNursingCheckBox();
 	}

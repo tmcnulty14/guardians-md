@@ -28,9 +28,9 @@ public class MedicalMainPanel extends JPanel {
     public JButton btnPat, btnGenPract, btnLabTests, btnPresc, btnNursComm, btnSubmit;
     public Patient patient = null;
     public Visit visit = null;
-    public DatabaseConnection dbc;
+    public DbConn dbc;
 
-    public MedicalMainPanel(DatabaseConnection database) {
+    public MedicalMainPanel(DbConn database) {
         this.dbc = database;
         setLayout(new BorderLayout());
         buildPanels();

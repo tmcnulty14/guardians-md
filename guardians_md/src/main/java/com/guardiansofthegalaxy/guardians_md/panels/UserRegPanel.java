@@ -17,9 +17,9 @@ public class UserRegPanel extends JPanel
     private JRadioButton nurse, doctor;
     private ButtonGroup specGroup;
     public boolean isDoctor;
-    private final DatabaseConnection regConn;
+    private final DbConn regConn;
     
-    public UserRegPanel(DatabaseConnection dbc)
+    public UserRegPanel(DbConn dbc)
     {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createBevelBorder(2, Color.green, Color.yellow));

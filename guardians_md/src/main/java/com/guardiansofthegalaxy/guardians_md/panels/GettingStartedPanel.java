@@ -23,9 +23,9 @@ public class GettingStartedPanel extends JPanel {
 
     public ArrayList<Visit> recentVisits;
 
-    public DatabaseConnection dbc;
+    public DbConn dbc;
 
-    public GettingStartedPanel(DatabaseConnection dbc){
+    public GettingStartedPanel(DbConn dbc){
         this.dbc = dbc;
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);

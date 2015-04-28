@@ -17,7 +17,7 @@ public class DbTest {
 	private final static String DEFAULT_USERNAME = "doctor";
 	private final static String DEFAULT_PASSWORD = "password";
 
-	private static DatabaseConnection database = null;
+	private static DbConn database = null;
 
 	@BeforeClass
 	/**
@@ -187,7 +187,7 @@ public class DbTest {
 	 * Helper method that populates the database with all data necessary for testing a visit.
 	 * @return The Visit object before being stored in the database, but with all relevant IDs set correctly.
 	 **/
-	private Visit registerTestVisit(DatabaseConnection database) {
+	private Visit registerTestVisit(DbConn database) {
 		// Set up the prescriptions and lab orders
 		ArrayList<Prescription> prescriptions = new ArrayList<>();
 		prescriptions.add(new Prescription("Medicine", "GenericMed"));
@@ -223,7 +223,7 @@ public class DbTest {
 	 * Helper method that populates the database with all data necessary for testing a patient.
 	 * @return The Patient object before being stored in the database, but with the relevant ID set correctly.
 	 **/
-	private Patient registerTestPatient(DatabaseConnection database) {
+	private Patient registerTestPatient(DbConn database) {
 		Patient p = new Patient("Patience", "Patientson", "1990-03-31", "female", 
 										  "100 State St", "", "Framingham", "MA", "01701", 
 										  "United States", "GenericProvider Healthcare", "GP1836009-01");
@@ -237,7 +237,7 @@ public class DbTest {
 	 * Helper method that populates the database with all data necessary for testing a user.
 	 * @return The User object before being stored in the database.
 	 **/
-	private User registerTestUser(DatabaseConnection database) {
+	private User registerTestUser(DbConn database) {
 		User u = new User(DEFAULT_USERNAME, "Doc", "Doctorson", "Doctoring", "555-555-5555", true);
 		Assert.assertTrue(database.registerUser(u, DEFAULT_PASSWORD));
 		return u;

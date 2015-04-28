@@ -7,11 +7,11 @@ import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 
-// Login Button and Register button action listeners is in MedicalSystemsMainFrame.
-// Also need to work on design of login panel (make it pretty!)
-
+/**
+ * This is the panel which the user uses to log into the software. They can enter their username and password and click "login", 
+ * or they can click "register" to register as a new user.
+ **/
 public class LoginPanel extends JPanel {
-
     private final DbConn dbConnection;
     public JButton loginButton, registerButton;
     public JTextField usernameField;

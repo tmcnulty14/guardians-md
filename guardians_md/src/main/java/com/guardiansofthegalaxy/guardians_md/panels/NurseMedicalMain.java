@@ -5,7 +5,7 @@ import com.guardiansofthegalaxy.guardians_md.db.*;
 public class NurseMedicalMain extends MedicalMainPanel {
 
 
-	public NurseMedicalMain(DatabaseConnection database) {
+	public NurseMedicalMain(DbConn database) {
 		super(database);
 		disableGeneralPractice();
 		disableLabratoryTests();
