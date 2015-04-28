@@ -134,13 +134,23 @@ public class ResultsFrameView extends JFrame {
     }
 
     public void changeResultsView() {
-        if (MedicalConfigurator.checkLabOrdersForHasResultsImage(labName, testName)) {
+        if (testName.equals(TestName.XRAY) || testName.equals(TestName.CT) || testName.equals(TestName.MRI)) {
+            
             results = MedicalConfigurator.getActiveVisitLabOrderResultsImageListByType(labName, testName);
-            if (imageCounter < results.length) {
-                imageLabel.changeLabelImage(s3Conn.getImage(results[imageCounter++]));
-                cardLayout.show(cardPanel, "ImagePanel");
+
+            // Split method returns an array of size 1 when string is empty (see LabOrder.java)
+            if (!results[0].equals("")) {
+                if (imageCounter < results.length) {
+                    imageLabel.changeLabelImage(s3Conn.getImage(results[imageCounter++]));
+                }
             }
-        } else {
+            else {
+                btnNext.setEnabled(false);
+            }
+
+            cardLayout.show(cardPanel, "ImagePanel");
+        }
+        else {
             results = new String[]{MedicalConfigurator.getActiveVisitLabOrderResultsByType(labName, testName)};
             textArea.setText(results[0]);
             cardLayout.show(cardPanel, "TextPanel");
