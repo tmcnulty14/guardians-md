@@ -72,7 +72,7 @@ public class GettingStartedPanel extends JPanel {
         lblSearchRecs = new JLabel("Search Records", SwingConstants.CENTER);
         lblSearchRecs.setFont(new Font("DejaVu Serif", 0, 18));
 
-        lblCreateVisit = new JLabel("Create New Visit (under construction)", SwingConstants.CENTER);
+        lblCreateVisit = new JLabel("Create New Visit", SwingConstants.CENTER);
         lblCreateVisit.setFont(new Font("DejaVu Serif", 0, 18));
         lblCreateVisit.setVisible(false);
 
@@ -132,7 +132,7 @@ public class GettingStartedPanel extends JPanel {
         recentList.addListSelectionListener(new SelectedListener());
 
         scrollPane = new JScrollPane(recentList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         btnViewRecent = new JButton("View");
         btnViewRecent.setFont(new Font("DejaVu Serif", 0, 16));

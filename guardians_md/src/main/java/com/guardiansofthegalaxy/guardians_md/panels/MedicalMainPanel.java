@@ -244,39 +244,7 @@ public class MedicalMainPanel extends JPanel {
 
                         // Set lab orders of visit
 
-                        ArrayList<LabOrder> labOrders = new ArrayList<>();
-                        if (pnLabTests.ckRed.isSelected()) {
-                            labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.RED));
-                        }
-                        if (pnLabTests.ckWhite.isSelected()) {
-                            labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.WHITE));
-                        }
-                        if (pnLabTests.ckLiver.isSelected()) {
-                            labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.LIVER));
-                        }
-                        if (pnLabTests.ckRenal.isSelected()) {
-                            labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.RENAL));
-                        }
-                        if (pnLabTests.ckEletrol.isSelected()) {
-                            labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.ELECTROL));
-                        }
-                        if (pnLabTests.ckXray.isSelected()) {
-                            labOrders.add(new LabOrder(LabName.RADIOLOGIC, TestName.XRAY));
-                        }
-                        if (pnLabTests.ckCompTom.isSelected()) {
-                            labOrders.add(new LabOrder(LabName.RADIOLOGIC, TestName.CT));
-                        }
-                        if (pnLabTests.ckMagRes.isSelected()) {
-                            labOrders.add(new LabOrder(LabName.RADIOLOGIC, TestName.MRI));
-                        }
-                        if (pnLabTests.ckUrin.isSelected()) {
-                            labOrders.add(new LabOrder(LabName.ADDITIONAL, TestName.URINARY));
-                        }
-                        if (pnLabTests.ckStool.isSelected()) {
-                            labOrders.add(new LabOrder(LabName.ADDITIONAL, TestName.STOOL));
-                        }
-
-                        updatedVisit.setLabOrders(labOrders);
+                        updatedVisit.setLabOrders(pnLabTests.getNewLabOrders());
 
                         // Set prescriptions of visit
                         

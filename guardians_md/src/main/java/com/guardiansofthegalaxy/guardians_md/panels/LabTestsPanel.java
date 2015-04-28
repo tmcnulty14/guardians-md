@@ -10,8 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 public class LabTestsPanel extends JPanel {
 
@@ -23,8 +22,10 @@ public class LabTestsPanel extends JPanel {
     public JCheckBox ckXray, ckCompTom, ckMagRes;
     public JCheckBox ckUrin, ckStool;
     public JButton resultRed, resultWhite, resultLiver, resultRenal, resultElectrol;
-    public JButton newXray, resultXray, newCompTom, resultCompTom, newMagRes, resultMagRes;
+    public JButton resultXray, resultCompTom, resultMagRes;
     public JButton resultUrin, resultStool;
+
+    private ArrayList<LabOrder> labOrders;
 
     public LabTestsPanel() {
         setLayout(new GridLayout(1, 3));
@@ -49,7 +50,7 @@ public class LabTestsPanel extends JPanel {
         ckRed = new JCheckBox("Red Blood Cell Test");
         ckRed.setFont(new Font("Times New Roman", 0, 16));
         ckRed.setBackground(Color.WHITE);
-        ckRed.addItemListener(new HemBoxListener());
+        ckRed.addActionListener(new HemBoxListener());
 
         resultRed = new JButton("Results");
         resultRed.setFont(new Font("DejaVu Serif", 0, 14));
@@ -70,7 +71,7 @@ public class LabTestsPanel extends JPanel {
         ckWhite = new JCheckBox("White Blood Cell Test");
         ckWhite.setFont(new Font("Times New Roman", 0, 16));
         ckWhite.setBackground(Color.WHITE);
-        ckWhite.addItemListener(new HemBoxListener());
+        ckWhite.addActionListener(new HemBoxListener());
 
         resultWhite = new JButton("Results");
         resultWhite.setFont(new Font("DejaVu Serif", 0, 14));
@@ -90,7 +91,7 @@ public class LabTestsPanel extends JPanel {
         ckLiver = new JCheckBox("Liver Function Test");
         ckLiver.setFont(new Font("Times New Roman", 0, 16));
         ckLiver.setBackground(Color.WHITE);
-        ckLiver.addItemListener(new HemBoxListener());
+        ckLiver.addActionListener(new HemBoxListener());
 
         resultLiver = new JButton("Results");
         resultLiver.setFont(new Font("DejaVu Serif", 0, 14));
@@ -110,7 +111,7 @@ public class LabTestsPanel extends JPanel {
         ckRenal = new JCheckBox("Renal Function Test");
         ckRenal.setFont(new Font("Times New Roman", 0, 16));
         ckRenal.setBackground(Color.WHITE);
-        ckRenal.addItemListener(new HemBoxListener());
+        ckRenal.addActionListener(new HemBoxListener());
 
         resultRenal = new JButton("Results");
         resultRenal.setFont(new Font("DejaVu Serif", 0, 14));
@@ -130,7 +131,7 @@ public class LabTestsPanel extends JPanel {
         ckEletrol = new JCheckBox("Electrol Test");
         ckEletrol.setFont(new Font("Times New Roman", 0, 16));
         ckEletrol.setBackground(Color.WHITE);
-        ckEletrol.addItemListener(new HemBoxListener());
+        ckEletrol.addActionListener(new HemBoxListener());
 
         resultElectrol = new JButton("Results");
         resultElectrol.setFont(new Font("DejaVu Serif", 0, 14));
@@ -163,12 +164,7 @@ public class LabTestsPanel extends JPanel {
         ckXray = new JCheckBox("X-Ray");
         ckXray.setFont(new Font("Times New Roman", 0, 16));
         ckXray.setBackground(Color.WHITE);
-        ckXray.addItemListener(new RadBoxListener());
-
-        newXray = new JButton("Add New");
-        newXray.setFont(new Font("DejaVu Serif", 0, 14));
-        newXray.addActionListener(new NewResultListener());
-        newXray.setVisible(false);
+        ckXray.addActionListener(new RadBoxListener());
 
         resultXray = new JButton("Results");
         resultXray.setFont(new Font("DejaVu Serif", 0, 14));
@@ -181,7 +177,6 @@ public class LabTestsPanel extends JPanel {
 
         JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panel2.setBackground(Color.WHITE);
-        panel2.add(newXray);
         panel2.add(resultXray);
 
         panel1.add(ckXray, BorderLayout.NORTH);
@@ -190,12 +185,7 @@ public class LabTestsPanel extends JPanel {
         ckCompTom = new JCheckBox("Computed Tomography (CT)");
         ckCompTom.setFont(new Font("Times New Roman", 0, 16));
         ckCompTom.setBackground(Color.WHITE);
-        ckCompTom.addItemListener(new RadBoxListener());
-
-        newCompTom = new JButton("Add New");
-        newCompTom.setFont(new Font("DejaVu Serif", 0, 14));
-        newCompTom.addActionListener(new NewResultListener());
-        newCompTom.setVisible(false);
+        ckCompTom.addActionListener(new RadBoxListener());
 
         resultCompTom = new JButton("Results");
         resultCompTom.setFont(new Font("DejaVu Serif", 0, 14));
@@ -207,7 +197,6 @@ public class LabTestsPanel extends JPanel {
 
         JPanel panel4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panel4.setBackground(Color.WHITE);
-        panel4.add(newCompTom);
         panel4.add(resultCompTom);
 
         panel3.add(ckCompTom, BorderLayout.NORTH);
@@ -216,12 +205,7 @@ public class LabTestsPanel extends JPanel {
         ckMagRes = new JCheckBox("Magnetic Resonance Image (MRI)");
         ckMagRes.setFont(new Font("Times New Roman", 0, 16));
         ckMagRes.setBackground(Color.WHITE);
-        ckMagRes.addItemListener(new RadBoxListener());
-
-        newMagRes = new JButton("Add New");
-        newMagRes.setFont(new Font("DejaVu Serif", 0, 14));
-        newMagRes.addActionListener(new NewResultListener());
-        newMagRes.setVisible(false);
+        ckMagRes.addActionListener(new RadBoxListener());
 
         resultMagRes = new JButton("Results");
         resultMagRes.setFont(new Font("DejaVu Serif", 0, 14));
@@ -233,7 +217,6 @@ public class LabTestsPanel extends JPanel {
 
         JPanel panel6 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panel6.setBackground(Color.WHITE);
-        panel6.add(newMagRes);
         panel6.add(resultMagRes);
 
         panel5.add(ckMagRes, BorderLayout.NORTH);
@@ -253,7 +236,7 @@ public class LabTestsPanel extends JPanel {
         ckUrin = new JCheckBox("Urinary Test");
         ckUrin.setFont(new Font("Times New Roman", 0, 16));
         ckUrin.setBackground(Color.WHITE);
-        ckUrin.addItemListener(new TestBoxListener());
+        ckUrin.addActionListener(new TestBoxListener());
 
         resultUrin = new JButton("Results");
         resultUrin.setFont(new Font("DejaVu Serif", 0, 14));
@@ -274,7 +257,7 @@ public class LabTestsPanel extends JPanel {
         ckStool = new JCheckBox("Stool Test");
         ckStool.setFont(new Font("Times New Roman", 0, 16));
         ckStool.setBackground(Color.WHITE);
-        ckStool.addItemListener(new TestBoxListener());
+        ckStool.addActionListener(new TestBoxListener());
 
         resultStool = new JButton("Results");
         resultStool.setFont(new Font("DejaVu Serif", 0, 14));
@@ -313,24 +296,34 @@ public class LabTestsPanel extends JPanel {
     private void checkLabTests(TestName testName) {
         if (testName.equals(TestName.RED)) {
             ckRed.setSelected(true);
+            resultRed.setVisible(true);
         } else if (testName.equals(TestName.WHITE)) {
             ckWhite.setSelected(true);
+            resultWhite.setVisible(true);
         } else if (testName.equals(TestName.LIVER)) {
             ckLiver.setSelected(true);
+            resultLiver.setVisible(true);
         } else if (testName.equals(TestName.RENAL)) {
             ckRenal.setSelected(true);
+            resultRenal.setVisible(true);
         } else if (testName.equals(TestName.ELECTROL)) {
             ckEletrol.setSelected(true);
+            resultElectrol.setVisible(true);
         } else if (testName.equals(TestName.XRAY)) {
             ckXray.setSelected(true);
+            resultXray.setVisible(true);
         } else if (testName.equals(TestName.CT)) {
             ckCompTom.setSelected(true);
+            resultCompTom.setVisible(true);
         } else if (testName.equals(TestName.MRI)) {
             ckMagRes.setSelected(true);
+            resultMagRes.setVisible(true);
         } else if (testName.equals(TestName.URINARY)) {
             ckUrin.setSelected(true);
+            resultUrin.setVisible(true);
         } else if (testName.equals(TestName.STOOL)) {
             ckStool.setSelected(true);
+            resultStool.setVisible(true);
         }
     }
 
@@ -347,181 +340,179 @@ public class LabTestsPanel extends JPanel {
         ckStool.setSelected(false);
     }
 
+    public ArrayList<LabOrder> getNewLabOrders() {
+        return labOrders;
+    }
+
+    public void setCurrentLabOrders() {
+        labOrders = MedicalConfigurator.getActiveVisit().getLabOrders();
+    }
+
+    private void removeLabOrder(TestName testName) {
+        
+        for (LabOrder search : labOrders) {
+            if (search.getTestName_enum().equals(testName)) {
+                labOrders.remove(search);
+                break;
+            }
+        }
+    }
+
     private class ViewResultListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object source = e.getSource();
 
             if (source == resultRed) {
-                if (MedicalConfigurator.isResultSetEmpty(LabName.HEMATOLOGIC, TestName.RED)) {
-                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
-                } else {
-                    new ResultsFrameView(LabName.HEMATOLOGIC, TestName.RED).setVisible(true);
-                }
+                new ResultsFrameView(LabName.HEMATOLOGIC, TestName.RED, labOrders).setVisible(true);
             }
-            if (source == resultWhite) {
-                if (MedicalConfigurator.isResultSetEmpty(LabName.HEMATOLOGIC, TestName.WHITE)) {
-                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
-                } else {
-                    new ResultsFrameView(LabName.HEMATOLOGIC, TestName.WHITE).setVisible(true);
-                }
+            else if (source == resultWhite) {
+                new ResultsFrameView(LabName.HEMATOLOGIC, TestName.WHITE, labOrders).setVisible(true);
             }
-            if (source == resultLiver) {
-                if (MedicalConfigurator.isResultSetEmpty(LabName.HEMATOLOGIC, TestName.LIVER)) {
-                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
-                } else {
-                    new ResultsFrameView(LabName.HEMATOLOGIC, TestName.WHITE).setVisible(true);
-                }
+            else if (source == resultLiver) {
+                new ResultsFrameView(LabName.HEMATOLOGIC, TestName.LIVER, labOrders).setVisible(true);
             }
 
-            if (source == resultRenal) {
-                if (MedicalConfigurator.isResultSetEmpty(LabName.HEMATOLOGIC, TestName.RENAL)) {
-                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
-                } else {
-                    new ResultsFrameView(LabName.HEMATOLOGIC, TestName.RENAL).setVisible(true);
-                }
+            else if (source == resultRenal) {
+                new ResultsFrameView(LabName.HEMATOLOGIC, TestName.RENAL, labOrders).setVisible(true);
             }
 
-            if (source == resultElectrol) {
-                if (MedicalConfigurator.isResultSetEmpty(LabName.HEMATOLOGIC, TestName.ELECTROL)) {
-                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
-                } else {
-                    new ResultsFrameView(LabName.HEMATOLOGIC, TestName.ELECTROL).setVisible(true);
-                }
+            else if (source == resultElectrol) {
+                new ResultsFrameView(LabName.HEMATOLOGIC, TestName.ELECTROL, labOrders).setVisible(true);
             }
 
-            if (source == resultXray) {
-                if (MedicalConfigurator.isResultSetEmpty(LabName.RADIOLOGIC, TestName.XRAY)) {
-                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
-                } else {
-                    new ResultsFrameView(LabName.RADIOLOGIC, TestName.XRAY).setVisible(true);
-                }
+            else if (source == resultXray) {
+                new ResultsFrameView(LabName.RADIOLOGIC, TestName.XRAY, labOrders).setVisible(true);
             }
 
-            if (source == resultCompTom) {
-                if (MedicalConfigurator.isResultSetEmpty(LabName.RADIOLOGIC, TestName.CT)) {
-                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
-                } else {
-                    new ResultsFrameView(LabName.RADIOLOGIC, TestName.CT).setVisible(true);
-                }
+            else if (source == resultCompTom) {
+                new ResultsFrameView(LabName.RADIOLOGIC, TestName.CT, labOrders).setVisible(true);
             }
 
-            if (source == resultMagRes) {
-                if (MedicalConfigurator.isResultSetEmpty(LabName.RADIOLOGIC, TestName.MRI)) {
-                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
-                } else {
-                    new ResultsFrameView(LabName.RADIOLOGIC, TestName.MRI).setVisible(true);
-                }
+            else if (source == resultMagRes) {
+                new ResultsFrameView(LabName.RADIOLOGIC, TestName.MRI, labOrders).setVisible(true);
             }
 
-            if (source == resultUrin) {
-                if (MedicalConfigurator.isResultSetEmpty(LabName.ADDITIONAL, TestName.URINARY)) {
-                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
-                } else {
-                    new ResultsFrameView(LabName.ADDITIONAL, TestName.URINARY).setVisible(true);
-                }
+            else if (source == resultUrin) {
+                new ResultsFrameView(LabName.ADDITIONAL, TestName.URINARY, labOrders).setVisible(true);
             }
 
-            if (source == resultStool) {
-                if (MedicalConfigurator.isResultSetEmpty(LabName.ADDITIONAL, TestName.STOOL)) {
-                    JOptionPane.showMessageDialog(null, "There are no active results for this Patient");
-                } else {
-                    new ResultsFrameView(LabName.ADDITIONAL, TestName.STOOL).setVisible(true);
-                }
+            else if (source == resultStool) {
+                new ResultsFrameView(LabName.ADDITIONAL, TestName.STOOL, labOrders).setVisible(true);
             }
-
         }
     }
 
-    private class NewResultListener implements ActionListener {
-        @Override
+    private class HemBoxListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
-
-        }
-    }
-
-    private class HemBoxListener implements ItemListener {
-
-        public void itemStateChanged(ItemEvent e) {
             Object obj = e.getSource();
 
             if (obj == ckRed) {
-                if (ckRed.isSelected())
+                if (ckRed.isSelected()) {
+                    labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.RED));
                     resultRed.setVisible(true);
-                else
+                }
+                else {
+                    removeLabOrder(TestName.RED);
                     resultRed.setVisible(false);
+                }
             } else if (obj == ckWhite) {
-                if (ckWhite.isSelected())
+                if (ckWhite.isSelected()) {
+                    labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.WHITE));
                     resultWhite.setVisible(true);
-                else
+                }
+                else {
+                    removeLabOrder(TestName.WHITE);
                     resultWhite.setVisible(false);
+                }
             } else if (obj == ckLiver) {
-                if (ckLiver.isSelected())
+                if (ckLiver.isSelected()) {
+                    labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.LIVER));
                     resultLiver.setVisible(true);
-                else
+                }
+                else {
+                    removeLabOrder(TestName.LIVER);
                     resultLiver.setVisible(false);
+                }
             } else if (obj == ckRenal) {
-                if (ckRenal.isSelected())
+                if (ckRenal.isSelected()) {
+                    labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.RENAL));
                     resultRenal.setVisible(true);
-                else
+                }
+                else {
+                    removeLabOrder(TestName.RENAL);
                     resultRenal.setVisible(false);
-            } else if (obj == ckRenal) {
-                if (ckRenal.isSelected())
-                    resultRenal.setVisible(true);
-                else
-                    resultRenal.setVisible(false);
+                }
+            } else if (obj == ckEletrol) {
+                if (ckEletrol.isSelected()) {
+                    labOrders.add(new LabOrder(LabName.HEMATOLOGIC, TestName.ELECTROL));
+                    resultElectrol.setVisible(true);
+                }
+                else {
+                    removeLabOrder(TestName.ELECTROL);
+                    resultElectrol.setVisible(false);
+                }
             }
         }
     }
 
-    private class RadBoxListener implements ItemListener {
+    private class RadBoxListener implements ActionListener {
 
-        public void itemStateChanged(ItemEvent e) {
+        public void actionPerformed(ActionEvent e) {
             Object obj = e.getSource();
 
             if (obj == ckXray) {
                 if (ckXray.isSelected()) {
-                    newXray.setVisible(true);
+                    labOrders.add(new LabOrder(LabName.RADIOLOGIC, TestName.XRAY));
                     resultXray.setVisible(true);
                 } else {
-                    newXray.setVisible(false);
+                    removeLabOrder(TestName.XRAY);
                     resultXray.setVisible(false);
                 }
             } else if (obj == ckCompTom) {
                 if (ckCompTom.isSelected()) {
-                    newCompTom.setVisible(true);
+                    labOrders.add(new LabOrder(LabName.RADIOLOGIC, TestName.CT));
                     resultCompTom.setVisible(true);
                 } else {
-                    newCompTom.setVisible(false);
+                    removeLabOrder(TestName.CT);
                     resultCompTom.setVisible(false);
                 }
             } else if (obj == ckMagRes) {
                 if (ckMagRes.isSelected()) {
-                    newMagRes.setVisible(true);
+                    labOrders.add(new LabOrder(LabName.RADIOLOGIC, TestName.MRI));
                     resultMagRes.setVisible(true);
                 } else {
-                    newMagRes.setVisible(false);
+                    removeLabOrder(TestName.MRI);
                     resultMagRes.setVisible(false);
                 }
             }
         }
     }
 
-    private class TestBoxListener implements ItemListener {
+    private class TestBoxListener implements ActionListener {
 
-        public void itemStateChanged(ItemEvent e) {
+        public void actionPerformed(ActionEvent e) {
             Object obj = e.getSource();
 
             if (obj == ckUrin) {
-                if (ckUrin.isSelected())
+                if (ckUrin.isSelected()) {
+                    labOrders.add(new LabOrder(LabName.ADDITIONAL, TestName.URINARY));
                     resultUrin.setVisible(true);
-                else
+                }
+                else {
+                    removeLabOrder(TestName.URINARY);
                     resultUrin.setVisible(false);
+                }
             } else if (obj == ckStool) {
-                if (ckStool.isSelected())
+                if (ckStool.isSelected()) {
+                    labOrders.add(new LabOrder(LabName.ADDITIONAL, TestName.STOOL));
                     resultStool.setVisible(true);
-                else
+                }
+                else {
+                    removeLabOrder(TestName.STOOL);
                     resultStool.setVisible(false);
+                }
             }
         }
     }

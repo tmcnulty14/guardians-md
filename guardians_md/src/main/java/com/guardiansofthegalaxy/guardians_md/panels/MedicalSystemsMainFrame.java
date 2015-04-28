@@ -140,7 +140,6 @@ public class MedicalSystemsMainFrame extends JFrame {
                 pnPatientReg.clearFields();
                 MedicalConfigurator.setActivePatient(new Patient("", "", "", "", "", "", "", "", "", "", "", ""));
 
-                //TODO patient id: number and N/A for new
                 cardLayout.show(cardPanel,"PatientInformationPanel");
             }
         });
@@ -151,7 +150,6 @@ public class MedicalSystemsMainFrame extends JFrame {
 
                 pnUnivHeader.btnReturnMain.setVisible(true);
 
-                // todo same for button
                 pnSearch.searchFor.setEnabled(false);
                 cardLayout.show(cardPanel, "SearchPanel");
             }
@@ -184,6 +182,7 @@ public class MedicalSystemsMainFrame extends JFrame {
                     pnDoctorMedical.pnLabTests.loadLabTestInformation();
                     pnDoctorMedical.pnPresc.loadPrescriptionsInformation();
                     pnDoctorMedical.pnNursComm.loadNursingComments();
+                    pnDoctorMedical.pnLabTests.setCurrentLabOrders();
 
                     cardLayout.show(cardPanel, "DoctorMedicalMain");
                 }
@@ -322,7 +321,6 @@ public class MedicalSystemsMainFrame extends JFrame {
             else if (source == createVisitMenuItem) {
                 pnUnivHeader.btnReturnMain.setVisible(true);
 
-                // todo same for button
                 pnSearch.searchFor.setEnabled(false);
                 cardLayout.show(cardPanel, "SearchPanel");
 

@@ -318,6 +318,7 @@ public class SearchPanel extends JPanel {
             doctorResultPanel.pnLabTests.loadLabTestInformation();
             doctorResultPanel.pnPresc.loadPrescriptionsInformation();
             doctorResultPanel.pnNursComm.loadNursingComments();
+            doctorResultPanel.pnLabTests.setCurrentLabOrders();
 
             resultCardLayout.show(resultCardPanel, "doctorResultPanel");
         }
@@ -352,6 +353,7 @@ public class SearchPanel extends JPanel {
                     doctorResultPanel.pnLabTests.loadLabTestInformation();
                     doctorResultPanel.pnPresc.loadPrescriptionsInformation();
                     doctorResultPanel.pnNursComm.loadNursingComments();
+                    doctorResultPanel.pnLabTests.setCurrentLabOrders();
 
                     resultCardLayout.show(resultCardPanel, "doctorResultPanel");
                 }
