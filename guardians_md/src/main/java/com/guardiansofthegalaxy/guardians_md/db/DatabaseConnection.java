@@ -707,14 +707,6 @@ public class DatabaseConnection implements DbConn {
 			}
 			for(LabOrder oldLab : oldLabOrders) {
 				if(!existingLabOrders.contains(oldLab)) {
-					S3ImageStorage s3Conn = new S3ImageStorage();
-
-					for (String image : oldLab.getResultsImageList()) {
-						if (!image.equals("")) {
-							s3Conn.deleteImage(image);
-						}
-					}
-
 					deleteLabOrder(oldLab);
 				}
 			}
@@ -1096,6 +1088,15 @@ public class DatabaseConnection implements DbConn {
 			regStmt = conn.prepareStatement(sql);
 			regStmt.setInt(1, labOrder.getLabOrderID());
 			regStmt.execute();
+
+			S3ImageStorage s3Conn = new S3ImageStorage();
+
+			for (String image : labOrder.getResultsImageList()) {
+				if (!image.equals("")) {
+					s3Conn.deleteImage(image);
+				}
+			}
+
 		} catch(SQLException se) {
 			logSQLException("deleteLabOrder()", "", se);
 			error = true;

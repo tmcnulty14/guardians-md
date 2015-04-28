@@ -25,6 +25,7 @@ public class SearchPanel extends JPanel {
     public JComboBox searchFor, searchBy;
     private JTextField searchTerm;
     private JButton submit, back, newVisit, viewResult;
+    public JButton delete;
     private JScrollPane scrollResults;
     private JList results;
 
@@ -157,8 +158,15 @@ public class SearchPanel extends JPanel {
         viewResult.addActionListener(new ViewListener());
         viewResult.setEnabled(false);
 
+        delete = new JButton("Delete");
+        delete.setFont(new Font("DejaVu Serif", 0, 16));
+        delete.addActionListener(new DeleteListener());
+        delete.setVisible(false);
+        delete.setEnabled(false);
+
         southPanel.add(newVisit);
         southPanel.add(viewResult);
+        southPanel.add(delete);
     }
 
     private void buildResultPanel() {
@@ -241,6 +249,7 @@ public class SearchPanel extends JPanel {
                         failedLabel.setVisible(true);
                         viewResult.setEnabled(false);
                         newVisit.setEnabled(false);
+                        delete.setEnabled(false);
                     }
                     else {
                         failedLabel.setVisible(false);
@@ -249,6 +258,7 @@ public class SearchPanel extends JPanel {
                         if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) {
                             newVisit.setVisible(true);
                             newVisit.setEnabled(true);
+                            delete.setEnabled(true);
                         }
                     }
 
@@ -276,10 +286,15 @@ public class SearchPanel extends JPanel {
                     if (visitResults.size() == 0) {
                         failedLabel.setVisible(true);
                         viewResult.setEnabled(false);
+                        delete.setEnabled(false);
                     }
                     else {
                         failedLabel.setVisible(false);
                         viewResult.setEnabled(true);
+
+                        if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) {
+                            delete.setEnabled(true);
+                        }
                     }
 
                     setVisitStringResults();
@@ -370,6 +385,33 @@ public class SearchPanel extends JPanel {
         }
     }
 
+    private class DeleteListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            
+            if (JOptionPane.showConfirmDialog(null, "Are you sure? Deleting this record CANNOT be undone.", "Confirm deletion",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+
+                boolean success = false;;
+
+                if (index == 0) {
+                    success = database.deletePatient(patientResults.get(results.getSelectedIndex()).getPatientID());
+                }
+                else {
+                    success = database.deleteVisit(visitResults.get(results.getSelectedIndex()).getVisitID());
+                }
+
+                if (!success) {
+                    JOptionPane.showMessageDialog(null, "An error occurred. Please check your network connection and try again.",
+                        "Unsuccessful record deletion", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    reset();
+                }
+            }
+        }
+    }
+
     private class BackListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -387,5 +429,6 @@ public class SearchPanel extends JPanel {
         results.setListData(new String[0]);
         viewResult.setEnabled(false);
         newVisit.setVisible(false);
+        delete.setEnabled(false);
     }
 }

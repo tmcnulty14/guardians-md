@@ -152,6 +152,7 @@ public class MedicalSystemsMainFrame extends JFrame {
                 pnUnivHeader.btnReturnMain.setVisible(true);
                 pnSearch.reset();
                 pnSearch.searchFor.setEnabled(false);
+                pnSearch.delete.setVisible(false);
                 cardLayout.show(cardPanel, "SearchPanel");
             }
         });
@@ -162,6 +163,7 @@ public class MedicalSystemsMainFrame extends JFrame {
                 pnSearch.reset();
                 pnUnivHeader.btnReturnMain.setVisible(true);
                 pnSearch.searchFor.setEnabled(true);
+                pnSearch.delete.setVisible((MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) ? true : false);
                 cardLayout.show(cardPanel,"SearchPanel");
             }
         });
@@ -169,7 +171,7 @@ public class MedicalSystemsMainFrame extends JFrame {
         pnGetStart.btnViewRecent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MedicalConfigurator.setActiveVisit(pnGetStart.recentVisits.get(pnGetStart.getRecentIndex()));
+                MedicalConfigurator.setActiveVisit(database.getVisit(pnGetStart.recentVisits.get(pnGetStart.getRecentIndex()).getVisitID()));
                 MedicalConfigurator.setActivePatient(pnGetStart.dbc.getPatient(MedicalConfigurator.getActiveVisit().getPatientID()));
 
                 pnUnivHeader.btnReturnMain.setVisible(true);
