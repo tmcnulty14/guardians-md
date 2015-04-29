@@ -237,7 +237,7 @@ public class PatientInformationPanel extends JPanel {
 
     public void loadPatientInformation() {
         patient = MedicalConfigurator.getActivePatient();
-        txtPatientId.setText("Patient Id: "+ String.valueOf(MedicalConfigurator.getActivePatient().getPatientID()));
+        txtPatientId.setText("Patient Id: " + String.valueOf(MedicalConfigurator.getActivePatient().getPatientID()));
         txtFName.setText(patient.getFirstName());
         txtLName.setText(patient.getLastName());
         txtAddress1.setText(patient.getAddress1());
@@ -263,18 +263,16 @@ public class PatientInformationPanel extends JPanel {
     public void setGender() {
         if (patient.getGender().equalsIgnoreCase("Female")) {
             rbFemale.setSelected(true);
-        }
-        else if (patient.getGender().equalsIgnoreCase("Male")) {
+        } else if (patient.getGender().equalsIgnoreCase("Male")) {
             rbMale.setSelected(true);
-        }
-        else {
+        } else {
             buttonGroup.clearSelection();
         }
     }
 
     public void setAge() throws ParseException {
 
-        String year = patient.getBirthdate().substring(0,4);
+        String year = patient.getBirthdate().substring(0, 4);
 
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int ageInt = currentYear - Integer.parseInt(year);
@@ -325,77 +323,85 @@ public class PatientInformationPanel extends JPanel {
         boolean success = true;
 
         String gender = "";
+        if (!rbMale.isSelected() & !rbFemale.isSelected() & !txtBirthDate.getText().equals("") & !txtInsNum.getText().equals("") ||
+                !txtAddress1.getText().equals("") & !txtCity.getText().equals("") & !txtState.getText().equals("") &
+                        !txtCountry.getText().equals("") & !txtFName.getText().equals("") & !txtLName.getText().equals("") &
+                        !txtZip.getText().equals("") & !txtInsProv.getText().equals("")) {
+            if (rbMale.isSelected()) {
+                gender = "Male";
+            } else if (rbFemale.isSelected()) {
+                gender = "Female";
 
-        if (rbMale.isSelected()) {
-            gender = "Male";
-        } else if (rbFemale.isSelected()) {
-            gender = "Female";
-        }
+                String fixedBirth;
 
-        String fixedBirth;
+                try {
+                    String birth = txtBirthDate.getText();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                    Date result = sdf.parse(birth);
+                    fixedBirth = sdf.format(result);
+                } catch (ParseException e) {
+                    JOptionPane.showMessageDialog(null, "Please fix birthdate format.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
 
-        try {
-            String birth = txtBirthDate.getText();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-            Date result = sdf.parse(birth);
-            fixedBirth = sdf.format(result);
-        }
-        catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Please fix birthdate format.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                // New patients have an ID of -1
+                if (MedicalConfigurator.isNewPatient()) {
+
+                    if (!dbc.registerPatient(new Patient(
+                            txtFName.getText(), txtLName.getText(),
+                            fixedBirth, gender,
+                            txtAddress1.getText(), txtAddress2.getText(),
+                            txtCity.getText(), txtState.getText(),
+                            txtZip.getText(), txtCountry.getText(),
+                            txtInsProv.getText(), txtInsNum.getText()
+                    ))) {
+
+                        JOptionPane.showMessageDialog(null, "Could not create patient. Please check that all fields are valid and try again.",
+                                "Registration failed", JOptionPane.ERROR_MESSAGE);
+
+                        success = false;
+                    } else {
+                        if (showMessage)
+                            JOptionPane.showMessageDialog(null, "Successfully registered patient " + txtFName.getText() +
+                                    " " + txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+                        MedicalConfigurator.setActivePatient(dbc.getPatient(dbc.getMaxPatientId()));
+                    }
+                }
+
+                // Update existing patient
+                else {
+                    Patient updatedPatient = new Patient(MedicalConfigurator.getActivePatient().getPatientID(),
+                            txtFName.getText(), txtLName.getText(),
+                            txtBirthDate.getText(), gender,
+                            txtAddress1.getText(), txtAddress2.getText(),
+                            txtCity.getText(), txtState.getText(),
+                            txtZip.getText(), txtCountry.getText(),
+                            txtInsProv.getText(), txtInsNum.getText());
+
+                    if (!dbc.updatePatient(updatedPatient)) {
+                        JOptionPane.showMessageDialog(null, "Could not update patient. Please check that all fields are valid and try again.",
+                                "Update failed", JOptionPane.ERROR_MESSAGE);
+
+                        success = false;
+                    } else {
+                        if (showMessage)
+                            JOptionPane.showMessageDialog(null, "Successfully updated patient " + txtFName.getText() +
+                                    " " + txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+                        MedicalConfigurator.setActivePatient(updatedPatient);
+                        clearFields();
+                    }
+                }
+
+                return success;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please enter all the required fields");
             return false;
         }
-
-        // New patients have an ID of -1
-        if (MedicalConfigurator.isNewPatient()) {
-
-            if (!dbc.registerPatient(new Patient(
-                    txtFName.getText(), txtLName.getText(),
-                    fixedBirth, gender,
-                    txtAddress1.getText(), txtAddress2.getText(),
-                    txtCity.getText(), txtState.getText(),
-                    txtZip.getText(), txtCountry.getText(),
-                    txtInsProv.getText(), txtInsNum.getText()
-            ))) {
-
-                JOptionPane.showMessageDialog(null, "Could not create patient. Please check that all fields are valid and try again.",
-                        "Registration failed", JOptionPane.ERROR_MESSAGE);
-
-                success = false;
-            } else {
-                if (showMessage)
-                JOptionPane.showMessageDialog(null, "Successfully registered patient " + txtFName.getText() +
-                        " " + txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
-
-                MedicalConfigurator.setActivePatient(dbc.getPatient(dbc.getMaxPatientId()));                
-            }
-        }
-
-        // Update existing patient
-        else {
-            Patient updatedPatient = new Patient(MedicalConfigurator.getActivePatient().getPatientID(),
-                    txtFName.getText(), txtLName.getText(),
-                    txtBirthDate.getText(), gender,
-                    txtAddress1.getText(), txtAddress2.getText(),
-                    txtCity.getText(), txtState.getText(),
-                    txtZip.getText(), txtCountry.getText(),
-                    txtInsProv.getText(), txtInsNum.getText());
-
-            if (!dbc.updatePatient(updatedPatient)) {
-                JOptionPane.showMessageDialog(null, "Could not update patient. Please check that all fields are valid and try again.",
-                        "Update failed", JOptionPane.ERROR_MESSAGE);
-
-                success = false;
-            } else {
-                if (showMessage)
-                JOptionPane.showMessageDialog(null, "Successfully updated patient " + txtFName.getText() +
-                        " " + txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
-
-                MedicalConfigurator.setActivePatient(updatedPatient);
-            }
-        }
-
-        return success;
+        return false;
     }
 
     public void clearFields() {
