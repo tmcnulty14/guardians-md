@@ -52,10 +52,16 @@ public class NursingPanel extends JPanel {
 	}
 
     public void loadNursingComments() {
-    	
     	// setText() used to ensure previous comments of panel are replaced
         txtaComm.setText(MedicalConfigurator.getActiveVisit().getComments());
 
+        commChanged = false;
+    }
+
+    public void clearFields() {
+        txtaComm.setText("");
+        ckEditComm.setSelected(false);
+        commChanged = false;
     }
 
     private class ChangeListener implements DocumentListener {
@@ -68,8 +74,6 @@ public class NursingPanel extends JPanel {
     		commChanged = true;
     	}
 
-    	public void changedUpdate(DocumentEvent e) {
-    		commChanged = true;
-    	}
+    	public void changedUpdate(DocumentEvent e) { }
     }
 }

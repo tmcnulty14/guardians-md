@@ -291,6 +291,8 @@ public class LabTestsPanel extends JPanel {
         } else {
             clearFields();
         }
+
+        setCurrentLabOrders();
     }
 
     private void checkLabTests(TestName testName) {

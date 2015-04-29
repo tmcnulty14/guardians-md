@@ -328,12 +328,13 @@ public class SearchPanel extends JPanel {
 
             mainCardLayout.show(mainCardPanel, "resultPanel");
 
+            doctorResultPanel.clearFields();
+
             doctorResultPanel.pnPat.loadPatientInformation();
             doctorResultPanel.pnGenPract.loadGeneralPracticeInformation();
             doctorResultPanel.pnLabTests.loadLabTestInformation();
             doctorResultPanel.pnPresc.loadPrescriptionsInformation();
             doctorResultPanel.pnNursComm.loadNursingComments();
-            doctorResultPanel.pnLabTests.setCurrentLabOrders();
 
             resultCardLayout.show(resultCardPanel, "doctorResultPanel");
         }
@@ -363,16 +364,19 @@ public class SearchPanel extends JPanel {
                 mainCardLayout.show(mainCardPanel, "resultPanel");
 
                 if (MedicalConfigurator.getLoginUser().hasDoctorPrivileges()) {
+                    doctorResultPanel.clearFields();
+
                     doctorResultPanel.pnPat.loadPatientInformation();
                     doctorResultPanel.pnGenPract.loadGeneralPracticeInformation();
                     doctorResultPanel.pnLabTests.loadLabTestInformation();
                     doctorResultPanel.pnPresc.loadPrescriptionsInformation();
                     doctorResultPanel.pnNursComm.loadNursingComments();
-                    doctorResultPanel.pnLabTests.setCurrentLabOrders();
 
                     resultCardLayout.show(resultCardPanel, "doctorResultPanel");
                 }
                 else {
+                    nurseResultPanel.clearFields();
+
                     nurseResultPanel.pnPat.loadPatientInformation();
                     nurseResultPanel.pnGenPract.loadGeneralPracticeInformation();
                     nurseResultPanel.pnLabTests.loadLabTestInformation();

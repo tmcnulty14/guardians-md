@@ -95,6 +95,10 @@ public class MedicalSystemsMainFrame extends JFrame {
                     pnUserReg.passwordField.setVisible(false);
                     pnUserReg.usernameField.setEditable(false);
 
+                    pnPatientReg.clearFields();
+                    pnDoctorMedical.clearFields();
+                    pnNursingMedical.clearFields();
+
                     if (activeUser.hasDoctorPrivileges()) {
                         pnGetStart.btnCreateVisit.setVisible(true);
                         pnGetStart.lblCreateVisit.setVisible(true);
@@ -185,7 +189,6 @@ public class MedicalSystemsMainFrame extends JFrame {
                     pnDoctorMedical.pnLabTests.loadLabTestInformation();
                     pnDoctorMedical.pnPresc.loadPrescriptionsInformation();
                     pnDoctorMedical.pnNursComm.loadNursingComments();
-                    pnDoctorMedical.pnLabTests.setCurrentLabOrders();
 
                     cardLayout.show(cardPanel, "DoctorMedicalMain");
                 }

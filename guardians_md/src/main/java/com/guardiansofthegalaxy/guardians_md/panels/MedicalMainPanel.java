@@ -124,7 +124,7 @@ public class MedicalMainPanel extends JPanel {
         pnGenPract.clearFields();
         pnLabTests.clearFields();
         pnPresc.clearFields();
-        pnNursComm.txtaComm.setText("");
+        pnNursComm.clearFields();
     }
 
     private class MenuListener implements ActionListener {
@@ -271,14 +271,17 @@ public class MedicalMainPanel extends JPanel {
                         if (pnNursComm.commChanged) {
                             User currentUser = MedicalConfigurator.getLoginUser();
 
-                            Date dt = new Date();
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                            String date = sdf.format(dt);
+                            if (!currentUser.hasDoctorPrivileges()) {
+                                 Date dt = new Date();
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                String date = sdf.format(dt);
 
-                            String comments = pnNursComm.txtaComm.getText();
-                            comments += "\n\n--- Nurse: " + currentUser.getFirstName() + " " + currentUser.getLastName() + ", " + date;
+                                String comments = pnNursComm.txtaComm.getText();
+                                comments += "\n\n--- Nurse: " + currentUser.getFirstName() + " " + currentUser.getLastName() + ", " + date;
+                                updatedVisit.setComments(comments);
+                            }
 
-                            updatedVisit.setComments(comments);
+                            pnNursComm.commChanged = false;
                         }
 
                         if (!dbc.updateVisit(updatedVisit)) {
