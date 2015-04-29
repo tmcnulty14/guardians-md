@@ -4,4 +4,4 @@ guardians_md/guardians_md.iml
 *.class
 *.properties
 *.jar
-guardians_md/target/*
+guardians_md/target/**
