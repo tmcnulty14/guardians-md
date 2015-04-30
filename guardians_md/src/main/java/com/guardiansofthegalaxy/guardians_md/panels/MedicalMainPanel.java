@@ -112,7 +112,7 @@ public class MedicalMainPanel extends JPanel {
         btnGenPract.addActionListener(new MenuListener());
         btnGenPract.setFont(new Font("DejaVu Serif", 0, 16));
 
-        btnLabTests = new JButton("Labratory Tests");
+        btnLabTests = new JButton("Laboratory Tests");
         btnLabTests.addActionListener(new MenuListener());
         btnLabTests.setFont(new Font("DejaVu Serif", 0, 16));
 
@@ -160,8 +160,9 @@ public class MedicalMainPanel extends JPanel {
                 cardLayout.show(cardPanel, "NursingCommentsPanel");
             }
             else if (source == btnSubmit) {
-
                 if (pnPat.submitPatient(false)) {
+                    String firstName = MedicalConfigurator.getActivePatient().getFirstName();
+                    String lastName = MedicalConfigurator.getActivePatient().getLastName();
                     // New visits have an ID of -1
                     if (MedicalConfigurator.isNewVisit()) {
                         Date dt = new Date();
@@ -233,8 +234,8 @@ public class MedicalMainPanel extends JPanel {
                                 "Visit creation failed", JOptionPane.ERROR_MESSAGE);
                         }
                         else {
-                            JOptionPane.showMessageDialog(null, "Successfully created new visit for patient " + pnPat.txtFName.getText() +
-                                " " + pnPat.txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Successfully created new visit for patient " + firstName + " " + 
+                                lastName + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
 
                             MedicalConfigurator.setActiveVisit(dbc.getVisit(dbc.getMaxVisitId()));
                         }
@@ -302,8 +303,8 @@ public class MedicalMainPanel extends JPanel {
                                 "Visit update failed", JOptionPane.ERROR_MESSAGE);
                         }
                         else {
-                            JOptionPane.showMessageDialog(null, "Successfully updated visit for patient " + pnPat.txtFName.getText() +
-                                " " + pnPat.txtLName.getText() + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Successfully updated visit for patient " + firstName +
+                                " " + lastName + ".", "Successful", JOptionPane.PLAIN_MESSAGE);
 
                             MedicalConfigurator.setActiveVisit(updatedVisit);
                         }
