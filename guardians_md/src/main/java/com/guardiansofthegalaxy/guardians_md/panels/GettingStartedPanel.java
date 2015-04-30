@@ -44,7 +44,7 @@ public class GettingStartedPanel extends JPanel {
 
         pnNorth = new JPanel(new GridLayout(2,1));
         pnNorth.setBackground(Color.WHITE);
-        lblWelcome = new JLabel("Welcome to Medical Doctor", SwingConstants.CENTER);
+        lblWelcome = new JLabel("Welcome to the GotG MD System", SwingConstants.CENTER);
         lblWelcome.setFont(new Font("Times New Roman", 0, 40));
         lblWelcome.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
