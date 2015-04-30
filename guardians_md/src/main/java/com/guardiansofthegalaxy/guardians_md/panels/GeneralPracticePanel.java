@@ -144,7 +144,7 @@ public class GeneralPracticePanel extends JPanel {
         add(diagScroll);
     }
 
-
+	// loads general information regarding patient visit
     public void loadGeneralPracticeInformation() {
         Visit visit = MedicalConfigurator.getActiveVisit();
 
@@ -163,6 +163,7 @@ public class GeneralPracticePanel extends JPanel {
         }
     }
 
+	// clears all fields
     public void clearFields() {
         txtDiag.setText("");
         txtComp.setText("");
@@ -175,6 +176,7 @@ public class GeneralPracticePanel extends JPanel {
         txtDoc.setText("");
     }
 
+	// text non-editable
     public void readOnlyGeneralPractice() {
         txtComp.setEditable(false);
         txtPresIll.setEditable(false);
@@ -185,7 +187,7 @@ public class GeneralPracticePanel extends JPanel {
         txtDiag.setEditable(false);
     }
 
-
+	// text is editable 
     public void editGeneralPractice() {
         txtComp.setEditable(true);
         txtPresIll.setEditable(true);

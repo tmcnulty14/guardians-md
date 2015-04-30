@@ -28,7 +28,7 @@ public class DoctorMedicalMain extends MedicalMainPanel {
 		super(database);
 		disableNursingCheckBox();
 	}
-
+	// as stated Nurse check box is disabled
 	public void disableNursingCheckBox(){
 		pnNursComm.ckEditComm.setEnabled(false);
 	}

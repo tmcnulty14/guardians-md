@@ -129,6 +129,7 @@ public class GettingStartedPanel extends JPanel {
         add(pnEast, BorderLayout.EAST);
     }
 
+	// creates recent visit list 
     private void buildEastPanel() {
         lblRecentList = new JLabel("Recent Visits:");
         lblRecentList.setFont(new Font("DejaVu Serif", Font.ITALIC, 14));
@@ -171,6 +172,7 @@ public class GettingStartedPanel extends JPanel {
         pnEast.add(pnViewButton, BorderLayout.SOUTH);
     }
 
+	// refresh recent list  displayed to the left 
     public void refreshRecentList() {
         recentVisits = dbc.getRecentVisits();
 
