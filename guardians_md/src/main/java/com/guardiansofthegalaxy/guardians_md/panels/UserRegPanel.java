@@ -115,8 +115,8 @@ public class UserRegPanel extends JPanel {
 
         fNameField.setText(currentUser.getFirstName());
         lNameField.setText(currentUser.getLastName());
-        pagerNumberField.setText(currentUser.getSpecialty());
-        positionField.setText(currentUser.getPagerNumber());
+        pagerNumberField.setText(currentUser.getPagerNumber());
+        positionField.setText(currentUser.getSpecialty());
         usernameField.setText(currentUser.getUsername());
 
         if (currentUser.hasDoctorPrivileges())
