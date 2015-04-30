@@ -24,6 +24,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// creates User registration panel. capable of adding or updating users in the database.
 public class UserRegPanel extends JPanel {
     private JButton enter;
     private JPanel fieldsPanel, buttonsPanel;
@@ -48,6 +49,7 @@ public class UserRegPanel extends JPanel {
         add(buttonsPanel, BorderLayout.SOUTH);
     }
 
+	// builds text fields and nurse/doctor buttons
     public void BuildFields() {
         fieldsPanel = new JPanel();
         fieldsPanel.setBorder(BorderFactory.createCompoundBorder(new TitledBorder("User Registration"), new EmptyBorder(5, 5, 5, 5)));
@@ -112,6 +114,7 @@ public class UserRegPanel extends JPanel {
         fieldsPanel.add(passwordField);
     }
 
+	// builds enter button and assigns it a button listener 
     public void BuildButtons() {
         buttonsPanel = new JPanel();
         buttonsPanel.setBackground(Color.WHITE);
@@ -123,6 +126,7 @@ public class UserRegPanel extends JPanel {
         buttonsPanel.add(enter);
     }
 
+	// loads current logged on Users information into fields for update
     public void loadUserInformation() {
         User currentUser = MedicalConfigurator.getLoginUser();
 
@@ -138,6 +142,7 @@ public class UserRegPanel extends JPanel {
             nurse.setSelected(true);
     }
 
+	// clears all fields, resets nurse / doctor
     public void clearFields() {
         fNameField.setText("");
         lNameField.setText("");
@@ -149,6 +154,7 @@ public class UserRegPanel extends JPanel {
         specGroup.clearSelection();
     }
 
+	// finds out whether user is a nurse or doctor based off selection
     public void getRole() {
         if (nurse.isSelected()) {
             isDoctor = false;
@@ -157,6 +163,7 @@ public class UserRegPanel extends JPanel {
         }
     }
 
+	// connects to database. uses User object to pass information either for update or new User creation.
     private class userRegButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             getRole();

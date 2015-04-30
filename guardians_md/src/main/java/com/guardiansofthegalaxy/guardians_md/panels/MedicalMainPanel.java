@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+// Main Jpanel contains buttons used for cardlayout, displays all other Jpanels in center
 public class MedicalMainPanel extends JPanel {
 
     private final int FRAME_WIDTH = 1000;

@@ -24,6 +24,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// The main frame, responsible for holding all panels through the Main Medical Panel. images related to patient visits
+// are the only thing not displayed via this panel. 
 public class MedicalSystemsMainFrame extends JFrame {
 
     public CardLayout cardLayout;

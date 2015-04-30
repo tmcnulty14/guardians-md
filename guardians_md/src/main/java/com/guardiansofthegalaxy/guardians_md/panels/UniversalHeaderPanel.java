@@ -20,7 +20,7 @@ import com.guardiansofthegalaxy.guardians_md.environments.ConfigDirectory;
 import javax.swing.*;
 import java.awt.*;
 
-
+//Universal head used through program. contains currently logged in user and home button
 public class UniversalHeaderPanel extends JPanel {
 
     public JPanel pnMain, pnUser;
@@ -55,6 +55,7 @@ public class UniversalHeaderPanel extends JPanel {
         add(pnUser);
     }
 
+	// Head is displayed if a user is logged in
     public void setHeaderIfUserLoggedIn() {
         if (!MedicalConfigurator.isUserLoggedIn) {
             lblUserName.setVisible(false);

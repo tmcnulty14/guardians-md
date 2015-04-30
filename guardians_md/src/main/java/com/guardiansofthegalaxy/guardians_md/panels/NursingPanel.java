@@ -22,6 +22,7 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+// Specific nursing panel built to allow comments from nurse
 public class NursingPanel extends JPanel {
 
 	//labels and text areas for the general practice section

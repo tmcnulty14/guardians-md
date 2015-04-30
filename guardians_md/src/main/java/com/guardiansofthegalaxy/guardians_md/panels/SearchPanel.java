@@ -49,6 +49,7 @@ public class SearchPanel extends JPanel {
 
     private DbConn database;
 
+	// search panel for looking up patients and visits 
     public SearchPanel(DbConn database) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(5, 5, 5, 5), new TitledBorder("Search")));

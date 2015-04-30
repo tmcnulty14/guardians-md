@@ -22,6 +22,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+// Displays all relevant prescriptions for a given patient 
 public class PrescriptionPanel extends JPanel {
 
     public JPanel pnPrescribe;

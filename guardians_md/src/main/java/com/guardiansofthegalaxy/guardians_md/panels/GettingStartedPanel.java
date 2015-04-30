@@ -25,6 +25,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+// The main menu, The first thing a user will see when they log in. allows for easy access to creating Patients/Users, viewing records, ect...
 public class GettingStartedPanel extends JPanel {
     public JPanel pnNorth, pnCenter, pnEast, pnOption1, pnOption2, pnOption3, pnOption4;
     public JLabel lblWelcome, lblSelectActionsOrMainMenu, lblRecentList, lblUserInfo, lblPatientReg, lblCreateVisit, lblSearchRecs;

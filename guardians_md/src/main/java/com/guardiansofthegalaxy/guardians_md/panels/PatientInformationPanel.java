@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 
+// Displays all patient information for any given patient via the database. depending on nurse/doctor clearance information may be editable 
 public class PatientInformationPanel extends JPanel {
 
     private Patient patient;

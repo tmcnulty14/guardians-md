@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
+// general practice form for a patient visit
 public class GeneralPracticePanel extends JPanel {
 
     //labels and text areas for the general practice section

@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.Date.*;
 import java.text.*;
 
+// general doctor main panel, allows for more access then nurses
 public class DoctorMedicalMain extends MedicalMainPanel {
 	public DoctorMedicalMain(DbConn database) {
 		super(database);

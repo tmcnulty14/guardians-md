@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// Lab Test panel displays general Lab information about given patient. can also call Image frame if relevant image is available 
 public class LabTestsPanel extends JPanel {
 
     public JPanel pnHemLab, pnRadLab, pnTests;

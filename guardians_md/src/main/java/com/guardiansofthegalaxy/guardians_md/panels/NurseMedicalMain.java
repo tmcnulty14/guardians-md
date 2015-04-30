@@ -15,6 +15,7 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 
 import com.guardiansofthegalaxy.guardians_md.db.DbConn;
 
+// general nurse main Panel, some abilities limited due to clearance level
 public class NurseMedicalMain extends MedicalMainPanel {
 
 

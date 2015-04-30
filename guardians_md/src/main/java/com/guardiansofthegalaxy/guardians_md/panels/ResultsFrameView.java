@@ -32,6 +32,8 @@ import java.io.File;
 /**
  * Created by Christina on 4/24/2015.
  */
+ 
+ // Separate from that holds images relevant to certain patients and visits 
 public class ResultsFrameView extends JFrame {
 
     private static final String TEST_IMAGE = ConfigDirectory.getImageFileFromDirectory("Home_button.png");
@@ -93,6 +95,7 @@ public class ResultsFrameView extends JFrame {
 
     }
 
+	// generates all relevant buttons and panels 
     public void createComponents() {
         imagePanel = new JPanel();
         imagePanel.setLayout(new BorderLayout());
