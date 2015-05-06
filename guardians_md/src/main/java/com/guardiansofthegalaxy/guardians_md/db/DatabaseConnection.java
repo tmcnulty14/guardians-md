@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
+import javax.swing.JOptionPane;
+
 /**
  * DatabaseConnection is a full implementation of the DbConn interface.
  * It connects to an AWS RDS instance and logs into a MYSQL database
@@ -45,11 +47,6 @@ public class DatabaseConnection implements DbConn {
 	// JDBC driver name
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 
-	//  Database URL and credentials
-	private static final String DB_URL = "jdbc:mysql://guardiansmddatabase.czanmkabbmcd.us-west-2.rds.amazonaws.com:3306";	// Amazon AWS instance
-	private static final String DB_USER = "root";		// AWS RDS master username
-	private static final String DB_PASS = "starlord";	// AWS RDS master password
-
 	protected Connection conn = null;
 	protected Statement stmt = null;
 
@@ -62,12 +59,20 @@ public class DatabaseConnection implements DbConn {
 		try {
 			initialized = connect();
 		} catch(SQLException se) {
-			System.out.println("Could not connect to the database." + "\n" + se.getMessage());
+			exitWithMessage("Could not connect to the database at " + MedicalConfigurator.DB_URL);
 		} catch(ClassNotFoundException cnfe) {
-			System.out.println("Could not register the JDBC driver.");
+			exitWithMessage("Could not register the JDBC driver.");
 		}
 
 		System.out.println(initialized ? "New database initialized." : "Using preexisting database.");
+	}
+
+	/**
+	 * Displays a message and then exits the program after the message is dismissed.
+	 **/
+	private void exitWithMessage(String message) {
+		JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+		System.exit(0);
 	}
 
 	/**
