@@ -2,6 +2,7 @@ package com.guardiansofthegalaxy.guardians_md.dbtests;
 
 import com.guardiansofthegalaxy.guardians_md.db.DbConn;
 import com.guardiansofthegalaxy.guardians_md.db.DatabaseConnection;
+import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
 import com.guardiansofthegalaxy.guardians_md.tuples.*;
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.TestName;
@@ -26,7 +27,8 @@ public class DbTest {
 	/**
 	 * Runs before all the tests run. Makes a connection to the database.
 	 **/
-	public static void connectToDatabase() {
+	public static void initialize() {
+		MedicalConfigurator.loadProperties();
 		database = new DatabaseConnection();
 	}
 

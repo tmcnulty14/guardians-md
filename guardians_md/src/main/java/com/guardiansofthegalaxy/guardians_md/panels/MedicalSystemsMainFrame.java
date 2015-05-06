@@ -53,12 +53,12 @@ public class MedicalSystemsMainFrame extends JFrame {
     public DbConn database;
 
     public MedicalSystemsMainFrame() {
-
         super("Medical Doctor Software");
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(Color.WHITE);
 
+        MedicalConfigurator.loadProperties();
         database = new DatabaseConnection();
 
         buildPanels();

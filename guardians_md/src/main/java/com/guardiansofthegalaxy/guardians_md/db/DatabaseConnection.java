@@ -79,8 +79,8 @@ public class DatabaseConnection implements DbConn {
 		// Register the JDBC driver
 		Class.forName("com.mysql.jdbc.Driver");
 
-		// Open a connection
-		conn = DriverManager.getConnection(DB_URL,DB_USER,DB_PASS);
+		// Connect to the database
+		conn = DriverManager.getConnection(MedicalConfigurator.DB_URL, MedicalConfigurator.DB_USER, MedicalConfigurator.DB_PASS);
 		stmt = conn.createStatement();
 
 		try {
