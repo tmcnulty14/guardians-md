@@ -15,7 +15,9 @@ package com.guardiansofthegalaxy.guardians_md.panels;
 
 import com.guardiansofthegalaxy.guardians_md.customComponents.ImageLabel;
 import com.guardiansofthegalaxy.guardians_md.db.MedicalConfigurator;
+import com.guardiansofthegalaxy.guardians_md.db.ImageStorage;
 import com.guardiansofthegalaxy.guardians_md.db.S3ImageStorage;
+import com.guardiansofthegalaxy.guardians_md.db.LocalImageStorage;
 import com.guardiansofthegalaxy.guardians_md.tuples.LabOrder;
 import com.guardiansofthegalaxy.guardians_md.environments.ConfigDirectory;
 import com.guardiansofthegalaxy.guardians_md.labtesttypes.LabName;
@@ -40,7 +42,7 @@ public class ResultsFrameView extends JFrame {
     private static final String TEST_KEY = "test.png";
 
     //variables for the image and text files
-    private S3ImageStorage s3Conn = null;
+    private ImageStorage imageStorage = null;
     private LabName labName;
     private TestName testName;
     private String[] results;
@@ -64,7 +66,7 @@ public class ResultsFrameView extends JFrame {
     public ResultsFrameView(LabName labName, TestName testName, ArrayList<LabOrder> orders) {
 
         //image storage initialization
-        s3Conn = new S3ImageStorage();
+        imageStorage = (MedicalConfigurator.USE_S3 ? new S3ImageStorage() : new LocalImageStorage());
         this.labName = labName;
         this.testName = testName;
         this.currentLabOrders = orders;
@@ -145,7 +147,7 @@ public class ResultsFrameView extends JFrame {
                         imageCounter = 0;
                     }
 
-                    Image currentImage = s3Conn.getImage(results[imageCounter++]).getScaledInstance(500, -1,Image.SCALE_DEFAULT);
+                    Image currentImage = imageStorage.getImage(results[imageCounter++]).getScaledInstance(500, -1,Image.SCALE_DEFAULT);
                     imageLabel.changeLabelImage(currentImage);
                     setSize(currentImage.getWidth(null) + 20, currentImage.getHeight(null) + 100);
                 }
@@ -185,7 +187,7 @@ public class ResultsFrameView extends JFrame {
                 btnNext.setEnabled((results.length > 1) ? true : false);
 
                 if (imageCounter < results.length) {
-                    Image currentImage = s3Conn.getImage(results[imageCounter++]).getScaledInstance(500, -1,Image.SCALE_DEFAULT);
+                    Image currentImage = imageStorage.getImage(results[imageCounter++]).getScaledInstance(500, -1,Image.SCALE_DEFAULT);
                     imageLabel.changeLabelImage(currentImage);
                     setSize(currentImage.getWidth(null) + 20, currentImage.getHeight(null) + 100);
                 }
@@ -253,7 +255,7 @@ public class ResultsFrameView extends JFrame {
 
                     String imageName = MedicalConfigurator.getActiveVisit().getVisitID() + "-" + testName + "-" + index + "." + extension;
 
-                    if (s3Conn.storeImage(imageFile, imageName)) {
+                    if (imageStorage.storeImage(imageFile, imageName)) {
 
                         for (LabOrder search : currentLabOrders) {
                             if (search.getTestName_enum().equals(testName)) {

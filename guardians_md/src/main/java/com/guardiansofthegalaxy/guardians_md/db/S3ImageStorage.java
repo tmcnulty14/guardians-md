@@ -36,17 +36,11 @@ import com.amazonaws.services.s3.model.S3Object;
  *
  * This class was built with the help of Amazon's AWS documentation for java developers.
  **/
-public class S3ImageStorage {
+public class S3ImageStorage implements ImageStorage {
 	// AWS credentials
-	private static final String ACCESS_KEY_ID2="R7RYGUY6ZQ";
-	private static final String ACCESS_KEY_ID1="AKIAIJI6AN";
-	private static final String ACCESS_KEY_ID=ACCESS_KEY_ID1+ACCESS_KEY_ID2;
-	private static final String SECRET_ACCESS_KEY3="UM24pOpFa";
-	private static final String SECRET_ACCESS_KEY2="xsdNTJEohy8w";
-	private static final String SECRET_ACCESS_KEY4="K3T+AqWBsJ";
-	private static final String SECRET_ACCESS_KEY1="fyS6SMYfU";
-	private static final String SECRET_ACCESS_KEY= SECRET_ACCESS_KEY1+SECRET_ACCESS_KEY2+SECRET_ACCESS_KEY3+SECRET_ACCESS_KEY4;
-	private static final String BUCKET_NAME="guardians-md-lab-pictures";
+	private final String ACCESS_KEY_ID;
+	private final String SECRET_ACCESS_KEY;
+	private final String BUCKET_NAME;
 
 	private final AmazonS3 s3Client;
 
@@ -54,6 +48,10 @@ public class S3ImageStorage {
 	 * Constructor. Loads AWS credentials and creates a new client connection to the S3 bucket.
 	 **/
 	public S3ImageStorage() {
+		BUCKET_NAME = MedicalConfigurator.S3_BUCKET_NAME;
+		ACCESS_KEY_ID = MedicalConfigurator.S3_KEY_ID;
+		SECRET_ACCESS_KEY = MedicalConfigurator.S3_SECRET_KEY;
+
 		BasicAWSCredentials awsCreds = new BasicAWSCredentials(ACCESS_KEY_ID, SECRET_ACCESS_KEY);
 		s3Client = new AmazonS3Client(awsCreds);
 	}
@@ -73,6 +71,17 @@ public class S3ImageStorage {
             System.out.println("AmazonClientException: Could not reach S3 server.");
         }
         return false;
+	}
+
+	/**
+	 * Stores an image from the specified file on the AmazonS3 bucket using the specified keyName.
+	 * First deletes any image that already exists under that keyName.
+	 * @param image The File where the image is stored.
+	 * @param keyName The name to upload the image to S3 under.
+	 **/
+	public boolean updateImage(File image, String keyName) {
+	 	deleteImage(keyName);
+	 	return storeImage(image, keyName);
 	}
 
 	/**
